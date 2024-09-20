@@ -1,5 +1,5 @@
 .tabjobs{
-    padding: 0px 20px;
+    padding: 0px;
     padding-bottom: 100px;
     p{
       color: rgb(0, 0, 0);
@@ -17,4 +17,10 @@
       
         padding-top: 10px;
     }
+    & .form-container{
+        display: flex;
+        flex-direction: column;
+
+    }
+  
 }
