@@ -50,13 +50,17 @@ export function filterJobsByDomains(domains: string[]){
 
 export async function saveJobSearch(){
     const url = document.URL
-  
-    const keywordsRegex = /[?&]keywords=([^&#]*)/;
+    if(url.includes('keywords')){
+       
+        const keywordsRegex = /[?&]keywords=([^&#]*)/;
 
 
-    const match = url.match(keywordsRegex);
+        const match = url.match(keywordsRegex);
+    
+        const keywords = match ? decodeURIComponent(match[1]) : null;
+        console.log(keywords)
+        saveSearchToStorage(keywords)
+    }
 
-    const keywords = match ? decodeURIComponent(match[1]) : null;
-    console.log(keywords)
-    saveSearchToStorage(keywords)
+ 
 }

@@ -50,7 +50,26 @@ export async function shouldFilterByDomain(): Promise<boolean> {
     return filterByDomain;
 }
 
-
-export async function saveSearchToStorage(search: string){
-
+export async function getSearchesSaved(): Promise<string[]> {
+    const storage = new Storage();
+    const searches = (await storage.get('searches')) as string[] || [];
+    return searches;
 }
+
+export async function saveSearchToStorage(search: string) {
+    const storage = new Storage();
+    
+
+    const searches = await getSearchesSaved();
+  
+
+    if (!searches.includes(search)) {
+      // Adiciona a nova pesquisa à lista
+      const updatedSearches = [...searches, search];
+      
+      // Salva a lista atualizada no armazenamento
+      await storage.set('searches', updatedSearches);
+    }
+  }
+
+
