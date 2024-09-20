@@ -2,5 +2,15 @@
     padding: 10px 0px;
     display: flex;
     flex-direction: column;
+    
 
+    & > input{
+        margin: 10px 0px;
+        padding: 5px;
+    }
+
+    
+    & > label{
+        font-weight: bold;
+    }
 }
