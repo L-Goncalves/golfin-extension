@@ -8,6 +8,7 @@ import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
 import { shouldFilterByCompany, shouldFilterByDomain, shouldSaveJobSearch } from "~contentScripts/storage"
 
+
 const TabJobHeader = () => {
   return (
     <>
@@ -157,7 +158,7 @@ export const TabJobs = () => {
     {
       id: "tab4",
       label: "Pesquisas",
-      content: <div>Content for Tab 3</div>
+      content: <FilterList type={"searches"}/>
     }
   ];
 
