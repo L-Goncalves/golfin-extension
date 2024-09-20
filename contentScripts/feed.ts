@@ -1,3 +1,6 @@
+import { getKeywordsSaved } from "./storage";
+
+
 export function removeFeed() {
  
   const newContent = `
@@ -10,3 +13,25 @@ export function removeFeed() {
   const selector = `main.scaffold-layout__main`
   document.querySelector(selector).innerHTML =newContent;
 }
+
+
+export async function filterFeedPostsByKeywords(){
+
+    const keywords = await getKeywordsSaved();
+    console.log(keywords);
+    [...document.querySelectorAll('.scaffold-finite-scroll__content > div')].forEach(parent => {
+      const postTextElement = parent.querySelector('div:not([class]) > .display-flex > #fie-impression-container .break-words'); // Selects <div> without a class
+      
+      if (postTextElement) {
+          const postText = postTextElement.textContent.toLowerCase();
+          
+          // Check if the post text contains any of the stored keywords
+          const containsKeyword = keywords.some(keyword => postText.includes(keyword.toLowerCase().trim()));
+          
+          if (containsKeyword) {
+              console.log('Removing post containing keyword:', postText);
+              parent.remove(); // Remove the post if it contains a keyword
+          }
+      }
+  });
+  }
