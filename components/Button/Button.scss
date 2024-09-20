@@ -1,27 +1,15 @@
 
 .btn{
     display: flex;
-    text-align: center;
     background-color: rgb(20, 20, 20);
     color: white;
     font-weight: 500;
     border: 0;
     margin: 0;
-    padding: 0;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-
-
-    .icon{
-        border-radius: 5px 0px 0px 5px;
-        background-color: rgb(53, 52, 52);
-        margin-right: 5px;
-        border-right: 1px solid white;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        max-width: 100%;
-        height: auto; 
-    }
+    text-align: center;
+    justify-content: center
 }
 
