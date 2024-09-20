@@ -1,0 +1,62 @@
+.checkbox {
+    display: flex;
+    align-items: center;
+    position: relative;
+  
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  
+    .label-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+  
+      .tooltip {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+  
+        /* Tooltip arrow */
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: #333 transparent transparent transparent;
+        }
+      }
+  
+      &:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  
+    label {
+      cursor: pointer;
+      font-size: 12px;
+  
+      &.checked {
+        font-weight: bold;
+    
+      }
+    }
+  }
+  
