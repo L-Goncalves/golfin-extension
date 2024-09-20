@@ -1,11 +1,15 @@
 import "./Checkbox.scss";
 import { useState } from "react";
 
-export const Checkbox = ({ label, id, tooltip }) => {
-  const [checked, setChecked] = useState(false);
+export const Checkbox = ({ label, id, tooltip, onChange, checked }) => {
+  
 
   const handleCheckboxChange = () => {
-    setChecked(!checked);
+    const newCheckedState = !checked;
+
+    if (onChange) {
+      onChange(newCheckedState); // Call the onChange prop with the new state
+    }
   };
 
   return (
