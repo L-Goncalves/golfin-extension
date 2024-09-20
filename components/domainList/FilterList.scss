@@ -1,0 +1,51 @@
+
+.list {
+    background-color: #0a66c2;
+    color: white;
+    border: 1px solid rgb(255, 255, 255);
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    list-style-type: none;
+    padding: 0; /* Remove default padding */
+  }
+  
+  .list > li {
+    position: relative; /* Allows absolute positioning for the button */
+    border: 1px solid rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 0px; /* Adds padding to list items */
+    margin: 0; /* Removes default margin */
+    display: flex; /* Flex container to align content and button */
+    align-items: center; /* Vertically centers content */
+    justify-content: center; /* Centers content horizontally */
+    overflow: hidden; /* Ensures button is hidden when off-screen */
+    height: 30px; /* Adjust as needed */
+  }
+  
+  /* Initial state of the delete button */
+  .delete-btn {
+    height: auto;
+    width: 100px;
+    position: absolute; 
+    right: -100px; /* Start button off-screen */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: red;
+    border: 0;
+    color: white;
+    padding: 0px 0;
+    cursor: pointer;
+    transition: right 0.5s ease, opacity 0.5s ease;/* Smooth transition for sliding effect */
+    text-align: center; /* Center text inside button */
+    line-height: 40px; /* Center text vertically inside button */
+    opacity: 0; /* Initially hide the button */
+  }
+  
+  /* Button slides into view and becomes visible on hover */
+  .list > li:hover .delete-btn {
+    right: 0px; /* Moves button into view */
+    opacity: 1; /* Makes button visible */
+  }
