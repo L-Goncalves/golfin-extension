@@ -4,4 +4,24 @@
 
 .container{
     width: 530px;
+
+    & > div:first-child{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        & > div:first-child{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        & > h4:first-child{
+            text-align: center;
+        }
+        
+    }
+
+   
 }
