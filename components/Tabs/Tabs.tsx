@@ -1,45 +1,42 @@
-import React, { useState } from "react"
-
-import "./Tabs.scss"
+import React, { useState } from "react";
+import "./Tabs.scss";
 
 interface ITab {
-  id: string
-  label: string
-  content: React.JSX.Element
+  id: string;
+  label: string;
+  content: React.JSX.Element;
 }
 
 interface ITabProps {
   tabs: ITab[];
 }
 
-const Tabs = ({ tabs }: ITabProps): React.JSX.Element  => {
-  const [activeTab, setActiveTab] = useState(tabs[0].id)
+const Tabs = ({ tabs }: ITabProps): React.JSX.Element => {
+  const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
 
-  const handleTabClick = (id) => {
-    setActiveTab(id)
-  }
+  const handleTabClick = (id: string) => {
+    setActiveTab(id);
+  };
 
   return (
     <div className="tabs">
-      <ul className="tab-list">
+      <div className="tab-list">
         {tabs.map((tab) => (
-          <li
+          <div
             key={tab.id}
             className={`tab-item ${activeTab === tab.id ? "active" : ""}`}
-            onClick={() => handleTabClick(tab.id)}>
+            onClick={() => handleTabClick(tab.id)}
+          >
             {tab.label}
-          </li>
+          </div>
         ))}
-      </ul>
-      {/* <div>
-        <Header />
-      </div> */}
+      </div>
 
       <div className="tab-content">
-        {tabs.find((tab) => tab.id === activeTab).content}
+        {tabs.find((tab) => tab.id === activeTab)?.content}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Tabs
+export default Tabs;
