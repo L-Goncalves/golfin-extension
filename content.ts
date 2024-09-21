@@ -2,8 +2,10 @@ import { Storage } from "@plasmohq/storage"
 
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
 import { fetchJobsUrlsAndSave, filterJobsByCompanyNames, filterJobsByDomains, saveJobSearch, showIcons } from "~contentScripts/jobs"
+import { autoConnect } from "~contentScripts/mynetwork"
 import {
   getCompaniesBlacklisted,
+  shouldAutoConnect,
   shouldDisplayIcons,
   shouldFilterByCompany,
   shouldFilterByDomain,
@@ -67,18 +69,10 @@ async function handleJobs() {
 }
 
 async function handleConnections() {
-  console.log("ready to accept new connections");
-  const list = document.querySelector('.mn-invitation-list.artdeco-list');
+  const shouldConnect = await shouldAutoConnect(); 
 
-  if (list) {
-    const buttons = [...list.querySelectorAll('li button:not(.artdeco-button--muted)')];
-
-    for (const btn of buttons) {
-      (btn as HTMLButtonElement).click();
-      await new Promise(resolve => setTimeout(resolve, 500)); // Delay of 500ms between clicks
-    }
-  } else {
-    console.log("No invitation list found.");
+  if(shouldConnect){
+    autoConnect()
   }
 }
 
