@@ -44,12 +44,13 @@ export function getJobListWithInfo() {
     const footerElement = jobPost.querySelector(
       ".job-card-list__footer-wrapper"
     )
-    // job-card-list__footer-wrapper
     return { jobId, company, jobTitle, isSimpleApply, footerElement }
   })
 
-  return jobList
+  return jobList;
 }
+
+
 
 export async function filterJobsByDomains() {
   const domains = await getDomainsSaved();
@@ -60,9 +61,9 @@ export async function filterJobsByDomains() {
   )
 
   nonSimpleApply.forEach(async (jobPost) => {
-    const jobDetails = await getJobActualUrl(jobPost.jobId)
-
-    if (jobDetails.jobUrl) {
+    const jobDetails = await getSavedJobUrl(jobPost.jobId)
+    
+    if (jobDetails) {
       const url = decodeURIComponent(jobDetails.jobUrl)
       const match = url.match(/url=([^"&]+)/)
       let cleanUrl
@@ -86,7 +87,8 @@ function getDefaultFavicon(pageUrl: string) {
   return defaultFaviconUrl
 }
 
-async function getJobActualUrl(jobId) {
+
+async function fetchJobUrlAndSave(jobId: string) {
   const existingJob = await getSavedJobUrl(jobId)
 
   if (!existingJob) {
@@ -241,9 +243,12 @@ export async function showIcons() {
 
   nonSimpleApply.forEach(async (jobPost) => {
     const footerElement = jobPost.footerElement as HTMLElement
-    const jobDetails = await getJobActualUrl(jobPost.jobId)
-    createDomainLabel(footerElement, jobDetails)
-    createFullUrlLink(footerElement, jobDetails)
+    const jobDetails = await getSavedJobUrl(jobPost.jobId);
+    if(jobDetails){
+      createDomainLabel(footerElement, jobDetails)
+      createFullUrlLink(footerElement, jobDetails)
+    }
+  
   })
 }
 
@@ -258,4 +263,14 @@ export async function saveJobSearch() {
     console.log(keywords)
     saveSearchToStorage(keywords)
   }
+}
+
+
+
+export async function fetchJobsUrlsAndSave(){
+  const jobList = getJobListWithInfo()
+  jobList.forEach(async ({jobId}) => {
+    await fetchJobUrlAndSave(jobId)
+  })
+
 }

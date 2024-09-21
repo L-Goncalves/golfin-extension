@@ -120,8 +120,6 @@ export async function getSavedJobUrl(jobId: string): Promise<JobData | null> {
 
     try {
         const existingJob: JobData = JSON.parse(existingJobItem);
-        console.log({existingJob})
-
         return existingJob;
     } catch (error) {
         console.error('Error parsing job data:', {existingJobItem, error});

@@ -1,7 +1,7 @@
 import { Storage } from "@plasmohq/storage"
 
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
-import { filterJobsByCompanyNames, filterJobsByDomains, saveJobSearch, showIcons } from "~contentScripts/jobs"
+import { fetchJobsUrlsAndSave, filterJobsByCompanyNames, filterJobsByDomains, saveJobSearch, showIcons } from "~contentScripts/jobs"
 import {
   getCompaniesBlacklisted,
   shouldDisplayIcons,
@@ -38,6 +38,7 @@ async function handleJobs() {
   const shouldFilterByCompanies = await shouldFilterByCompany()
   const shouldSaveSearches = await shouldSaveJobSearch();
   const shouldShowIcons = await shouldDisplayIcons()
+  const shouldFilterDomains = await shouldFilterByDomain()
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
@@ -46,14 +47,22 @@ async function handleJobs() {
   if(shouldSaveSearches){
     saveJobSearch()
   }
-  
+
+  // THIS ENSURES THAT API IS CALLED ONLY ONCE AND SAVED, IF SAVED IT WON'T CALL AGAIN (AVOID 429)
+  if(shouldFilterDomains || shouldShowIcons){
+    fetchJobsUrlsAndSave()
+  }
+
+
   if(shouldShowIcons){
     showIcons()
   }
 
-  if(shouldFilterByDomain){
+  if(shouldFilterDomains){
     filterJobsByDomains()
   }
+
+
 
 }
 
