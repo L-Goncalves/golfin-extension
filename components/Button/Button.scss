@@ -1,15 +1,23 @@
-
-.btn{
+.btn {
     display: flex;
-    background-color: rgb(20, 20, 20);
+    background-color: #0a66c2;
     color: white;
     font-weight: 500;
     border: 0;
     margin: 0;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 1.6rem;
+    font-weight: 600;
     cursor: pointer;
     text-align: center;
-    justify-content: center
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease; /* Adding smooth transitions */
+
+    &:active {
+        
+        background-color: #084a94;
+    
+    }
 }
+
 
