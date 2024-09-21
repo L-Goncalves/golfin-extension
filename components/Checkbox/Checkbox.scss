@@ -8,8 +8,28 @@
       height: 20px;
       cursor: pointer;
       margin-right: 10px;
-    }
+      appearance: none;
+      border: 1px solid #000c0680;
+      border-radius: 4px; 
+      position: relative;
+  }
   
+  input[type="checkbox"]:checked {
+      background-color: #057642; 
+      border-color: #057642; 
+  }
+  
+  input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 2px;
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+  }
     .label-wrapper {
       position: relative;
       display: flex;
@@ -49,7 +69,7 @@
       }
     }
   
-    label {
+    & label {
       cursor: pointer;
       font-size: 12px;
   
