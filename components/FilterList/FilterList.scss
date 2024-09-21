@@ -49,7 +49,7 @@
 
 /* Initial state of the delete button */
 .delete-btn {
-  height: auto;
+  height: 100%;
   width: 100px;
   position: absolute;
   right: -100px; /* Start button off-screen */
@@ -64,12 +64,13 @@
     right 0.5s ease,
     opacity 0.5s ease; /* Smooth transition for sliding effect */
   text-align: center; /* Center text inside button */
-  line-height: 40px; /* Center text vertically inside button */
+
   opacity: 0; /* Initially hide the button */
 }
 
 /* Button slides into view and becomes visible on hover */
 .list > li:hover .delete-btn {
+  height: 100%;
   right: 0px; /* Moves button into view */
   opacity: 1; /* Makes button visible */
 }
