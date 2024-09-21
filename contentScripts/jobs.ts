@@ -53,18 +53,17 @@ export function getJobListWithInfo() {
 
 export function filterJobsByDomains(domains: string[]) {}
 
-function getDefaultFavicon(pageUrl) {
+function getDefaultFavicon(pageUrl: string) {
   // Assume favicon is located at /favicon.ico
   const defaultFaviconUrl = `https://${pageUrl}/favicon.ico`
 
-  return defaultFaviconUrl;
+  return defaultFaviconUrl
 }
 
 async function getJobActualUrl(jobId) {
+  const existingJob = await getSavedJobUrl(jobId)
 
-  const existingJob = await getSavedJobUrl(jobId);
-
-  if(!existingJob){
+  if (!existingJob) {
     const url = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`
 
     return fetch(url)
@@ -78,22 +77,21 @@ async function getJobActualUrl(jobId) {
       .then((html) => {
         const parser = new DOMParser()
         const doc = parser.parseFromString(html, "text/html")
-  
+
         const applyUrlElement = doc.querySelector("#applyUrl")
         let jobUrl = "Not Found"
         if (applyUrlElement) {
           const applyUrl = applyUrlElement
             ? applyUrlElement.innerHTML.trim()
             : "Apply URL not found."
-  
+
           const match = applyUrl.match(/"(https:\/\/[^"]+)"/)
           if (match) {
             jobUrl = match[1]
           }
         }
 
-        
-        saveJobUrl(jobId, jobUrl);
+        saveJobUrl(jobId, jobUrl)
         return { jobId, jobUrl }
       })
       .catch((error) => {
@@ -106,37 +104,108 @@ async function getJobActualUrl(jobId) {
   }
 
   return existingJob
-
- 
 }
 
 function getDomainFromUrl(url: string) {
   try {
-    const parsedUrl = new URL(url);
-    const hostnameParts = parsedUrl.hostname.split('.');
-    
+    const parsedUrl = new URL(url)
+    const hostnameParts = parsedUrl.hostname.split(".")
+
     // List of known ccTLDs
-    const ccTLDs = ['com.br', 'co.uk', 'gov.br', 'edu.br', 'net.br']; // Add more as needed
+    const ccTLDs = ["com.br", "co.uk", "gov.br", "edu.br", "net.br"] // Add more as needed
 
     if (hostnameParts.length > 2) {
-      const lastPart = hostnameParts.slice(-1)[0]; // Get the last part
-      const secondLastPart = hostnameParts.slice(-2).join('.'); // Join last two parts
+      const lastPart = hostnameParts.slice(-1)[0] // Get the last part
+      const secondLastPart = hostnameParts.slice(-2).join(".") // Join last two parts
 
       // Check if the last two parts form a known ccTLD
       if (ccTLDs.includes(secondLastPart)) {
-        return hostnameParts.slice(-3).join('.'); // Return the domain including subdomain
+        return hostnameParts.slice(-3).join(".");
       }
-      
-      return secondLastPart; // Return only the last two parts
+
+      return secondLastPart;
     }
 
-    return parsedUrl.hostname; // Return as-is if no subdomain
+    return parsedUrl.hostname;
   } catch (error) {
-    console.error('Invalid URL:', error);
-    return null;
+    console.error("Invalid URL:", error)
+    return null
   }
 }
 
+function createDomainLabel(element, jobDetails) {
+  if (!element.querySelector(".domain")) {
+    const url = decodeURIComponent(jobDetails.jobUrl)
+    const match = url.match(/url=([^"&]+)/)
+    let cleanUrl
+
+    if (match) {
+      cleanUrl = decodeURIComponent(match[1])
+    }
+
+    element.style.flexDirection = "column"
+
+    if (cleanUrl) {
+      const domain = getDomainFromUrl(cleanUrl)
+      const favicon = getDefaultFavicon(domain)
+
+      const li = document.createElement("li")
+      const img = document.createElement("img")
+      img.src = favicon
+      img.style.width = "10px"
+
+      // Event handlers
+      img.onerror = function () {
+        img.style.display = "none"
+      }
+
+      img.onload = function () {
+        if (img.naturalWidth === 0 || img.naturalHeight === 0) {
+          img.style.display = "none"
+        }
+      }
+
+      li.innerHTML = `${domain}`
+      li.style.maxHeight = "10px"
+      li.style.gap = "10px"
+      li.style.alignItems = "center"
+      li.style.display = "flex"
+      li.style.marginTop = "5px"
+      li.style.marginBottom = "5px"
+      li.classList.add('domain')
+      // Append the image to the list item
+      li.insertBefore(img, li.firstChild)
+
+      element.appendChild(li)
+    }
+  }
+  return
+}
+
+function createFullUrlLink(element, jobDetails) {
+  if (!element.querySelector(".full-url")) {
+    const url = decodeURIComponent(jobDetails.jobUrl)
+    const match = url.match(/url=([^"&]+)/)
+    let cleanUrl
+
+    if (match) {
+      cleanUrl = decodeURIComponent(match[1])
+    }
+
+    element.style.flexDirection = "column"
+
+    if (cleanUrl) {
+      const li = document.createElement("li")
+     
+      li.innerHTML = `URL: <a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`
+      li.classList.add('full-url')
+  
+
+      element.appendChild(li)
+    }
+  }
+  return
+}
 
 export async function showIcons() {
   const jobList = getJobListWithInfo()
@@ -145,75 +214,12 @@ export async function showIcons() {
     (jobPost) => jobPost.isSimpleApply == false
   )
 
-  for (let index = 0; index < nonSimpleApply.length; index++) {
-    const jobPost = nonSimpleApply[index]
-    const footerElement = jobPost.footerElement  as HTMLElement;
-
-    // Check if the <li> already exists by a unique class or ID
-    if (!footerElement.querySelector(".non-simple-apply")) {
-      // Fetch the job details asynchronously
-      const jobDetails = await getJobActualUrl(jobPost.jobId) // Pass job ID or other identifier
-
-    
-      // Create a new <li> element
-      const newListItem = document.createElement("li")
-
-      const url = decodeURIComponent(jobDetails.jobUrl)
-      const match = url.match(/url=([^"&]+)/)
-      let cleanUrl;
-
-      if (match) {
-        cleanUrl = decodeURIComponent(match[1])
-      }
-
-      // Customize the content to include the job's URL and any other details
-      newListItem.innerHTML = `URL: <a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`
-
-      // Add a class to identify it
-      newListItem.classList.add("non-simple-apply")
-
-      // Append the new <li> element to the footerElement
-      footerElement.style.flexDirection = "column";
-
-      if (cleanUrl) {
-        const domain = getDomainFromUrl(cleanUrl);
-        const favicon = getDefaultFavicon(domain);
-    
-        const li = document.createElement("li");
-        const img = document.createElement("img");
-        img.src = favicon;
-        img.style.width = "10px";
-        
-        // Event handlers
-        img.onerror = function() {
-          img.style.display = 'none';
-        };
-    
-        img.onload = function() {
-            if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-              img.style.display = 'none';
-            }
-        };
-    
-        li.innerHTML = `${domain}`;
-        li.style.maxHeight = "10px";
-        li.style.gap = "10px";
-        li.style.alignItems = "center";
-        li.style.display = "flex";
-        li.style.marginTop = "5px";
-        li.style.marginBottom = "5px";
-        
-        // Append the image to the list item
-        li.insertBefore(img, li.firstChild);
-    
-        footerElement.appendChild(li);
-    }
-
-      footerElement.appendChild(newListItem)
-    }
-  }
-
-  console.log(nonSimpleApply)
+  nonSimpleApply.forEach(async (jobPost) => {
+    const footerElement = jobPost.footerElement as HTMLElement
+    const jobDetails = await getJobActualUrl(jobPost.jobId);
+    createDomainLabel(footerElement, jobDetails);
+    createFullUrlLink(footerElement, jobDetails);
+  })
 }
 
 export async function saveJobSearch() {
