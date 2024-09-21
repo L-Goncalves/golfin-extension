@@ -8,6 +8,7 @@ export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const handleDeletion = async (filterToDelete: string) => {
     const updatedFilters = filters.filter((filter) => filter !== filterToDelete);
@@ -17,8 +18,10 @@ export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }
     await storage.set(getStorageKey(), updatedFilters);
   };
 
-  const handleCopy = (text: string) => {
+  const handleCopy = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
+    setCopiedIndex(index); // Set the copied index
+    setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
   };
 
   const getStorageKey = () => {
@@ -75,8 +78,8 @@ export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }
       
       <div className="list">
         {currentItems.map((filter, index) => (
-          <li className={type === "searches" ? "copyable" : ""} key={`${filter}-${index}`} onClick={() => type === "searches" && handleCopy(filter)}>
-            {filter}
+          <li className={type === "searches" ? "copyable" : ""} key={`${filter}-${index}`} onClick={() => type === "searches" && handleCopy(filter, index)}>
+              {copiedIndex === index ? "Pesquisa Copiada" : filter.slice(0, 60)}
             <button onClick={() => handleDeletion(filter)} className="delete-btn">
               X
             </button>
