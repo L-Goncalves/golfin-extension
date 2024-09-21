@@ -69,12 +69,15 @@ const AdjustmentTab = () => {
 
 
   const handleAddDomain = async () => {
-    const updatedDomains = [...domains, domain];
-    setDomains(updatedDomains); // Update local state
-    setDomainValue(""); // Reset the input value
-
-    // Save the updated list to storage
-    await storage.set("domains", updatedDomains);
+    if(domain.length > 0){
+      const updatedDomains = [...domains, domain];
+      setDomains(updatedDomains); // Update local state
+      setDomainValue(""); // Reset the input value
+  
+      // Save the updated list to storage
+      await storage.set("domains", updatedDomains);
+    }
+   
   };
 
   const handleAddCompany = async () => {
