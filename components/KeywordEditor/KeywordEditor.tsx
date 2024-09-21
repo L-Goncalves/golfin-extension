@@ -21,16 +21,19 @@ export const KeywordEditor = () => {
   }, [isEditing == false]); 
 
   
-  const handleAddDomain = async () => {
+  const handleAddKeywords = async () => {
+  
   
     setIsEditing(!isEditing);
     const storage = new Storage();
+    if(keywords.trim().length > 0){
+      const keywordsArr = keywords.split(",").map((keyword) => keyword.trim());
 
-    const keywordsArr = keywords.split(",").map((keyword) => keyword.trim());
-
-    if(isEditing){
-        await storage.set("keywords", keywordsArr)
+      if(isEditing){
+          await storage.set("keywords", keywordsArr)
+      }
     }
+ 
    
   }
 
@@ -55,7 +58,7 @@ export const KeywordEditor = () => {
         </div>
       
       <div className="button-container">
-        <Button color={"#000"} onClick={handleAddDomain}>
+        <Button color={"#000"} onClick={handleAddKeywords}>
           {isEditing ? "Concluir Edição" : "Editar"}
         </Button>
        
