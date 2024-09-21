@@ -60,7 +60,7 @@ export const KeywordEditor = () => {
         </div>
       
       <div className="button-container">
-        <Button color={"#000"} onClick={handleAddKeywords}>
+        <Button onClick={handleAddKeywords}>
           {isEditing ? "Concluir Edição" : "Editar"}
         </Button>
        

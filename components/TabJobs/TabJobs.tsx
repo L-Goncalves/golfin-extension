@@ -2,7 +2,7 @@ import { Checkbox } from "~components/Checkbox/Checkbox"
 import "./TabJobs.scss"
 import { useEffect, useState } from "react"
 import { Button } from "~components/Button/Button"
-import { FilterList } from "~components/domainList/FilterList"
+import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
@@ -120,11 +120,11 @@ const AdjustmentTab = () => {
       <div className="form-container">
         <Input
           onChange={(newValue) => setDomainValue(newValue)}
-          label="Escreva aqui qual site (domínio) você não quer ver:"
-          placeholder="exemplo: site.com"
+          label=" "
+          placeholder=" Escreva aqui qual site (domínio) você não quer ver | Exemplo: Site.com"
           value={domain}
         />
-        <Button onClick={handleAddDomain} color={"#000"}>
+        <Button onClick={handleAddDomain} >
           Adicionar Domínio
         </Button>
       </div>
@@ -132,11 +132,11 @@ const AdjustmentTab = () => {
       <div className="form-container">
         <Input
           onChange={(val) => setCompanyValue(val)}
-          label="Escreva aqui qual empresa você não quer ver:"
-          placeholder="Exemplo: Empresa"
+          label=" "
+          placeholder="Escreva aqui qual empresa você não quer ver | Exemplo: Empresa"
           value={company}
         />
-        <Button onClick={handleAddCompany} color={"#000"}>
+        <Button onClick={handleAddCompany}>
           Adicionar Empresa
         </Button>
       </div>
