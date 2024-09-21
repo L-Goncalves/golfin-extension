@@ -1,7 +1,11 @@
-import { Storage } from "@plasmohq/storage"
-
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
-import { fetchJobsUrlsAndSave, filterJobsByCompanyNames, filterJobsByDomains, saveJobSearch, showIcons } from "~contentScripts/jobs"
+import {
+  fetchJobsUrlsAndSave,
+  filterJobsByCompanyNames,
+  filterJobsByDomains,
+  saveJobSearch,
+  showIcons
+} from "~contentScripts/jobs"
 import { autoConnect } from "~contentScripts/mynetwork"
 import {
   getCompaniesBlacklisted,
@@ -11,16 +15,11 @@ import {
   shouldFilterByDomain,
   shouldRemoveAllFeedPosts,
   shouldRemoveFeedPosts,
+  shouldRun,
   shouldSaveJobSearch
 } from "~contentScripts/storage"
 
 export {}
-
-const storage = new Storage()
-
-console.log(
-  "You may find that having is not so pleasing a thing as wanting. This is not logical, but it is often true."
-)
 
 async function handleFeed() {
   const shouldRemoveAllPosts = await shouldRemoveAllFeedPosts()
@@ -38,7 +37,7 @@ async function handleFeed() {
 async function handleJobs() {
   // if blacklist companies
   const shouldFilterByCompanies = await shouldFilterByCompany()
-  const shouldSaveSearches = await shouldSaveJobSearch();
+  const shouldSaveSearches = await shouldSaveJobSearch()
   const shouldShowIcons = await shouldDisplayIcons()
   const shouldFilterDomains = await shouldFilterByDomain()
   if (shouldFilterByCompanies) {
@@ -46,55 +45,48 @@ async function handleJobs() {
     filterJobsByCompanyNames(list)
   }
 
-  if(shouldSaveSearches){
+  if (shouldSaveSearches) {
     saveJobSearch()
   }
 
   // THIS ENSURES THAT API IS CALLED ONLY ONCE AND SAVED, IF SAVED IT WON'T CALL AGAIN (AVOID 429)
-  if(shouldFilterDomains || shouldShowIcons){
+  if (shouldFilterDomains || shouldShowIcons) {
     fetchJobsUrlsAndSave()
   }
 
-
-  if(shouldShowIcons){
+  if (shouldShowIcons) {
     showIcons()
   }
 
-  if(shouldFilterDomains){
+  if (shouldFilterDomains) {
     filterJobsByDomains()
   }
-
-
-
 }
 
 async function handleConnections() {
-  const shouldConnect = await shouldAutoConnect(); 
+  const shouldConnect = await shouldAutoConnect()
 
-  if(shouldConnect){
+  if (shouldConnect) {
     autoConnect()
   }
 }
 
-function mainLoop() {
-  const url = document.URL
+async function mainLoop() {
+  const shouldExecute = await shouldRun()
+  if (shouldExecute) {
+    const url = document.URL
 
-  if (url == "https://www.linkedin.com/feed/") {
-    handleFeed()
-  }
-  if (url.includes("/jobs/collections") || url.includes('/jobs/search')) {
-    handleJobs()
-  }
+    if (url == "https://www.linkedin.com/feed/") {
+      handleFeed()
+    }
+    if (url.includes("/jobs/collections") || url.includes("/jobs/search")) {
+      handleJobs()
+    }
 
-  if(url.includes("/mynetwork/grow/")){
-    handleConnections()
+    if (url.includes("/mynetwork/grow/")) {
+      handleConnections()
+    }
   }
 }
 
-const intervalId = setInterval(mainLoop, 2000) 
-
-
-const stopPolling = async () => {
-  clearInterval(intervalId)
-  console.log("Stopped polling for elements.")
-}
+setInterval(mainLoop, 2000)

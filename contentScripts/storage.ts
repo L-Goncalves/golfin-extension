@@ -142,3 +142,10 @@ export async function deleteAllStorage() {
     console.log(`Deleted ${items.length} items from storage.`);
 }
 
+export async function shouldRun(){
+    const storage = new Storage();
+    const storedEnabledState = await storage.get("enabled");
+    const isEnabledValue = !!storedEnabledState
+    console.log(isEnabledValue)
+    return isEnabledValue;
+}
