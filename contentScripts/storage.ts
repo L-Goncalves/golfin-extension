@@ -129,16 +129,16 @@ export async function getSavedJobUrl(jobId: string): Promise<JobData | null> {
 
 
 
-export async function deleteAllJobs() {
+export async function deleteAllStorage() {
     const storage = new Storage();
 
     const allItems = await storage.getAll();
     console.log(allItems)
 
-    const jobKeys = Object.keys(allItems).filter(key => key.startsWith("job_"));
+    const items = Object.keys(allItems);
 
 
-    await storage.removeMany(jobKeys);
-    console.log(`Deleted ${jobKeys.length} job items from storage.`);
+    await storage.removeMany(items);
+    console.log(`Deleted ${items.length} items from storage.`);
 }
 
