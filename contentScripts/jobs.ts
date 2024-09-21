@@ -1,4 +1,4 @@
-import { saveSearchToStorage } from "./storage"
+import { getSavedJobUrl, saveJobUrl, saveSearchToStorage } from "./storage"
 
 export function deleteJobPost(jobId: string) {
   const jobPost = document.querySelector(`[data-job-id="${jobId}"]`)
@@ -60,43 +60,54 @@ function getDefaultFavicon(pageUrl) {
   return defaultFaviconUrl;
 }
 
-async function fetchJobDetails(jobId) {
-  const url = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`
+async function getJobActualUrl(jobId) {
 
-  return fetch(url)
-    .then((response) => {
-      if (response.ok) {
-        return response.text()
-      } else {
-        throw new Error("Network response was not ok.")
-      }
-    })
-    .then((html) => {
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(html, "text/html")
+  const existingJob = await getSavedJobUrl(jobId);
 
-      const applyUrlElement = doc.querySelector("#applyUrl")
-      let jobUrl = "Not Found"
-      if (applyUrlElement) {
-        const applyUrl = applyUrlElement
-          ? applyUrlElement.innerHTML.trim()
-          : "Apply URL not found."
+  if(!existingJob){
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`
 
-        const match = applyUrl.match(/"(https:\/\/[^"]+)"/)
-        if (match) {
-          jobUrl = match[1]
+    return fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.text()
+        } else {
+          throw new Error("Network response was not ok.")
         }
-      }
+      })
+      .then((html) => {
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(html, "text/html")
+  
+        const applyUrlElement = doc.querySelector("#applyUrl")
+        let jobUrl = "Not Found"
+        if (applyUrlElement) {
+          const applyUrl = applyUrlElement
+            ? applyUrlElement.innerHTML.trim()
+            : "Apply URL not found."
+  
+          const match = applyUrl.match(/"(https:\/\/[^"]+)"/)
+          if (match) {
+            jobUrl = match[1]
+          }
+        }
 
-      return { jobId, jobUrl }
-    })
-    .catch((error) => {
-      console.error(
-        `There was a problem with fetching job details for jobId ${jobId}:`,
-        error
-      )
-      return { jobId, jobUrl: "Error fetching apply URL" }
-    })
+        
+        saveJobUrl(jobId, jobUrl);
+        return { jobId, jobUrl }
+      })
+      .catch((error) => {
+        console.error(
+          `There was a problem with fetching job details for jobId ${jobId}:`,
+          error
+        )
+        return { jobId, jobUrl: "Error fetching apply URL" }
+      })
+  }
+
+  return existingJob
+
+ 
 }
 
 function getDomainFromUrl(url: string) {
@@ -141,9 +152,9 @@ export async function showIcons() {
     // Check if the <li> already exists by a unique class or ID
     if (!footerElement.querySelector(".non-simple-apply")) {
       // Fetch the job details asynchronously
-      const jobDetails = await fetchJobDetails(jobPost.jobId) // Pass job ID or other identifier
+      const jobDetails = await getJobActualUrl(jobPost.jobId) // Pass job ID or other identifier
 
-      console.log(jobDetails)
+    
       // Create a new <li> element
       const newListItem = document.createElement("li")
 
@@ -196,7 +207,6 @@ export async function showIcons() {
         li.insertBefore(img, li.firstChild);
     
         footerElement.appendChild(li);
-        console.log(domain, favicon);
     }
 
       footerElement.appendChild(newListItem)

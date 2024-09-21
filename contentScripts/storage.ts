@@ -76,6 +76,50 @@ export async function saveSearchToStorage(search: string) {
       // Salva a lista atualizada no armazenamento
       await storage.set('searches', updatedSearches);
     }
-  }
+}
 
+
+export async function saveJobUrl(jobId: string, jobUrl: string) {
+    const storage = new Storage();
+    const datetime = new Date().toISOString(); 
+
+
+    const existingJob = await storage.getItem(`job_${jobId}`); 
+
+    if (!existingJob) {
+
+        const jobData: JobData = {
+            jobId: jobId,
+            jobUrl: jobUrl,
+            timestamp: datetime,
+        };
+
+   
+        console.log({jobData})
+        await storage.setItem(`job_${jobId}`, JSON.stringify(jobData));
+    } else {
+        console.log(`Job with ID ${jobId} already exists in storage.`);
+    }
+}
+
+export async function getSavedJobUrl(jobId: string): Promise<JobData | null> {
+    const storage = new Storage();
+
+    const existingJobItem = await storage.getItem(`job_${jobId}`);
+
+   
+    if (!existingJobItem) {
+        return null;
+    } 
+
+    try {
+        const existingJob: JobData = JSON.parse(existingJobItem);
+        console.log({existingJob})
+
+        return existingJob;
+    } catch (error) {
+        console.error('Error parsing job data:', {existingJobItem, error});
+        return null;
+    }
+}
 
