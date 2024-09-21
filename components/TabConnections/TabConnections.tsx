@@ -37,7 +37,7 @@ export const TabConnections = () => {
 
       <p>Olá!😁 Essa seção é dedicada a te ajudar a se conectar com pessoas!</p>
       <div>
-        Opções:
+      <h3>Opções: </h3>
         <Checkbox
           onChange={(checked) =>
             handleFeedCheckbox(checked, "autoConnect", setAutoConnect)
