@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./FilterList.scss"; // Estilos atualizados
 import { Storage } from "@plasmohq/storage";
 import { Input } from "~components/Input/Input";
+import Pagination from "~components/Pagination/Pagination"
 
 export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }) => {
   const [filters, setFilters] = useState<string[]>([]);
@@ -41,7 +42,6 @@ export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }
     fetchFilters(); 
   }, [type]);
 
-
   const filteredFilters = filters.filter((filter) =>
     filter.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -54,50 +54,42 @@ export const FilterList = ({ type }: { type: "domain" | "company" | "searches" }
 
   return (
     <>
-    <div className="filter-header">
-    <h2 >
-        {type === "domain"
-          ? "Lista de Domínios"
-          : type === "company"
-          ? "Lista de Empresas"
-          : "Lista de Pesquisas"}
-      </h2>
-      <p>Aqui você pode remover da filtragem, simplesmente passe o mouse sobre o item desejado e remova caso necessite.</p>
-      
-    </div>
+      <div className="filter-header">
+        <h2>
+          {type === "domain"
+            ? "Lista de Domínios"
+            : type === "company"
+            ? "Lista de Empresas"
+            : "Lista de Pesquisas"}
+        </h2>
+        <p>Aqui você pode remover da filtragem, simplesmente passe o mouse sobre o item desejado e remova caso necessite.</p>
+      </div>
 
       <div className="filter-container">
+        <Input
+          label="Pesquisa"
+          placeholder="Pesquise aqui o item que deseja"
+          value={searchTerm}
+          onChange={(value) => setSearchTerm(value)}
+        />
 
-
-      <Input
-        label="Pesquisa"
-        placeholder="Pesquise aqui o item que deseja"
-        value={searchTerm}
-        onChange={(value) => setSearchTerm(value)}
-      />
-      
-      <div className="list">
-        {currentItems.map((filter, index) => (
-          <li className={type === "searches" ? "copyable" : ""} key={`${filter}-${index}`} onClick={() => type === "searches" && handleCopy(filter, index)}>
+        <div className="list">
+          {currentItems.map((filter, index) => (
+            <li className={type === "searches" ? "copyable" : ""} key={`${filter}-${index}`} onClick={() => type === "searches" && handleCopy(filter, index)}>
               {copiedIndex === index ? "Pesquisa Copiada" : filter.slice(0, 60)}
-            <button onClick={() => handleDeletion(filter)} className="delete-btn">
-              X
-            </button>
-          </li>
-        ))}
-      </div>
+              <button onClick={() => handleDeletion(filter)} className="delete-btn">
+                X
+              </button>
+            </li>
+          ))}
+        </div>
 
-      {/* Pagination Controls */}
-      <div className="pagination">
-        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
-         {"<"}
-        </button>
-        <span>{`Página ${currentPage} de ${totalPages}`}</span>
-        <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
-        {">"}
-        </button>
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage} 
+        />
       </div>
-    </div>
-  </>
+    </>
   );
 };
