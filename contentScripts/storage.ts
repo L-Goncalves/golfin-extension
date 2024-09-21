@@ -62,6 +62,12 @@ export async function getSearchesSaved(): Promise<string[]> {
     return searches;
 }
 
+export async function getDomainsSaved(): Promise<string[]> {
+    const storage = new Storage();
+    const domains = (await storage.get('domains')) as string[] || [];
+    return domains;
+}
+
 export async function saveSearchToStorage(search: string) {
     const storage = new Storage();
     
@@ -121,5 +127,20 @@ export async function getSavedJobUrl(jobId: string): Promise<JobData | null> {
         console.error('Error parsing job data:', {existingJobItem, error});
         return null;
     }
+}
+
+
+
+export async function deleteAllJobs() {
+    const storage = new Storage();
+
+    const allItems = await storage.getAll();
+    console.log(allItems)
+
+    const jobKeys = Object.keys(allItems).filter(key => key.startsWith("job_"));
+
+
+    await storage.removeMany(jobKeys);
+    console.log(`Deleted ${jobKeys.length} job items from storage.`);
 }
 

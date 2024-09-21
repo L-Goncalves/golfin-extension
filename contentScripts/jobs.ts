@@ -1,4 +1,4 @@
-import { getSavedJobUrl, saveJobUrl, saveSearchToStorage } from "./storage"
+import { getDomainsSaved, getSavedJobUrl, saveJobUrl, saveSearchToStorage } from "./storage"
 
 export function deleteJobPost(jobId: string) {
   const jobPost = document.querySelector(`[data-job-id="${jobId}"]`)
@@ -51,7 +51,33 @@ export function getJobListWithInfo() {
   return jobList
 }
 
-export function filterJobsByDomains(domains: string[]) {}
+export async function filterJobsByDomains() {
+  const domains = await getDomainsSaved();
+  const jobList = getJobListWithInfo()
+
+  const nonSimpleApply = jobList.filter(
+    (jobPost) => jobPost.isSimpleApply == false
+  )
+
+  nonSimpleApply.forEach(async (jobPost) => {
+    const jobDetails = await getJobActualUrl(jobPost.jobId)
+
+    if (jobDetails.jobUrl) {
+      const url = decodeURIComponent(jobDetails.jobUrl)
+      const match = url.match(/url=([^"&]+)/)
+      let cleanUrl
+
+      if (match) {
+        cleanUrl = decodeURIComponent(match[1])
+
+        // Check if any domain is included in the cleanUrl
+        if (domains.some((domain) => cleanUrl.includes(domain))) {
+          deleteJobPost(jobDetails.jobId);
+        }
+      }
+    }
+  })
+}
 
 function getDefaultFavicon(pageUrl: string) {
   // Assume favicon is located at /favicon.ico
@@ -120,13 +146,13 @@ function getDomainFromUrl(url: string) {
 
       // Check if the last two parts form a known ccTLD
       if (ccTLDs.includes(secondLastPart)) {
-        return hostnameParts.slice(-3).join(".");
+        return hostnameParts.slice(-3).join(".")
       }
 
-      return secondLastPart;
+      return secondLastPart
     }
 
-    return parsedUrl.hostname;
+    return parsedUrl.hostname
   } catch (error) {
     console.error("Invalid URL:", error)
     return null
@@ -172,7 +198,7 @@ function createDomainLabel(element, jobDetails) {
       li.style.display = "flex"
       li.style.marginTop = "5px"
       li.style.marginBottom = "5px"
-      li.classList.add('domain')
+      li.classList.add("domain")
       // Append the image to the list item
       li.insertBefore(img, li.firstChild)
 
@@ -196,10 +222,9 @@ function createFullUrlLink(element, jobDetails) {
 
     if (cleanUrl) {
       const li = document.createElement("li")
-     
+
       li.innerHTML = `URL: <a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`
-      li.classList.add('full-url')
-  
+      li.classList.add("full-url")
 
       element.appendChild(li)
     }
@@ -216,9 +241,9 @@ export async function showIcons() {
 
   nonSimpleApply.forEach(async (jobPost) => {
     const footerElement = jobPost.footerElement as HTMLElement
-    const jobDetails = await getJobActualUrl(jobPost.jobId);
-    createDomainLabel(footerElement, jobDetails);
-    createFullUrlLink(footerElement, jobDetails);
+    const jobDetails = await getJobActualUrl(jobPost.jobId)
+    createDomainLabel(footerElement, jobDetails)
+    createFullUrlLink(footerElement, jobDetails)
   })
 }
 

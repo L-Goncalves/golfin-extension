@@ -1,11 +1,12 @@
 import { Storage } from "@plasmohq/storage"
 
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
-import { filterJobsByCompanyNames, saveJobSearch, showIcons } from "~contentScripts/jobs"
+import { filterJobsByCompanyNames, filterJobsByDomains, saveJobSearch, showIcons } from "~contentScripts/jobs"
 import {
   getCompaniesBlacklisted,
   shouldDisplayIcons,
   shouldFilterByCompany,
+  shouldFilterByDomain,
   shouldRemoveAllFeedPosts,
   shouldRemoveFeedPosts,
   shouldSaveJobSearch
@@ -48,6 +49,10 @@ async function handleJobs() {
   
   if(shouldShowIcons){
     showIcons()
+  }
+
+  if(shouldFilterByDomain){
+    filterJobsByDomains()
   }
 
 }
