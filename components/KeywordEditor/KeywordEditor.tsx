@@ -26,7 +26,7 @@ export const KeywordEditor = () => {
   
     setIsEditing(!isEditing);
     const storage = new Storage();
-    if(keywords.trim().length > 0){
+  
       const keywordsArr = keywords.split(",")
       .map((keyword) => keyword.trim())
       .filter((keyword) => keyword !== "");
@@ -34,7 +34,7 @@ export const KeywordEditor = () => {
       if(isEditing){
           await storage.set("keywords", keywordsArr)
       }
-    }
+    
  
    
   }
