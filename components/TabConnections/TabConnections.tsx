@@ -39,7 +39,7 @@ export const TabConnections = () => {
       <div>
       <h3>Opções: </h3>
         <Checkbox
-          onChange={(checked) =>
+          onChange={(checked: boolean) =>
             handleFeedCheckbox(checked, "autoConnect", setAutoConnect)
           }
           id={"accept-auto-connections"}
