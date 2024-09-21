@@ -1,9 +1,10 @@
 import { Storage } from "@plasmohq/storage"
 
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
-import { filterJobsByCompanyNames, saveJobSearch } from "~contentScripts/jobs"
+import { filterJobsByCompanyNames, saveJobSearch, showIcons } from "~contentScripts/jobs"
 import {
   getCompaniesBlacklisted,
+  shouldDisplayIcons,
   shouldFilterByCompany,
   shouldRemoveAllFeedPosts,
   shouldRemoveFeedPosts,
@@ -35,6 +36,7 @@ async function handleJobs() {
   // if blacklist companies
   const shouldFilterByCompanies = await shouldFilterByCompany()
   const shouldSaveSearches = await shouldSaveJobSearch();
+  const shouldShowIcons = await shouldDisplayIcons()
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
@@ -42,6 +44,10 @@ async function handleJobs() {
 
   if(shouldSaveSearches){
     saveJobSearch()
+  }
+  
+  if(shouldShowIcons){
+    showIcons()
   }
 
 }

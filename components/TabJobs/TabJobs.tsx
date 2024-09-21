@@ -6,7 +6,7 @@ import { FilterList } from "~components/domainList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
-import { shouldFilterByCompany, shouldFilterByDomain, shouldSaveJobSearch } from "~contentScripts/storage"
+import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldSaveJobSearch } from "~contentScripts/storage"
 
 
 const TabJobHeader = () => {
@@ -54,9 +54,11 @@ const AdjustmentTab = () => {
       const saveJobSearch = await shouldSaveJobSearch()
       const storedDomains: any = (await storage.get("domains")) || []; // Fallback to an empty array
       const filterByDomain =  await shouldFilterByDomain()
+      const showIcons = await shouldDisplayIcons();
       setSaveJobSearch(saveJobSearch);
       setCompanies(storedCompanies);
       setDomains(storedDomains);
+      setShowIcons(showIcons);
       setShouldFilterByCompany(shouldFilterCompany);
       setShouldFilterByDomain(filterByDomain);
     }

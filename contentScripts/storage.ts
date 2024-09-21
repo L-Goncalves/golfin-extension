@@ -38,6 +38,12 @@ export async function shouldAutoConnect(): Promise<boolean> {
     return autoConnect;
 }
 
+export async function shouldDisplayIcons(): Promise<boolean> {
+    const storage = new Storage();
+    const showIcons: boolean = (await storage.get('shouldShowIcons')) || false;
+    return showIcons;
+}
+
 export async function shouldSaveJobSearch(): Promise<boolean> {
     const storage = new Storage();
     const saveJobSearch: boolean = (await storage.get('saveJobSearch')) || false;
