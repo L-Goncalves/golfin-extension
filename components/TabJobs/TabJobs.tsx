@@ -114,13 +114,13 @@ const AdjustmentTab = () => {
         onChange={(checked) => handleFeedCheckbox(checked, "filterJobsByDomain", setShouldFilterByDomain)}
         checked={shouldFilterDomains}
         id={"filter-by-domain"}
-        label={"Filtrar vagas por domínios"}
+        label={"Remover vagas por domínios"}
         tooltip={'Isso vai filtrar as vagas visualmente baseado no que você tiver na "Lista de Domínios"'}      />
       
       <Checkbox
         onChange={(checked) => handleFeedCheckbox(checked, "shouldFilterByCompany", setShouldFilterByCompany)}
         id={"filter-by-names"}
-        label={"Filtrar vagas por nomes de empresas"}
+        label={"Remover vagas por nomes de empresas"}
         tooltip={'Isso vai filtrar as vagas visualmente baseado no que você tiver na "Lista de Domínios"'} checked={shouldFilterCompany}      />
 
       <div className="form-container">

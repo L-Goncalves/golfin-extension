@@ -12,7 +12,8 @@ import SignIn from "~components/SignIn/SignIn";
 import { TabConnections } from "~components/TabConnections/TabConnections";
 import { TabJobs } from "~components/TabJobs/TabJobs";
 import { auth } from "./firebaseConfig"; // Import Firebase Auth
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";  // Import signOut from Firebase
+import { MdOutlineLogout } from "react-icons/md";
 
 function IndexPopup() {
   const [isExtensionEnabled, setIsExtensionEnabled] = useState(false);
@@ -21,7 +22,7 @@ function IndexPopup() {
   useEffect(() => {
     // Check if user is authenticated
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && user.emailVerified) {
         setAuthState(true); // User is authenticated
       } else {
         setAuthState(false); // User is not authenticated
@@ -54,7 +55,17 @@ function IndexPopup() {
   };
 
   const handleAuthSuccess = () => {
-    setAuthState(true); // Set auth to true once the user logs in successfully
+     setAuthState(true); // Set auth to true once the user logs in successfully
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);  // Sign out the user
+      setAuthState(false);  // Update the state to reflect logged-out status
+      // await deleteAllStorage();  // Optionally clear all storage related to the extension
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -62,7 +73,7 @@ function IndexPopup() {
       <div>
         <div>
           <img width={50} src={icon} />
-          <h1>GolfIn</h1>
+          <h1>GolfIn Beta</h1>
         </div>
         <h4>A sua extensão para o LinkedIn!</h4>
       </div>
@@ -79,9 +90,17 @@ function IndexPopup() {
             onChange={handleToggleChange}
           />
           <Tabs tabs={tabData} />
+
+
+          <div className="sign-out-button">
+            <Button onClick={handleSignOut}>
+            <MdOutlineLogout />  Sair
+            </Button>
+          </div>
+     
         </>
       ) : (
-        // Show SignIn component if not authenticated
+     
         <SignIn onSuccess={handleAuthSuccess} />
       )}
     </div>
