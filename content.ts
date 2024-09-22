@@ -21,6 +21,8 @@ import {
 
 export {}
 
+console.log("Hi!")
+
 async function handleFeed() {
   const shouldRemoveAllPosts = await shouldRemoveAllFeedPosts()
   const shouldRemoveByWords = await shouldRemoveFeedPosts()
