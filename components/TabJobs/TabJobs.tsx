@@ -7,6 +7,9 @@ import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
 import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldSaveJobSearch } from "~contentScripts/storage"
+import { FaBuilding } from "react-icons/fa6";
+import { TbWorldX } from "react-icons/tb";
+
 
 
 const TabJobHeader = () => {
@@ -128,7 +131,9 @@ const AdjustmentTab = () => {
           value={domain}
         />
         <Button onClick={handleAddDomain} >
-          Adicionar Domínio
+        <><TbWorldX  width={50} className="icon"/>
+        Adicionar Domínio
+         </> 
         </Button>
       </div>
 
@@ -140,7 +145,9 @@ const AdjustmentTab = () => {
           value={company}
         />
         <Button onClick={handleAddCompany}>
-          Adicionar Empresa
+         <><FaBuilding width={50} className="icon"/>
+         Adicionar Empresa
+         </> 
         </Button>
       </div>
     </div>
