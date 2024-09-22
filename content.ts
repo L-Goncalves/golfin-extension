@@ -1,3 +1,4 @@
+import type { PlasmoCSConfig } from "plasmo"
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
 import {
   fetchJobsUrlsAndSave,
@@ -20,7 +21,10 @@ import {
 } from "~contentScripts/storage"
 
 export {}
-
+export const config: PlasmoCSConfig = {
+  matches: [ "*://www.linkedin.com/*"],
+  all_frames: true
+}
 console.log("Hi!")
 
 async function handleFeed() {
