@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import "./KeywordEditor.scss" // Assuming you'll style it with a SCSS file
 
 import { MdEditSquare } from "react-icons/md"
-
+import { IoMdSave } from "react-icons/io";
 import { Storage } from "@plasmohq/storage"
 
 import { Button } from "~components/Button/Button"
@@ -58,7 +58,9 @@ export const KeywordEditor = () => {
       <div className="button-container">
         <Button onClick={handleAddKeywords}>
           {isEditing ? (
-            "Concluir Edição"
+            <>
+            <IoMdSave className="icon" width={50} /> Concluir Edição
+            </>
           ) : (
             <>
               <MdEditSquare className="icon" width={50} /> Editar{" "}
