@@ -18,7 +18,6 @@ export function removeFeed() {
 export async function filterFeedPostsByKeywords(){
 
     const keywords = await getKeywordsSaved();
-    console.log(keywords);
     [...document.querySelectorAll('.scaffold-finite-scroll__content > div')].forEach(parent => {
       const postTextElement = parent.querySelector('div:not([class]) > .display-flex > #fie-impression-container .break-words'); // Selects <div> without a class
       
@@ -29,7 +28,7 @@ export async function filterFeedPostsByKeywords(){
           const containsKeyword = keywords.some(keyword => postText.includes(keyword.toLowerCase().trim()));
           
           if (containsKeyword) {
-              console.log('Removing post containing keyword:', postText);
+
               parent.remove(); // Remove the post if it contains a keyword
           }
       }

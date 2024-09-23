@@ -4,6 +4,7 @@ import {
   fetchJobsUrlsAndSave,
   filterJobsByCompanyNames,
   filterJobsByDomains,
+  removeAppliedJobs,
   saveJobSearch,
   showIcons
 } from "~contentScripts/jobs"
@@ -15,6 +16,7 @@ import {
   shouldFilterByCompany,
   shouldFilterByDomain,
   shouldRemoveAllFeedPosts,
+  shouldRemoveAppliedJobs,
   shouldRemoveFeedPosts,
   shouldRun,
   shouldSaveJobSearch
@@ -25,7 +27,7 @@ export const config: PlasmoCSConfig = {
   matches: [ "*://www.linkedin.com/*"],
   all_frames: true
 }
-console.log("Hi!")
+// console.log("Hi!")
 
 async function handleFeed() {
   const shouldRemoveAllPosts = await shouldRemoveAllFeedPosts()
@@ -46,6 +48,7 @@ async function handleJobs() {
   const shouldSaveSearches = await shouldSaveJobSearch()
   const shouldShowIcons = await shouldDisplayIcons()
   const shouldFilterDomains = await shouldFilterByDomain()
+  const removeApplied = await shouldRemoveAppliedJobs();
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
@@ -66,6 +69,10 @@ async function handleJobs() {
 
   if (shouldFilterDomains) {
     filterJobsByDomains()
+  }
+
+  if(removeApplied){
+    removeAppliedJobs()
   }
 }
 

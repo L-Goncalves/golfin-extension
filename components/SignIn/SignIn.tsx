@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { auth } from "~firebaseConfig"; // Firebase auth import
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth"; // Firebase Auth methods
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth/web-extension"; // Refactored import
 import "./SignIn.scss"; // Import the CSS styles
 
 const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
@@ -13,7 +13,7 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
   const handleAuth = async () => {
     setError(null); // Clear previous errors
 
-    if (email === "" || password === "" && !isResettingPassword) {
+    if (email === "" || (password === "" && !isResettingPassword)) {
       setError("Email e senha são necessários.");
       return;
     }
@@ -44,7 +44,7 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
         // Reload the user to get updated information
         await user.reload();
 
-        console.log({ verified: user.emailVerified });
+        // console.log({ verified: user.emailVerified });
 
         // Check if the user's email is verified
         if (!user.emailVerified) {
@@ -55,7 +55,7 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
         }
       }
     } catch (error: any) {
-      const defaultMessage = "Ocorreu um erro: "
+      const defaultMessage = "Ocorreu um erro: ";
       if (error.message.includes("auth/invalid-credential")) {
         setError("Credenciais Inválidas.");
         return;
@@ -66,12 +66,12 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
         return;
       }
 
-      if(error.message.includes("weak-password")){
+      if (error.message.includes("weak-password")) {
         setError("Senha fraca! a sua senha deve conter pelo menos 6 caracteres.");
         return;
       }
 
-      setError(defaultMessage+error.message)
+      setError(defaultMessage + error.message);
     }
   };
 

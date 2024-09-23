@@ -5,10 +5,25 @@ export function deleteJobPost(jobId: string) {
 
   if (jobPost) {
     jobPost.remove()
-    console.log(`Job post with ID ${jobId} has been removed.`)
+    // console.log(`Job post with ID ${jobId} has been removed.`)
   } else {
-    console.log(`Job post with ID ${jobId} not found.`)
+    // console.log(`Job post with ID ${jobId} not found.`)
   }
+}
+
+export function removeAppliedJobs(){
+  const jobList = getJobListWithInfo()
+
+  const jobPostingsToBeDeleted = jobList.filter((job) =>
+      job.footerElement.textContent.toLowerCase().trim().includes("candidatou-se")
+  )
+
+  console.log(jobList)
+
+  jobPostingsToBeDeleted.forEach((jobPost) => {
+    deleteJobPost(jobPost.jobId)
+  })
+
 }
 
 export function filterJobsByCompanyNames(blacklist: string[]) {
@@ -260,7 +275,7 @@ export async function saveJobSearch() {
     const match = url.match(keywordsRegex)
 
     const keywords = match ? decodeURIComponent(match[1]) : null
-    console.log(keywords)
+    // console.log(keywords)
     saveSearchToStorage(keywords)
   }
 }

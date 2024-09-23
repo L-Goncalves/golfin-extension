@@ -56,6 +56,12 @@ export async function shouldFilterByDomain(): Promise<boolean> {
     return filterByDomain;
 }
 
+export async function shouldRemoveAppliedJobs(): Promise<boolean>{
+    const storage = new Storage();
+    const filterByDomain: boolean = (await storage.get('remove-applied-jobs')) || false;
+    return filterByDomain;
+}
+
 export async function getSearchesSaved(): Promise<string[]> {
     const storage = new Storage();
     const searches = (await storage.get('searches')) as string[] || [];
@@ -101,10 +107,10 @@ export async function saveJobUrl(jobId: string, jobUrl: string) {
         };
 
    
-        console.log({jobData})
+        // console.log({jobData})
         await storage.setItem(`job_${jobId}`, JSON.stringify(jobData));
     } else {
-        console.log(`Job with ID ${jobId} already exists in storage.`);
+        // console.log(`Job with ID ${jobId} already exists in storage.`);
     }
 }
 
@@ -133,19 +139,19 @@ export async function deleteAllStorage() {
     const storage = new Storage();
 
     const allItems = await storage.getAll();
-    console.log(allItems)
+ //   console.log(allItems)
 
     const items = Object.keys(allItems);
 
 
     await storage.removeMany(items);
-    console.log(`Deleted ${items.length} items from storage.`);
+    // console.log(`Deleted ${items.length} items from storage.`);
 }
 
 export async function shouldRun(){
     const storage = new Storage();
     const storedEnabledState = await storage.get("enabled");
     const isEnabledValue = !!storedEnabledState
-    console.log(isEnabledValue)
+    // console.log(isEnabledValue)
     return isEnabledValue;
 }

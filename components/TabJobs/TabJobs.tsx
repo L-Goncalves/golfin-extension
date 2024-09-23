@@ -6,7 +6,7 @@ import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
-import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldSaveJobSearch } from "~contentScripts/storage"
+import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
 import { FaBuilding } from "react-icons/fa6";
 import { TbWorldX } from "react-icons/tb";
 
@@ -40,6 +40,7 @@ const AdjustmentTab = () => {
   const [shouldFilterCompany, setShouldFilterByCompany] = useState<boolean>(false)
   const [saveJobSearch, setSaveJobSearch] = useState<boolean>(false)
   const [shouldFilterDomains, setShouldFilterByDomain] = useState<boolean>(false)
+  const [shouldRemoveApplied, setShouldRemoveApplied] = useState<boolean>(false)
   const storage = new Storage();
 
 
@@ -57,6 +58,7 @@ const AdjustmentTab = () => {
       const saveJobSearch = await shouldSaveJobSearch()
       const storedDomains: any = (await storage.get("domains")) || []; // Fallback to an empty array
       const filterByDomain =  await shouldFilterByDomain()
+      const removeApplied = await shouldRemoveAppliedJobs();
       const showIcons = await shouldDisplayIcons();
       setSaveJobSearch(saveJobSearch);
       setCompanies(storedCompanies);
@@ -64,6 +66,7 @@ const AdjustmentTab = () => {
       setShowIcons(showIcons);
       setShouldFilterByCompany(shouldFilterCompany);
       setShouldFilterByDomain(filterByDomain);
+      setShouldRemoveApplied(removeApplied);
     }
 
     fetchInitialState()
@@ -122,6 +125,12 @@ const AdjustmentTab = () => {
         id={"filter-by-names"}
         label={"Remover vagas por nomes de empresas"}
         tooltip={'Isso vai filtrar as vagas visualmente baseado no que você tiver na "Lista de Domínios"'} checked={shouldFilterCompany}      />
+
+      <Checkbox
+        onChange={(checked) => handleFeedCheckbox(checked, "remove-applied-jobs", setShouldRemoveApplied)}
+        id={"remove-applied-jobs"}
+        label={'Remover vagas nas quais eu já me apliquei (exibido como "Candidatou-se")'}
+        tooltip={'Isso vai remover as vagas visualmente que estiverem marcadas como Candidatou-se'} checked={shouldRemoveApplied}/>
 
       <div className="form-container">
         <Input

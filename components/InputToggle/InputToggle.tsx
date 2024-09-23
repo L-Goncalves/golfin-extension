@@ -11,7 +11,6 @@ export const InputToggle = (props: IProps) => {
   const { label, value, onChange } = props;
 
   const handleToggle = () => {
-    console.log("handling toggle");
     const newValue = !value; // Use the incoming value prop
     onChange(newValue);
   };

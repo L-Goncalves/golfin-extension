@@ -9,6 +9,6 @@ export async function autoConnect(){
         await new Promise(resolve => setTimeout(resolve, 500)); // Delay of 500ms between clicks
       }
     } else {
-      console.log("No invitation list found.");
+      // console.log("No invitation list found.");
     }
 }
