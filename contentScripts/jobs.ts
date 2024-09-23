@@ -13,12 +13,12 @@ export function deleteJobPost(jobId: string) {
 
 export function removeAppliedJobs(){
   const jobList = getJobListWithInfo()
+  console.log({jobList})
 
   const jobPostingsToBeDeleted = jobList.filter((job) =>
-      job.footerElement.textContent.toLowerCase().trim().includes("candidatou-se")
+      job.footerElement?.textContent.toLowerCase().trim().includes("candidatou-se")
   )
 
-  console.log(jobList)
 
   jobPostingsToBeDeleted.forEach((jobPost) => {
     deleteJobPost(jobPost.jobId)

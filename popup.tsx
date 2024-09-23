@@ -50,7 +50,7 @@ function IndexPopup() {
       <div>
         <div>
           <img width={50} src={icon} />
-          <h1>GolfIn Beta</h1>
+          <h1>GolfIn</h1>
         </div>
         <h4>A sua extensão para o LinkedIn!</h4>
       </div>

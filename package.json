@@ -1,6 +1,6 @@
 {
-  "name": "golfin-beta",
-  "displayName": "GolfIn Beta",
+  "name": "golfin",
+  "displayName": "GolfIn",
   "version": "0.0.1",
   "description": "GolfIn, uma extensão para o LinkedIn",
   "author": "Lucas Gonçalves. <ldgoncalvs@gmail.com>",
@@ -35,8 +35,7 @@
       "https://www.linkedin.com/*"
     ],
     "permissions": [
-      "storage",
-      "https://golfin-41bb0.firebaseapp.com/*"
+      "storage"
     ],
     "content_scripts": [
       {
