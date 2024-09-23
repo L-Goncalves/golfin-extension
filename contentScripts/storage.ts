@@ -62,6 +62,12 @@ export async function shouldRemoveAppliedJobs(): Promise<boolean>{
     return filterByDomain;
 }
 
+export async function shouldRemovePromotedJobs(): Promise<boolean>{
+    const storage = new Storage();
+    const removePromoted: boolean = (await storage.get('remove-promoted-jobs')) || false;
+    return removePromoted;
+}
+
 export async function getSearchesSaved(): Promise<string[]> {
     const storage = new Storage();
     const searches = (await storage.get('searches')) as string[] || [];

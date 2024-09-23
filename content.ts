@@ -5,6 +5,7 @@ import {
   filterJobsByCompanyNames,
   filterJobsByDomains,
   removeAppliedJobs,
+  removePromotedJobs,
   saveJobSearch,
   showIcons
 } from "~contentScripts/jobs"
@@ -18,6 +19,7 @@ import {
   shouldRemoveAllFeedPosts,
   shouldRemoveAppliedJobs,
   shouldRemoveFeedPosts,
+  shouldRemovePromotedJobs,
   shouldRun,
   shouldSaveJobSearch
 } from "~contentScripts/storage"
@@ -49,6 +51,7 @@ async function handleJobs() {
   const shouldShowIcons = await shouldDisplayIcons()
   const shouldFilterDomains = await shouldFilterByDomain()
   const removeApplied = await shouldRemoveAppliedJobs();
+  const removePromoted = await shouldRemovePromotedJobs();
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
@@ -73,6 +76,10 @@ async function handleJobs() {
 
   if(removeApplied){
     removeAppliedJobs()
+  }
+
+  if(removePromoted){
+    removePromotedJobs();
   }
 }
 
