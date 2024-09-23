@@ -38,8 +38,6 @@
     ],
     "permissions": [
       "storage",
-      "scripting",
-      "activeTab",
       "https://golfin-41bb0.firebaseapp.com/*"
     ],
     "content_scripts": [
