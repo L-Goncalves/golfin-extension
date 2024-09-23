@@ -26,6 +26,20 @@ export function removeAppliedJobs(){
 
 }
 
+export function removePromotedJobs(){
+  const jobList = getJobListWithInfo()
+
+  const jobPostingsToBeDeleted = jobList.filter((job) =>
+      job.footerElement.textContent.toLowerCase().trim().includes("promovida")
+  )
+
+
+  jobPostingsToBeDeleted.forEach((jobPost) => {
+    deleteJobPost(jobPost.jobId)
+  })
+
+}
+
 export function filterJobsByCompanyNames(blacklist: string[]) {
   const jobList = getJobListWithInfo()
 

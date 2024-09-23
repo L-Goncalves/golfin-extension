@@ -6,7 +6,7 @@ import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
-import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
+import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
 import { FaBuilding } from "react-icons/fa6";
 import { TbWorldX } from "react-icons/tb";
 
@@ -41,6 +41,7 @@ const AdjustmentTab = () => {
   const [saveJobSearch, setSaveJobSearch] = useState<boolean>(false)
   const [shouldFilterDomains, setShouldFilterByDomain] = useState<boolean>(false)
   const [shouldRemoveApplied, setShouldRemoveApplied] = useState<boolean>(false)
+  const [shouldRemovePromoted, setShouldRemovePromoted] = useState<boolean>(false)
   const storage = new Storage();
 
 
@@ -59,6 +60,7 @@ const AdjustmentTab = () => {
       const storedDomains: any = (await storage.get("domains")) || []; // Fallback to an empty array
       const filterByDomain =  await shouldFilterByDomain()
       const removeApplied = await shouldRemoveAppliedJobs();
+      const removePromoted = await shouldRemovePromotedJobs();
       const showIcons = await shouldDisplayIcons();
       setSaveJobSearch(saveJobSearch);
       setCompanies(storedCompanies);
@@ -67,6 +69,7 @@ const AdjustmentTab = () => {
       setShouldFilterByCompany(shouldFilterCompany);
       setShouldFilterByDomain(filterByDomain);
       setShouldRemoveApplied(removeApplied);
+      setShouldRemovePromoted(removePromoted);
     }
 
     fetchInitialState()
@@ -132,6 +135,12 @@ const AdjustmentTab = () => {
         label={'Remover vagas nas quais eu já me apliquei (exibido como "Candidatou-se")'}
         tooltip={'Isso vai remover as vagas visualmente que estiverem marcadas como Candidatou-se'} checked={shouldRemoveApplied}/>
 
+
+      <Checkbox
+        onChange={(checked) => handleFeedCheckbox(checked, "remove-promoted-jobs", setShouldRemovePromoted)}
+        id={"remove-promoted-jobs"}
+        label={'Remover vagas com selo "promovida"'}
+        tooltip={'Isso vai remover as vagas visualmente vagas com selo promovida'} checked={shouldRemovePromoted}/>
       <div className="form-container">
         <Input
           onChange={(newValue) => setDomainValue(newValue)}
