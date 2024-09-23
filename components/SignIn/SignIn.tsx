@@ -55,6 +55,7 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
         }
       }
     } catch (error: any) {
+      const defaultMessage = "Ocorreu um erro: "
       if (error.message.includes("auth/invalid-credential")) {
         setError("Credenciais Inválidas.");
         return;
@@ -65,7 +66,12 @@ const SignIn = ({ onSuccess }: { onSuccess: () => void }) => {
         return;
       }
 
-      setError(error.message); // Display the error from Firebase
+      if(error.message.includes("weak-password")){
+        setError("Senha fraca! a sua senha deve conter pelo menos 6 caracteres.");
+        return;
+      }
+
+      setError(defaultMessage+error.message)
     }
   };
 
