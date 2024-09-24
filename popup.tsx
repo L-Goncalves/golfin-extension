@@ -8,7 +8,7 @@ import Tabs from "~components/Tabs/Tabs"
 
 // @ts-ignore
 import icon from "./assets/icon.png"
-import { deleteAllStorage } from "./contentScripts/storage"
+import { deleteAllStorage ,getAllStorage } from "./contentScripts/storage"
 
 import "./index.scss"
 
@@ -63,6 +63,8 @@ function IndexPopup() {
         />
         <Tabs tabs={tabData} />
       </>
+      {/* <button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
+      <button onClick={getAllStorage} > VER STORAGE</button> */}
     </div>
   )
 }

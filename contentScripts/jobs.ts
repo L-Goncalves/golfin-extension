@@ -79,15 +79,12 @@ export async function filterJobsByDomains() {
     const jobDetails = await getSavedJobUrl(jobPost.jobId)
     
     if (jobDetails) {
-      const url = decodeURIComponent(jobDetails.jobUrl)
-      const match = url.match(/url=([^"&]+)/)
-      let cleanUrl
-
-      if (match) {
-        cleanUrl = decodeURIComponent(match[1])
+     
+      if (jobDetails.jobUrl) {
+    
 
         // Check if any domain is included in the cleanUrl
-        if (domains.some((domain) => cleanUrl.includes(domain))) {
+        if (domains.some((domain) => jobDetails.jobUrl.includes(domain))) {
           deleteJobPost(jobDetails.jobId);
         }
       }
@@ -103,51 +100,6 @@ function getDefaultFavicon(pageUrl: string) {
 }
 
 
-async function fetchJobUrlAndSave(jobId: string) {
-  const existingJob = await getSavedJobUrl(jobId)
-
-  if (!existingJob) {
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`
-
-    return fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.text()
-        } else {
-          throw new Error("Network response was not ok.")
-        }
-      })
-      .then((html) => {
-        const parser = new DOMParser()
-        const doc = parser.parseFromString(html, "text/html")
-
-        const applyUrlElement = doc.querySelector("#applyUrl")
-        let jobUrl = "Not Found"
-        if (applyUrlElement) {
-          const applyUrl = applyUrlElement
-            ? applyUrlElement.innerHTML.trim()
-            : "Apply URL not found."
-
-          const match = applyUrl.match(/"(https:\/\/[^"]+)"/)
-          if (match) {
-            jobUrl = match[1]
-          }
-        }
-
-        saveJobUrl(jobId, jobUrl)
-        return { jobId, jobUrl }
-      })
-      .catch((error) => {
-        console.error(
-          `There was a problem with fetching job details for jobId ${jobId}:`,
-          error
-        )
-        return { jobId, jobUrl: "Error fetching apply URL" }
-      })
-  }
-
-  return existingJob
-}
 
 function getDomainFromUrl(url: string) {
   try {
@@ -178,18 +130,13 @@ function getDomainFromUrl(url: string) {
 
 function createDomainLabel(element, jobDetails) {
   if (!element.querySelector(".domain")) {
-    const url = decodeURIComponent(jobDetails.jobUrl)
-    const match = url.match(/url=([^"&]+)/)
-    let cleanUrl
+    
 
-    if (match) {
-      cleanUrl = decodeURIComponent(match[1])
-    }
 
     element.style.flexDirection = "column"
 
-    if (cleanUrl) {
-      const domain = getDomainFromUrl(cleanUrl)
+    if (jobDetails.jobUrl) {
+      const domain = getDomainFromUrl(jobDetails.jobUrl)
       const favicon = getDefaultFavicon(domain)
 
       const li = document.createElement("li")
@@ -227,13 +174,9 @@ function createDomainLabel(element, jobDetails) {
 
 function createFullUrlLink(element, jobDetails) {
   if (!element.querySelector(".full-url")) {
-    const url = decodeURIComponent(jobDetails.jobUrl)
-    const match = url.match(/url=([^"&]+)/)
-    let cleanUrl
 
-    if (match) {
-      cleanUrl = decodeURIComponent(match[1])
-    }
+    let cleanUrl = jobDetails.jobUrl
+
 
     element.style.flexDirection = "column"
 
@@ -282,10 +225,84 @@ export async function saveJobSearch() {
 
 
 
-export async function fetchJobsUrlsAndSave(){
+export async function fetchJobUrlsAndSave(){
   const jobList = getJobListWithInfo()
-  jobList.forEach(async ({jobId}) => {
+  jobList.filter((job) => !job.isSimpleApply).forEach(async ({jobId}) => {
     await fetchJobUrlAndSave(jobId)
   })
 
 }
+
+
+async function fetchJobUrl2(jobId) {
+
+  const COOKIE_STR = document.cookie;
+  let csfr = '';
+  COOKIE_STR.split(';').forEach(cookie => {
+    const [name, value] = cookie.split('=').map(c => c.trim());
+    // Exclude JSESSIONID from the string
+    if (name === 'JSESSIONID') {
+        csfr = `${value}`.replaceAll('"', "");
+    }
+  });
+
+
+    
+    try {
+        const response = await fetch(`https://www.linkedin.com/voyager/api/graphql?variables=(cardSectionTypes:List(TOP_CARD),jobPostingUrn:urn%3Ali%3Afsd_jobPosting%3A${jobId},includeSecondaryActionsV2:true)&queryId=voyagerJobsDashJobPostingDetailSections.62b71d68e059121ffcfb4c068d73d6d1`, {
+            headers: {
+                "accept": "application/vnd.linkedin.normalized+json+2.1",
+                "accept-language": "en-GB,en;q=0.9,en-US;q=0.8",
+                 "csrf-token": `${csfr}`,
+                "cookie": `${COOKIE_STR}`,
+                // "Referer": "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4025765247&discover=recommended&discoveryOrigin=JOBS_HOME_JYMBII&eBP=CwEAAAGSJD57Ycb-GiCRk0ZMheXcQhzc_KHaK1PtCpIE0vgzBzJbdyjUvaXbeoT3W3VN9AHDbSVBFBosVN6_e_bBmvGB6zDdcFLcBGCAqC5M760qjf5__UOfdC2JhmQBkyO8IxXtp5MJ4yUBOwu7kTwmNMUJkQG-MM6PcR6TkAumJI5dxi3O_Dby9UHO1h4m9CVEmG9f_nQWK5etMgqs05Hxfo7uQBIbfra_hpeKUnPzubOZ6v9Iwx6aJYoeRfk7Qm-jGYywlCrGXJzktLwKdSg7APqjVrzMYS2d4_ASP-moxA3FrXbmBKd9FmhSab5kwSvX6NMkKN2_gP3h9Tr5a90IoaFkiGuS15SyyHo4cU9DiZICD8IaW17oCFfZ8IPa6ZLs2dbR-RuE97Gv2UElTrHhR7-R_xQQu1MpUxRku9qVY9aLFBgewA&refId=VelrwFw0OzyJrBs0iwSlig%3D%3D&trackingId=0cJ0mkgtSwRWLnX2pqCxnw%3D%3D",
+                "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            method: "GET"
+        });
+  
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+  
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let data = '';
+  
+        // Read the response body as a stream
+        const processText = async () => {
+            const { done, value } = await reader.read();
+            if (done) {
+                // Parse the full response and filter for companyApplyUrl
+                const jsonResponse = JSON.parse(data);
+                const companyUrl = jsonResponse.included
+                    .filter(item => item.companyApplyUrl)
+                    .map(item => item.companyApplyUrl)[0]; // Get the first matching companyApplyUrl
+                console.log(companyUrl)
+                return companyUrl; // Return the value
+            }
+            data += decoder.decode(value, { stream: true });
+            return processText(); // Continue reading
+        };
+  
+        return await processText(); // Start processing the stream
+    } catch (err) {
+        console.error('Fetch error:', err);
+        throw err; // Propagate the error
+    }
+  }
+
+  export async function fetchJobUrlAndSave(jobId: string) {
+    const existingJob = await getSavedJobUrl(jobId);
+  
+    if (!existingJob) {
+          console.log('JOBID NOT SAVED:', jobId);
+          const jobUrl = await fetchJobUrl2(jobId)
+          await saveJobUrl(jobId, jobUrl);
+          return { jobId, jobUrl };
+
+    }
+
+    return existingJob;
+  }
+  

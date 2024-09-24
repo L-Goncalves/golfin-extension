@@ -148,6 +148,17 @@ export async function deleteAllStorage() {
     // console.log(`Deleted ${items.length} items from storage.`);
 }
 
+export async function getAllStorage() {
+    const storage = new Storage();
+
+    const allItems = await storage.getAll();
+
+    const items = Object.keys(allItems);
+
+    console.log(items)
+
+}
+
 export async function shouldRun(){
     const storage = new Storage();
     const storedEnabledState = await storage.get("enabled");
