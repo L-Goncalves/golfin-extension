@@ -211,8 +211,10 @@ export async function showIcons() {
 
   const nonSimpleApply = jobList.filter(
     (jobPost) => jobPost.isSimpleApply == false
+  ).filter((job) =>
+    !job.footerElement?.textContent.toLowerCase().trim().includes("candidatou-se")
   )
-
+  
   nonSimpleApply.forEach(async (jobPost) => {
     const footerElement = jobPost.footerElement as HTMLElement
     const jobDetails = await getSavedJobUrl(jobPost.jobId);
