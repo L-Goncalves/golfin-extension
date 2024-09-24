@@ -55,7 +55,7 @@ export const TabFeed = () => {
           tooltip={
             "Vai limpar o seu feed para que você não se distraia com postagens controversas 🧠"
           }
-          onChange={(checked) => handleFeedCheckbox(checked, "removeFeedPostsByWords", setRemovePostsByWords)}
+          onChange={(checked: boolean) => handleFeedCheckbox(checked, "removeFeedPostsByWords", setRemovePostsByWords)}
           checked={removePostsByWords}
         />
         <KeywordEditor />

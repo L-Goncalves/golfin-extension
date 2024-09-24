@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
 import {
-  fetchJobsUrlsAndSave,
+  fetchJobUrlsAndSave,
   filterJobsByCompanyNames,
   filterJobsByDomains,
   removeAppliedJobs,
@@ -63,7 +63,7 @@ async function handleJobs() {
 
   // THIS ENSURES THAT API IS CALLED ONLY ONCE AND SAVED, IF SAVED IT WON'T CALL AGAIN (AVOID 429)
   if (shouldFilterDomains || shouldShowIcons) {
-    fetchJobsUrlsAndSave()
+    fetchJobUrlsAndSave()
   }
 
   if (shouldShowIcons) {
