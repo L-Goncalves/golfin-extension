@@ -13,7 +13,7 @@ export function deleteJobPost(jobId: string) {
 
 export function removeAppliedJobs(){
   const jobList = getJobListWithInfo()
-  console.log({jobList})
+  //console.log({jobList})
 
   const jobPostingsToBeDeleted = jobList.filter((job) =>
       job.footerElement?.textContent.toLowerCase().trim().includes("candidatou-se")
@@ -278,7 +278,7 @@ async function fetchJobUrl2(jobId) {
                 const companyUrl = jsonResponse.included
                     .filter(item => item.companyApplyUrl)
                     .map(item => item.companyApplyUrl)[0]; // Get the first matching companyApplyUrl
-                console.log(companyUrl)
+               // console.log(companyUrl)
                 return companyUrl; // Return the value
             }
             data += decoder.decode(value, { stream: true });
@@ -296,7 +296,7 @@ async function fetchJobUrl2(jobId) {
     const existingJob = await getSavedJobUrl(jobId);
   
     if (!existingJob) {
-          console.log('JOBID NOT SAVED:', jobId);
+         // console.log('JOBID NOT SAVED:', jobId);
           const jobUrl = await fetchJobUrl2(jobId)
           await saveJobUrl(jobId, jobUrl);
           return { jobId, jobUrl };
