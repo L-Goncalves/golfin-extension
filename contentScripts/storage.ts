@@ -110,6 +110,7 @@ export async function saveJobUrl(jobId: string, jobUrl: string) {
             jobId: jobId,
             jobUrl: jobUrl,
             timestamp: datetime,
+            lastSeen: datetime,
         };
 
    
@@ -132,11 +133,27 @@ export async function getSavedJobUrl(jobId: string): Promise<JobData | null> {
 
     try {
         const existingJob: JobData = JSON.parse(existingJobItem);
+        await updateJobLastAccess(storage, jobId, existingJob);
         return existingJob;
     } catch (error) {
         console.error('Error parsing job data:', {existingJobItem, error});
         return null;
     }
+}
+
+export async function updateJobLastAccess(storage: Storage, jobId: string, job: JobData): Promise<void> {
+    try {
+        const lastSeenDate = new Date(job.lastSeen).getTime();
+        
+        const lastHour = Date.now() - 60 * 60 * 1000; 
+        if(lastSeenDate < lastHour){
+            job.lastSeen = new Date().toISOString();
+            await storage.setItem(`job_${jobId}`, JSON.stringify(job)); 
+            console.log('Successfully updated Last Seen:', {job})
+        }
+    } catch (error) {
+        console.warn('An Error Ocurred updating the Last Seen Job Data!');
+    } 
 }
 
 
@@ -154,14 +171,63 @@ export async function deleteAllStorage() {
     // console.log(`Deleted ${items.length} items from storage.`);
 }
 
-export async function getAllStorage() {
+export async function deleteJobsNotSeenInTime(hours: number) {
     const storage = new Storage();
 
     const allItems = await storage.getAll();
 
-    const items = Object.keys(allItems);
+    const jobKeys = Object.keys(allItems).filter((key) => key.includes("job_"));
 
-    console.log(items)
+    jobKeys.forEach(async (jobKey: string) => {
+        const jobStored = await storage.get(jobKey);
+        const job: JobData = JSON.parse(jobStored);
+        const givenDate = new Date(job.lastSeen);
+        const currentDate = new Date();
+        const timeDiff = currentDate.getTime() - givenDate.getTime();
+        const hourInMs = hours * 60 * 60 * 1000;
+        const isWithinAmountHours = timeDiff >= 0 && timeDiff <= hourInMs;
+         if (!isWithinAmountHours) {
+            deleteFromCacheStorage(jobKey);
+        }
+    })
+}
+
+async function deleteFromCacheStorage(jobkey: string){
+    if(jobkey.includes("job_")){
+        const storage = new Storage();
+        await storage.remove(jobkey);
+    } else{
+        console.warn('Unable to delete from Cache Storage! Make sure your key has job_ prefix in it.')
+    }
+
+}
+
+export async function getAllStorageItems(){
+    const storage = new Storage();
+
+    const allItems = await storage.getAll();
+    const migration_key = await storage.getItem('migration_v1')
+
+    console.log({migration_key, allItems});
+   
+}
+
+export async function getAllJobStorage(): Promise<JobData[]> {
+    const storage = new Storage();
+
+    const allItems = await storage.getAll();
+    const items = Object.keys(allItems).filter((item) => item.includes('job_'));
+
+    
+    const jobPromises = items.map(async (jobKey: string) => {
+        const jobStored = await storage.get(jobKey);
+        const job: JobData = JSON.parse(jobStored);
+        return {...job};
+    })
+
+    const jobs: JobData[] = await Promise.all(jobPromises);
+
+    return jobs;
 
 }
 
@@ -172,3 +238,4 @@ export async function shouldRun(){
     // console.log(isEnabledValue)
     return isEnabledValue;
 }
+
