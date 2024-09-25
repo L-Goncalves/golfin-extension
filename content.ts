@@ -11,6 +11,7 @@ import {
 } from "~contentScripts/jobs"
 import { autoConnect } from "~contentScripts/mynetwork"
 import {
+  deleteJobsNotSeenInTime,
   getCompaniesBlacklisted,
   shouldAutoConnect,
   shouldDisplayIcons,
@@ -23,6 +24,7 @@ import {
   shouldRun,
   shouldSaveJobSearch
 } from "~contentScripts/storage"
+import { migrateJobData } from "~contentScripts/storage-data/migrate-jobs"
 
 export {}
 export const config: PlasmoCSConfig = {
@@ -46,6 +48,8 @@ async function handleFeed() {
 
 async function handleJobs() {
   // if blacklist companies
+  migrateJobData();
+  deleteJobsNotSeenInTime(24);
   const shouldFilterByCompanies = await shouldFilterByCompany()
   const shouldSaveSearches = await shouldSaveJobSearch()
   const shouldShowIcons = await shouldDisplayIcons()

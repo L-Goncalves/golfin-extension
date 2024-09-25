@@ -8,7 +8,7 @@ import Tabs from "~components/Tabs/Tabs"
 
 // @ts-ignore
 import icon from "./assets/icon.png"
-import { deleteAllStorage ,getAllStorage } from "./contentScripts/storage"
+import { deleteAllStorage ,getAllStorageItems } from "./contentScripts/storage"
 
 import "./index.scss"
 
@@ -17,6 +17,8 @@ import { MdOutlineLogout } from "react-icons/md"
 import { InputToggle } from "~components/InputToggle/InputToggle"
 import { TabConnections } from "~components/TabConnections/TabConnections"
 import { TabJobs } from "~components/TabJobs/TabJobs"
+
+const isDev = process.env.NODE_ENV == "development"
 
 function IndexPopup() {
   const [isExtensionEnabled, setIsExtensionEnabled] = useState(false)
@@ -47,12 +49,15 @@ function IndexPopup() {
 
   return (
     <div className="container">
+      
       <div>
+      {isDev && (   <p>Modo desenvolvedor está ativado.</p>)}
         <div>
           <img width={50} src={icon} />
           <h1>GolfIn</h1>
         </div>
         <h4>A sua extensão para o LinkedIn!</h4>
+
       </div>
 
       <>
@@ -61,10 +66,12 @@ function IndexPopup() {
           value={isExtensionEnabled}
           onChange={handleToggleChange}
         />
+     
         <Tabs tabs={tabData} />
       </>
-      {/* <button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
-      <button onClick={getAllStorage} > VER STORAGE</button> */}
+      {isDev && <><button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
+      <button onClick={getAllStorageItems} > VER STORAGE</button></>}
+      {/*  */}
     </div>
   )
 }
