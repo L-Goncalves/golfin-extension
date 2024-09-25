@@ -149,7 +149,7 @@ export async function updateJobLastAccess(storage: Storage, jobId: string, job: 
         if(lastSeenDate < lastHour){
             job.lastSeen = new Date().toISOString();
             await storage.setItem(`job_${jobId}`, JSON.stringify(job)); 
-            console.log('Successfully updated Last Seen:', {job})
+            // console.log('Successfully updated Last Seen:', {job})
         }
     } catch (error) {
         console.warn('An Error Ocurred updating the Last Seen Job Data!');
@@ -195,6 +195,8 @@ export async function deleteJobsNotSeenInTime(hours: number) {
 async function deleteFromCacheStorage(jobkey: string){
     if(jobkey.includes("job_")){
         const storage = new Storage();
+        const job = await storage.getItem(jobkey)
+        console.log('deleting', {job})
         await storage.remove(jobkey);
     } else{
         console.warn('Unable to delete from Cache Storage! Make sure your key has job_ prefix in it.')

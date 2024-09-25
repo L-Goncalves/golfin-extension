@@ -11,6 +11,7 @@ import {
 } from "~contentScripts/jobs"
 import { autoConnect } from "~contentScripts/mynetwork"
 import {
+  deleteJobsNotSeenInTime,
   getCompaniesBlacklisted,
   shouldAutoConnect,
   shouldDisplayIcons,
@@ -47,7 +48,8 @@ async function handleFeed() {
 
 async function handleJobs() {
   // if blacklist companies
-  migrateJobData()
+  migrateJobData();
+  deleteJobsNotSeenInTime(24);
   const shouldFilterByCompanies = await shouldFilterByCompany()
   const shouldSaveSearches = await shouldSaveJobSearch()
   const shouldShowIcons = await shouldDisplayIcons()
