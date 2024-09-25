@@ -23,6 +23,7 @@ import {
   shouldRun,
   shouldSaveJobSearch
 } from "~contentScripts/storage"
+import { migrateJobData } from "~contentScripts/storage-data/migrate-jobs"
 
 export {}
 export const config: PlasmoCSConfig = {
@@ -46,6 +47,7 @@ async function handleFeed() {
 
 async function handleJobs() {
   // if blacklist companies
+  migrateJobData()
   const shouldFilterByCompanies = await shouldFilterByCompany()
   const shouldSaveSearches = await shouldSaveJobSearch()
   const shouldShowIcons = await shouldDisplayIcons()
