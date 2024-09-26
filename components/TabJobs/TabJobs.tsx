@@ -6,7 +6,7 @@ import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
-import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
+import { shouldAutoApply, shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
 import { FaBuilding } from "react-icons/fa6";
 import { TbWorldX } from "react-icons/tb";
 
@@ -42,6 +42,7 @@ const AdjustmentTab = () => {
   const [shouldFilterDomains, setShouldFilterByDomain] = useState<boolean>(false)
   const [shouldRemoveApplied, setShouldRemoveApplied] = useState<boolean>(false)
   const [shouldRemovePromoted, setShouldRemovePromoted] = useState<boolean>(false)
+  const [shouldAutoApplyJob, setShouldAutoApply] = useState<boolean>(false)
   const storage = new Storage();
 
 
@@ -62,6 +63,7 @@ const AdjustmentTab = () => {
       const removeApplied = await shouldRemoveAppliedJobs();
       const removePromoted = await shouldRemovePromotedJobs();
       const showIcons = await shouldDisplayIcons();
+      const autoApply = await shouldAutoApply();
       setSaveJobSearch(saveJobSearch);
       setCompanies(storedCompanies);
       setDomains(storedDomains);
@@ -70,6 +72,7 @@ const AdjustmentTab = () => {
       setShouldFilterByDomain(filterByDomain);
       setShouldRemoveApplied(removeApplied);
       setShouldRemovePromoted(removePromoted);
+      setShouldAutoApply(autoApply);
     }
 
     fetchInitialState()
@@ -141,6 +144,13 @@ const AdjustmentTab = () => {
         id={"remove-promoted-jobs"}
         label={'Remover vagas com selo "promovida"'}
         tooltip={'Isso vai remover as vagas visualmente vagas com selo promovida'} checked={shouldRemovePromoted}/>
+
+      <Checkbox
+        onChange={(checked) => handleFeedCheckbox(checked, "auto-apply", setShouldAutoApply)}
+        id={"auto-apply"}
+        label={'Aplicar automaticamente para vagas com Candidatura Simplificada.'}
+        tooltip={'Isso vai aplicar automaticamente para vagas com Candidatura Simplificada.'} checked={shouldAutoApplyJob}/>
+
       <div className="form-container">
         <Input
           onChange={(newValue) => setDomainValue(newValue)}

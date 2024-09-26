@@ -250,7 +250,7 @@ export async function fetchJobUrlsAndSave(){
 }
 
 
-async function fetchJobUrl2(jobId) {
+async function fetchJobUrl2(jobId: string) {
 
   const COOKIE_STR = document.cookie;
   let csfr = '';
@@ -271,7 +271,6 @@ async function fetchJobUrl2(jobId) {
                 "accept-language": "en-GB,en;q=0.9,en-US;q=0.8",
                  "csrf-token": `${csfr}`,
                 "cookie": `${COOKIE_STR}`,
-                // "Referer": "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4025765247&discover=recommended&discoveryOrigin=JOBS_HOME_JYMBII&eBP=CwEAAAGSJD57Ycb-GiCRk0ZMheXcQhzc_KHaK1PtCpIE0vgzBzJbdyjUvaXbeoT3W3VN9AHDbSVBFBosVN6_e_bBmvGB6zDdcFLcBGCAqC5M760qjf5__UOfdC2JhmQBkyO8IxXtp5MJ4yUBOwu7kTwmNMUJkQG-MM6PcR6TkAumJI5dxi3O_Dby9UHO1h4m9CVEmG9f_nQWK5etMgqs05Hxfo7uQBIbfra_hpeKUnPzubOZ6v9Iwx6aJYoeRfk7Qm-jGYywlCrGXJzktLwKdSg7APqjVrzMYS2d4_ASP-moxA3FrXbmBKd9FmhSab5kwSvX6NMkKN2_gP3h9Tr5a90IoaFkiGuS15SyyHo4cU9DiZICD8IaW17oCFfZ8IPa6ZLs2dbR-RuE97Gv2UElTrHhR7-R_xQQu1MpUxRku9qVY9aLFBgewA&refId=VelrwFw0OzyJrBs0iwSlig%3D%3D&trackingId=0cJ0mkgtSwRWLnX2pqCxnw%3D%3D",
                 "Referrer-Policy": "strict-origin-when-cross-origin"
             },
             method: "GET"
@@ -322,3 +321,30 @@ async function fetchJobUrl2(jobId) {
     return existingJob;
   }
   
+
+  export async function autoApply(){
+    // const jobId = '3983185893'
+    // const li = document.querySelector(`[data-job-id]="${jobId}"`) as HTMLDListElement;   
+    
+    // console.log('applying')
+    // li.click()
+
+    const apply = document.querySelector('.jobs-apply-button--top-card > button') as HTMLElement;
+
+    const errors = document.querySelectorAll('.artdeco-inline-feedback__message')
+    if(apply){
+      apply.click();
+    }
+
+  // #avançar
+    
+    if(errors.length == 0){
+      const nextBtn = document.querySelector('.jobs-easy-apply-content button.artdeco-button--primary') as HTMLElement;
+
+      nextBtn?.click()
+    }
+
+  
+  }
+
+  // autoApply();

@@ -17,6 +17,7 @@ import { MdOutlineLogout } from "react-icons/md"
 import { InputToggle } from "~components/InputToggle/InputToggle"
 import { TabConnections } from "~components/TabConnections/TabConnections"
 import { TabJobs } from "~components/TabJobs/TabJobs"
+import { autoApply } from "~contentScripts/jobs"
 
 const isDev = process.env.NODE_ENV == "development"
 
@@ -69,8 +70,12 @@ function IndexPopup() {
      
         <Tabs tabs={tabData} />
       </>
-      {isDev && <><button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
-      <button onClick={getAllStorageItems} > VER STORAGE</button></>}
+      {isDev && <>
+      <button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
+      <button onClick={getAllStorageItems} > VER STORAGE</button>
+      <button onClick={autoApply} > Aplicar Automaticamente</button>
+      
+      </>}
       {/*  */}
     </div>
   )

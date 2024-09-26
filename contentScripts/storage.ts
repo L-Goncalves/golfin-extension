@@ -58,8 +58,8 @@ export async function shouldFilterByDomain(): Promise<boolean> {
 
 export async function shouldRemoveAppliedJobs(): Promise<boolean>{
     const storage = new Storage();
-    const filterByDomain: boolean = (await storage.get('remove-applied-jobs')) || false;
-    return filterByDomain;
+    const removeApplied: boolean = (await storage.get('remove-applied-jobs')) || false;
+    return removeApplied;
 }
 
 export async function shouldRemovePromotedJobs(): Promise<boolean>{
@@ -241,3 +241,8 @@ export async function shouldRun(){
     return isEnabledValue;
 }
 
+export async function shouldAutoApply(){
+    const storage = new Storage();
+    const autoApply: boolean = (await storage.get('auto-apply')) || false;
+    return autoApply;
+}

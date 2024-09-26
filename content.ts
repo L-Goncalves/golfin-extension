@@ -1,6 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
 import {
+  autoApply,
   fetchJobUrlsAndSave,
   filterJobsByCompanyNames,
   filterJobsByDomains,
@@ -22,7 +23,8 @@ import {
   shouldRemoveFeedPosts,
   shouldRemovePromotedJobs,
   shouldRun,
-  shouldSaveJobSearch
+  shouldSaveJobSearch,
+  shouldAutoApply
 } from "~contentScripts/storage"
 import { migrateJobData } from "~contentScripts/storage-data/migrate-jobs"
 
@@ -56,9 +58,14 @@ async function handleJobs() {
   const shouldFilterDomains = await shouldFilterByDomain()
   const removeApplied = await shouldRemoveAppliedJobs();
   const removePromoted = await shouldRemovePromotedJobs();
+  const shouldAutoApplyJob = await shouldAutoApply();
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
+  }
+
+  if(shouldAutoApplyJob){
+    autoApply()
   }
 
   if (shouldSaveSearches) {
