@@ -170,12 +170,7 @@ function createDomainLabel(element, jobDetails) {
       }
 
       li.innerHTML = `${domain}`
-      li.style.maxHeight = "10px"
-      li.style.gap = "10px"
-      li.style.alignItems = "center"
-      li.style.display = "flex"
-      li.style.marginTop = "5px"
-      li.style.marginBottom = "5px"
+
       li.classList.add("domain")
       // Append the image to the list item
       li.insertBefore(img, li.firstChild)

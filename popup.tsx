@@ -8,7 +8,7 @@ import Tabs from "~components/Tabs/Tabs"
 
 // @ts-ignore
 import icon from "./assets/icon.png"
-import { deleteAllStorage ,getAllStorageItems } from "./contentScripts/storage"
+import { deleteAllStorage ,getAllStorageItems } from "./content-scripts/storage"
 
 import "./index.scss"
 
