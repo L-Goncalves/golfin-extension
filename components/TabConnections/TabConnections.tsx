@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 
 import { Storage } from "@plasmohq/storage"
 
-import { shouldAutoConnect } from "~contentScripts/storage"
+import { shouldAutoConnect } from "~content-scripts/storage"
 
 export const TabConnections = () => {
   const [autoConnect, setAutoConnect] = useState(false)

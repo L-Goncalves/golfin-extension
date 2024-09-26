@@ -1,5 +1,5 @@
 import type { PlasmoCSConfig } from "plasmo"
-import { filterFeedPostsByKeywords, removeFeed } from "~contentScripts/feed"
+import { filterFeedPostsByKeywords, removeFeed } from "~content-scripts/feed"
 import {
   autoApply,
   fetchJobUrlsAndSave,
@@ -9,8 +9,8 @@ import {
   removePromotedJobs,
   saveJobSearch,
   showIcons
-} from "~contentScripts/jobs"
-import { autoConnect } from "~contentScripts/mynetwork"
+} from "~content-scripts/jobs"
+import { autoConnect } from "~content-scripts/mynetwork"
 import {
   deleteJobsNotSeenInTime,
   getCompaniesBlacklisted,
@@ -25,8 +25,8 @@ import {
   shouldRun,
   shouldSaveJobSearch,
   shouldAutoApply
-} from "~contentScripts/storage"
-import { migrateJobData } from "~contentScripts/storage-data/migrate-jobs"
+} from "~content-scripts/storage"
+import { migrateJobData } from "~content-scripts/storage-data/migrate-jobs"
 
 export {}
 export const config: PlasmoCSConfig = {

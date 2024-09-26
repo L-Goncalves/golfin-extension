@@ -6,7 +6,7 @@ import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import { Storage } from "@plasmohq/storage"
-import { shouldAutoApply, shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
+import { shouldAutoApply, shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~content-scripts/storage"
 import { FaBuilding } from "react-icons/fa6";
 import { TbWorldX } from "react-icons/tb";
 

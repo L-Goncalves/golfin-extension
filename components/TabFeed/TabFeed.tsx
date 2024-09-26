@@ -5,7 +5,7 @@ import "./TabFeed.scss"
 import { useEffect, useState } from "react"
 import { Storage } from "@plasmohq/storage"
 import { KeywordEditor } from "~components/KeywordEditor/KeywordEditor"
-import { shouldRemoveAllFeedPosts, shouldRemoveFeedPosts } from "~contentScripts/storage"
+import { shouldRemoveAllFeedPosts, shouldRemoveFeedPosts } from "~content-scripts/storage"
 
 
 

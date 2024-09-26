@@ -1,0 +1,17 @@
+li.domain{
+    background: #fbfbfb;
+    padding: 14px 10px;
+    border-radius: 6px;
+    width: max-content;
+    border: 1px solid rgb(0 0 0 / 5%);
+    /* max-width: 136px; */
+    font-weight: 500;
+    color: black;
+    font-size: 14px;
+    max-height: 10px;
+    gap: 10px;
+    align-items: center;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
