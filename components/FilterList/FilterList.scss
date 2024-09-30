@@ -8,6 +8,13 @@
     align-items: center;
     justify-content: center;
   }
+
+  & > .warning{
+    background-color: #cccccc28;
+    padding: 20px;
+    border-radius: 10px;
+    color: #000000b6;
+  }
 }
 
 .filter-header{

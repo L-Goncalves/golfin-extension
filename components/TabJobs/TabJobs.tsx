@@ -1,16 +1,25 @@
 import { Checkbox } from "~components/Checkbox/Checkbox"
+
 import "./TabJobs.scss"
+
 import { useEffect, useState } from "react"
+import { FaBuilding } from "react-icons/fa6"
+import { TbWorldX } from "react-icons/tb"
+
+import { Storage } from "@plasmohq/storage"
+
 import { Button } from "~components/Button/Button"
 import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
-import { Storage } from "@plasmohq/storage"
-import { shouldDisplayIcons, shouldFilterByCompany, shouldFilterByDomain, shouldRemoveAppliedJobs, shouldRemovePromotedJobs, shouldSaveJobSearch } from "~contentScripts/storage"
-import { FaBuilding } from "react-icons/fa6";
-import { TbWorldX } from "react-icons/tb";
-
-
+import {
+  shouldDisplayIcons,
+  shouldFilterByCompany,
+  shouldFilterByDomain,
+  shouldRemoveAppliedJobs,
+  shouldRemovePromotedJobs,
+  shouldSaveJobSearch
+} from "~contentScripts/storage"
 
 const TabJobHeader = () => {
   return (
@@ -32,115 +41,173 @@ const TabJobHeader = () => {
 }
 
 const AdjustmentTab = () => {
-  const [domain, setDomainValue] = useState("");
-  const [company, setCompanyValue] = useState("");
-  const [domains, setDomains] = useState<string[]>([]); // Ensure it's typed as an array
-  const [companies, setCompanies] = useState<string[]>([]); // State for companies
+  const [domain, setDomainValue] = useState("")
+  const [company, setCompanyValue] = useState("")
+  const [domains, setDomains] = useState<string[]>([]) // Ensure it's typed as an array
+  const [companies, setCompanies] = useState<string[]>([]) // State for companies
   const [shouldShowIcons, setShowIcons] = useState<boolean>(false)
-  const [shouldFilterCompany, setShouldFilterByCompany] = useState<boolean>(false)
+  const [shouldFilterCompany, setShouldFilterByCompany] =
+    useState<boolean>(false)
   const [saveJobSearch, setSaveJobSearch] = useState<boolean>(false)
-  const [shouldFilterDomains, setShouldFilterByDomain] = useState<boolean>(false)
+  const [shouldFilterDomains, setShouldFilterByDomain] =
+    useState<boolean>(false)
   const [shouldRemoveApplied, setShouldRemoveApplied] = useState<boolean>(false)
-  const [shouldRemovePromoted, setShouldRemovePromoted] = useState<boolean>(false)
-  const storage = new Storage();
+  const [shouldRemovePromoted, setShouldRemovePromoted] =
+    useState<boolean>(false)
+  const storage = new Storage()
 
-
-  const handleFeedCheckbox = async (checked: boolean, key: string, stateFunc: any) => {
-    const storage = new Storage();
-    stateFunc(checked);
+  const handleFeedCheckbox = async (
+    checked: boolean,
+    key: string,
+    stateFunc: any
+  ) => {
+    const storage = new Storage()
+    stateFunc(checked)
 
     await storage.set(key, checked) // Save the checkbox state in storage
   }
 
   useEffect(() => {
     const fetchInitialState = async () => {
-      const storedCompanies: any = (await storage.get("companies")) || []; // Fallback to an empty array
+      const storedCompanies: any = (await storage.get("companies")) || [] // Fallback to an empty array
       const shouldFilterCompany = await shouldFilterByCompany()
       const saveJobSearch = await shouldSaveJobSearch()
-      const storedDomains: any = (await storage.get("domains")) || []; // Fallback to an empty array
-      const filterByDomain =  await shouldFilterByDomain()
-      const removeApplied = await shouldRemoveAppliedJobs();
-      const removePromoted = await shouldRemovePromotedJobs();
-      const showIcons = await shouldDisplayIcons();
-      setSaveJobSearch(saveJobSearch);
-      setCompanies(storedCompanies);
-      setDomains(storedDomains);
-      setShowIcons(showIcons);
-      setShouldFilterByCompany(shouldFilterCompany);
-      setShouldFilterByDomain(filterByDomain);
-      setShouldRemoveApplied(removeApplied);
-      setShouldRemovePromoted(removePromoted);
+      const storedDomains: any = (await storage.get("domains")) || [] // Fallback to an empty array
+      const filterByDomain = await shouldFilterByDomain()
+      const removeApplied = await shouldRemoveAppliedJobs()
+      const removePromoted = await shouldRemovePromotedJobs()
+      const showIcons = await shouldDisplayIcons()
+      setSaveJobSearch(saveJobSearch)
+      setCompanies(storedCompanies)
+      setDomains(storedDomains)
+      setShowIcons(showIcons)
+      setShouldFilterByCompany(shouldFilterCompany)
+      setShouldFilterByDomain(filterByDomain)
+      setShouldRemoveApplied(removeApplied)
+      setShouldRemovePromoted(removePromoted)
     }
 
     fetchInitialState()
   }, [])
 
-
-
   const handleAddDomain = async () => {
-    if(domain.length > 0){
-      const updatedDomains = [...domains, domain];
-      setDomains(updatedDomains); // Update local state
-      setDomainValue(""); // Reset the input value
-  
+    if (domain.length > 0) {
+      const updatedDomains = [...domains, domain]
+      setDomains(updatedDomains) // Update local state
+      setDomainValue("") // Reset the input value
+
       // Save the updated list to storage
-      await storage.set("domains", updatedDomains);
+      await storage.set("domains", updatedDomains)
     }
-   
-  };
+  }
 
   const handleAddCompany = async () => {
-    if(company.length > 0){
-      const updatedCompanies = [...companies, company];
-      setCompanies(updatedCompanies); // Update local state
-      setCompanyValue(""); // Reset the input value
-  
+    if (company.length > 0) {
+      const updatedCompanies = [...companies, company]
+      setCompanies(updatedCompanies) // Update local state
+      setCompanyValue("") // Reset the input value
+
       // Save the updated list to storage
-      await storage.set("companies", updatedCompanies);
+      await storage.set("companies", updatedCompanies)
     }
-  
-  };
+  }
 
   return (
     <div className="adjustments-tab">
-      <h3>Opções: </h3>
+      <h3>Opções para Vagas: </h3>
+      <div className="tips">
+        1. Para usar essas opções, acesse:
+        <a
+          href="https://www.linkedin.com/jobs/collections/"
+          target="_blank"
+          rel="noopener noreferrer">
+          linkedin.com/jobs/collections
+        </a>
+        . Navegue e faça suas pesquisas dentro dessa página.
+      </div>
       <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "shouldShowIcons", setShowIcons)}
+        onChange={(checked) =>
+          handleFeedCheckbox(checked, "shouldShowIcons", setShowIcons)
+        }
         checked={shouldShowIcons}
         id={"show-icons"}
-        label={"Mostrar Icones dos Links Externos e para onde estão me levando!"}
-        tooltip={"Será exibido um Icone do site assim como nome ao lado da vaga."}    />
+        label={"Exibir ícones dos sites e URL completa"}
+        tooltip={"Exibe um ícone do site e o nome ao lado da vaga."}
+      />
+
       <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "saveJobSearch", setSaveJobSearch)}
+        onChange={(checked) =>
+          handleFeedCheckbox(checked, "saveJobSearch", setSaveJobSearch)
+        }
         checked={saveJobSearch}
-        id={"save-job-searchs"}
-        label={"Salvar pesquisas e queries do campo de busca"}
-        tooltip={"Isso vai salvar as suas pesquisas enquanto você navega no LinkedIn, assim não vai precisar procurar no histórico."}   />
+        id={"save-job-search"}
+        label={"Salvar pesquisas na lista"}
+        tooltip={
+          "Salva suas pesquisas enquanto você navega no LinkedIn, evitando a necessidade de buscar no histórico."
+        }
+      />
+
       <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "filterJobsByDomain", setShouldFilterByDomain)}
+        onChange={(checked) =>
+          handleFeedCheckbox(
+            checked,
+            "filterJobsByDomain",
+            setShouldFilterByDomain
+          )
+        }
         checked={shouldFilterDomains}
         id={"filter-by-domain"}
-        label={"Remover vagas por domínios"}
-        tooltip={'Isso vai filtrar as vagas visualmente baseado no que você tiver na "Lista de Domínios"'}      />
-      
-      <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "shouldFilterByCompany", setShouldFilterByCompany)}
-        id={"filter-by-names"}
-        label={"Remover vagas por nomes de empresas"}
-        tooltip={'Isso vai filtrar as vagas visualmente baseado no que você tiver na "Lista de Domínios"'} checked={shouldFilterCompany}      />
+        label={"Excluir vagas de domínios indesejados"}
+        tooltip={
+          "Filtra visualmente as vagas com base na sua 'Lista de Domínios'."
+        }
+      />
 
       <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "remove-applied-jobs", setShouldRemoveApplied)}
+        onChange={(checked) =>
+          handleFeedCheckbox(
+            checked,
+            "shouldFilterByCompany",
+            setShouldFilterByCompany
+          )
+        }
+        checked={shouldFilterCompany}
+        id={"filter-by-company"}
+        label={"Remover vagas por nome de empresas"}
+        tooltip={
+          "Filtra visualmente as vagas com base na sua 'Lista de Empresas'."
+        }
+      />
+
+      <Checkbox
+        onChange={(checked) =>
+          handleFeedCheckbox(
+            checked,
+            "remove-applied-jobs",
+            setShouldRemoveApplied
+          )
+        }
+        checked={shouldRemoveApplied}
         id={"remove-applied-jobs"}
-        label={'Remover vagas nas quais eu já me apliquei (exibido como "Candidatou-se")'}
-        tooltip={'Isso vai remover as vagas visualmente que estiverem marcadas como Candidatou-se'} checked={shouldRemoveApplied}/>
-
+        label={
+          "Remover vagas nas quais já me apliquei (exibido como 'Candidatou-se')"
+        }
+        tooltip={"Remove visualmente as vagas marcadas como 'Candidatou-se'."}
+      />
 
       <Checkbox
-        onChange={(checked) => handleFeedCheckbox(checked, "remove-promoted-jobs", setShouldRemovePromoted)}
+        onChange={(checked) =>
+          handleFeedCheckbox(
+            checked,
+            "remove-promoted-jobs",
+            setShouldRemovePromoted
+          )
+        }
+        checked={shouldRemovePromoted}
         id={"remove-promoted-jobs"}
-        label={'Remover vagas com selo "promovida"'}
-        tooltip={'Isso vai remover as vagas visualmente vagas com selo promovida'} checked={shouldRemovePromoted}/>
+        label={"Remover vagas com selo 'promovida'"}
+        tooltip={"Remove visualmente as vagas com o selo 'promovida'."}
+      />
       <div className="form-container">
         <Input
           onChange={(newValue) => setDomainValue(newValue)}
@@ -148,10 +215,11 @@ const AdjustmentTab = () => {
           placeholder=" Escreva aqui qual site (domínio) você não quer ver | Exemplo: Site.com"
           value={domain}
         />
-        <Button onClick={handleAddDomain} >
-        <><TbWorldX  width={50} className="icon"/>
-        Adicionar Domínio
-         </> 
+        <Button onClick={handleAddDomain}>
+          <>
+            <TbWorldX width={50} className="icon" />
+            Adicionar Domínio
+          </>
         </Button>
       </div>
 
@@ -163,13 +231,14 @@ const AdjustmentTab = () => {
           value={company}
         />
         <Button onClick={handleAddCompany}>
-         <><FaBuilding width={50} className="icon"/>
-         Adicionar Empresa
-         </> 
+          <>
+            <FaBuilding width={50} className="icon" />
+            Adicionar Empresa
+          </>
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
 export const TabJobs = () => {
@@ -188,13 +257,13 @@ export const TabJobs = () => {
     {
       id: "tab4",
       label: "Pesquisas",
-      content: <FilterList type={"searches"}/>
+      content: <FilterList type={"searches"} />
     }
-  ];
+  ]
 
   return (
     <div className="tabjobs">
       <Tabs tabs={tabData} />
     </div>
-  );
+  )
 }

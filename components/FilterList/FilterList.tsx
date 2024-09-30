@@ -95,23 +95,40 @@ export const FilterList = ({
           value={searchTerm}
           onChange={(value) => setSearchTerm(value)}
         />
-
-        <div className="list">
-          {currentItems.map((filter, index) => (
-            <li
-              className={type === "searches" ? "copyable" : ""}
-              key={`${filter}-${index}`}
-              onClick={() => type === "searches" && handleCopy(filter, index)}
-              title={filter}>
-              {copiedIndex === index ? "Pesquisa Copiada" : filter.slice(0, 60)}
-              <button
-                onClick={() => handleDeletion(filter)}
-                className="delete-btn">
-                X
-              </button>
-            </li>
-          ))}
-        </div>
+        {currentItems.length === 0 ? (
+          <>
+            <p className="warning">
+              Não existe itens nessa lista,{" "}
+              {type == "searches" ? (
+                <>
+                  Você pode habilitar a opção de salvar as suas pesquisas para
+                  começar a visualizar aqui.
+                </>
+              ) : (
+                <>você pode começar adicionando na aba de ajustes.</>
+              )}
+            </p>
+          </>
+        ) : (
+          <div className="list">
+            {currentItems.map((filter, index) => (
+              <li
+                className={type === "searches" ? "copyable" : ""}
+                key={`${filter}-${index}`}
+                onClick={() => type === "searches" && handleCopy(filter, index)}
+                title={filter}>
+                {copiedIndex === index
+                  ? "Pesquisa Copiada"
+                  : filter.slice(0, 60)}
+                <button
+                  onClick={() => handleDeletion(filter)}
+                  className="delete-btn">
+                  X
+                </button>
+              </li>
+            ))}
+          </div>
+        )}
 
         <Pagination
           currentPage={currentPage}

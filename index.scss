@@ -13,8 +13,37 @@ html{
 }
 
 .container{
-    width: 530px;
-    height: 110%;
+    width: 500px;
+    height: 100%;
+
+    .logo-icon-version{
+      display: flex;
+
+      img{
+        max-width: 70px;
+      }
+    }
+
+    .warning-outdated{
+      color: rgb(94, 94, 94);
+      background-color: #cccccc2c;
+      padding: 10px;
+      border-radius: 10px;
+
+
+      a {
+        color: #007bff; 
+        text-decoration: underline;
+        font-weight: bold;
+
+        &:hover{
+          color: #0056b3;
+          text-decoration: none;
+        }
+      }
+
+    }
+
 
     .sign-out-button {
         background-color: white;

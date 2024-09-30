@@ -1,11 +1,15 @@
 .input-toggle-container {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #cccccc15;
+    border-radius: 10px;
     
     label {
       margin: 10px;
       margin-right: 10px;
+      font-size: 16px;
       font-weight: 600; // Optional for better visibility
     }
   
