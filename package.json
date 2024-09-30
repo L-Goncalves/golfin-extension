@@ -44,7 +44,8 @@
         ],
         "js": [
           "..\\content.ts"
-        ]
+        ],
+        "css": ["..\\content-styles/index.css"]
       }
     ]
   }

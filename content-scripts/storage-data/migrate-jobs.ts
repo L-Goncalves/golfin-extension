@@ -1,4 +1,4 @@
-import { getAllJobStorage } from "~contentScripts/storage";
+import { getAllJobStorage } from "~content-scripts/storage";
 import { Storage } from "@plasmohq/storage";
 const isDEV = process.env.NODE_ENV == "development"
 export async function migrateJobData() {

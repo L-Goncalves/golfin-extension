@@ -8,7 +8,7 @@ import Tabs from "~components/Tabs/Tabs"
 
 // @ts-ignore
 import icon from "./assets/icon.png"
-import { deleteAllStorage, getAllStorageItems } from "./contentScripts/storage"
+import { deleteAllStorage ,getAllStorageItems } from "./content-scripts/storage"
 
 import "./index.scss"
 
@@ -17,6 +17,7 @@ import { MdOutlineLogout } from "react-icons/md"
 import { InputToggle } from "~components/InputToggle/InputToggle"
 import { TabConnections } from "~components/TabConnections/TabConnections"
 import { TabJobs } from "~components/TabJobs/TabJobs"
+import { autoApply } from "~content-scripts/jobs"
 
 const isDev = process.env.NODE_ENV == "development"
 
@@ -113,12 +114,12 @@ function IndexPopup() {
   
         <Tabs tabs={tabData} />
       </>
-      {isDev && (
-        <>
-          <button onClick={deleteAllStorage}> DELETAR TODA STORAGE</button>
-          <button onClick={getAllStorageItems}> VER STORAGE</button>
-        </>
-      )}
+      {isDev && <>
+      <button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
+      <button onClick={getAllStorageItems} > VER STORAGE</button>
+      <button onClick={autoApply} > Aplicar Automaticamente</button>
+      
+      </>}
       {/*  */}
     </div>
   )

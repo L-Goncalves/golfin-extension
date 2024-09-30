@@ -13,13 +13,13 @@ import { FilterList } from "~components/FilterList/FilterList"
 import { Input } from "~components/Input/Input"
 import Tabs from "~components/Tabs/Tabs"
 import {
-  shouldDisplayIcons,
+  shouldAutoApply, shouldDisplayIcons,
   shouldFilterByCompany,
   shouldFilterByDomain,
   shouldRemoveAppliedJobs,
   shouldRemovePromotedJobs,
   shouldSaveJobSearch
-} from "~contentScripts/storage"
+} from "~content-scripts/storage"
 
 const TabJobHeader = () => {
   return (
@@ -52,9 +52,10 @@ const AdjustmentTab = () => {
   const [shouldFilterDomains, setShouldFilterByDomain] =
     useState<boolean>(false)
   const [shouldRemoveApplied, setShouldRemoveApplied] = useState<boolean>(false)
-  const [shouldRemovePromoted, setShouldRemovePromoted] =
-    useState<boolean>(false)
-  const storage = new Storage()
+  const [shouldRemovePromoted, setShouldRemovePromoted] = useState<boolean>(false)
+  const [shouldAutoApplyJob, setShouldAutoApply] = useState<boolean>(false)
+  const storage = new Storage();
+
 
   const handleFeedCheckbox = async (
     checked: boolean,
@@ -72,19 +73,19 @@ const AdjustmentTab = () => {
       const storedCompanies: any = (await storage.get("companies")) || [] // Fallback to an empty array
       const shouldFilterCompany = await shouldFilterByCompany()
       const saveJobSearch = await shouldSaveJobSearch()
-      const storedDomains: any = (await storage.get("domains")) || [] // Fallback to an empty array
-      const filterByDomain = await shouldFilterByDomain()
-      const removeApplied = await shouldRemoveAppliedJobs()
-      const removePromoted = await shouldRemovePromotedJobs()
-      const showIcons = await shouldDisplayIcons()
-      setSaveJobSearch(saveJobSearch)
-      setCompanies(storedCompanies)
-      setDomains(storedDomains)
-      setShowIcons(showIcons)
-      setShouldFilterByCompany(shouldFilterCompany)
-      setShouldFilterByDomain(filterByDomain)
-      setShouldRemoveApplied(removeApplied)
-      setShouldRemovePromoted(removePromoted)
+      const storedDomains: any = (await storage.get("domains")) || []; // Fallback to an empty array
+      const filterByDomain =  await shouldFilterByDomain()
+      const removeApplied = await shouldRemoveAppliedJobs();
+      const removePromoted = await shouldRemovePromotedJobs();
+      const showIcons = await shouldDisplayIcons();
+      setSaveJobSearch(saveJobSearch);
+      setCompanies(storedCompanies);
+      setDomains(storedDomains);
+      setShowIcons(showIcons);
+      setShouldFilterByCompany(shouldFilterCompany);
+      setShouldFilterByDomain(filterByDomain);
+      setShouldRemoveApplied(removeApplied);
+      setShouldRemovePromoted(removePromoted);
     }
 
     fetchInitialState()
@@ -208,6 +209,13 @@ const AdjustmentTab = () => {
         label={"Remover vagas com selo 'promovida'"}
         tooltip={"Remove visualmente as vagas com o selo 'promovida'."}
       />
+
+      {/* <Checkbox
+        onChange={(checked) => handleFeedCheckbox(checked, "auto-apply", setShouldAutoApply)}
+        id={"auto-apply"}
+        label={'Aplicar automaticamente para vagas com Candidatura Simplificada.'}
+        tooltip={'Isso vai aplicar automaticamente para vagas com Candidatura Simplificada.'} checked={shouldAutoApplyJob}/> */}
+
       <div className="form-container">
         <Input
           onChange={(newValue) => setDomainValue(newValue)}
