@@ -1,4 +1,4 @@
-import { fetchOpenAIResponse } from "./ai"
+// import { fetchOpenAIResponse } from "./ai"
 import { getDomainsSaved, getSavedJobUrl, saveJobUrl, saveSearchToStorage } from "./storage"
 import { curriculum } from './cv'
 export function deleteJobPost(jobId: string) {
@@ -329,63 +329,66 @@ async function fetchJobUrl2(jobId: string) {
     return existingJob;
   }
   
-
-let hasRequested = false;
-export async function autoApply() { 
-  const overallQuestions = document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping');
-  const textAreaQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-multiline-text-form-component]')}).filter((el) => el != null);;
-  const dropdownQuestions = [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-text-entity-list-form-component]')});
-  const formQuestions =  [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-line-text-form-component]')}).filter((el) => el != null);
-  const typeAheadQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-typeahead-entity-form-component]')}); 
-
-
-
-console.log({formQuestions});
-  const questions = [...formQuestions, ...textAreaQuestions].map((element: HTMLElement) => {
-      const label = element.querySelector('label');
-      const question = label.textContent.trim();
-      const isMandatory = window.getComputedStyle(label, '::after').content !== 'none';
-      let input: HTMLInputElement | HTMLTextAreaElement = element.querySelector('input');
-      if(!input){
-        input = element.querySelector('textarea');
-      }
-      return { question, isMandatory, input };
-  });
+export async function autoApply(){
+  
+}
+  
+// let hasRequested = false;
+// export async function autoApply() { 
+//   const overallQuestions = document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping');
+//   const textAreaQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-multiline-text-form-component]')}).filter((el) => el != null);;
+//   const dropdownQuestions = [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-text-entity-list-form-component]')});
+//   const formQuestions =  [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-line-text-form-component]')}).filter((el) => el != null);
+//   const typeAheadQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-typeahead-entity-form-component]')}); 
 
 
-  if (!hasRequested && questions.length > 0) {
-    hasRequested = false; // Set the flag to true
-    console.log(questions)
-    // Iterate through each question
-    for (let i = 0; i < questions.length; i++) {
-        if(questions[i].input.value.length > 0 || !questions[i].isMandatory){
-          continue;
-        }
 
-        if(questions[i].question?.includes('phone') || questions[i].question?.includes('celular')){
-          continue;
-        }
-        // Fetch the answer for the current question
-        const answer = await fetchOpenAIResponse(curriculum, questions[i].question);
+// console.log({formQuestions});
+//   const questions = [...formQuestions, ...textAreaQuestions].map((element: HTMLElement) => {
+//       const label = element.querySelector('label');
+//       const question = label.textContent.trim();
+//       const isMandatory = window.getComputedStyle(label, '::after').content !== 'none';
+//       let input: HTMLInputElement | HTMLTextAreaElement = element.querySelector('input');
+//       if(!input){
+//         input = element.querySelector('textarea');
+//       }
+//       return { question, isMandatory, input };
+//   });
 
-        // Fill in the input field with the received answer, if applicable
-        if (questions[i].input) {
-            questions[i].input.value = answer;
 
-             // Create a new event
-            const event = new Event('input', {
-              bubbles: true, // Ensure the event bubbles up to parent elements
-              cancelable: true // Allows the event to be canceled
-          });
+//   if (!hasRequested && questions.length > 0) {
+//     hasRequested = false; // Set the flag to true
+//     console.log(questions)
+//     // Iterate through each question
+//     for (let i = 0; i < questions.length; i++) {
+//         if(questions[i].input.value.length > 0 || !questions[i].isMandatory){
+//           continue;
+//         }
+
+//         if(questions[i].question?.includes('phone') || questions[i].question?.includes('celular')){
+//           continue;
+//         }
+//         // Fetch the answer for the current question
+//         const answer = await fetchOpenAIResponse(curriculum, questions[i].question);
+
+//         // Fill in the input field with the received answer, if applicable
+//         if (questions[i].input) {
+//             questions[i].input.value = answer;
+
+//              // Create a new event
+//             const event = new Event('input', {
+//               bubbles: true, // Ensure the event bubbles up to parent elements
+//               cancelable: true // Allows the event to be canceled
+//           });
           
-          // Dispatch the event to mimic user input
-          questions[i].input.dispatchEvent(event);
-        }
-    }
-}
+//           // Dispatch the event to mimic user input
+//           questions[i].input.dispatchEvent(event);
+//         }
+//     }
+// }
 
 
-}
+// }
 
   // export async function autoApply(){
   //   // const jobId = '3983185893'
