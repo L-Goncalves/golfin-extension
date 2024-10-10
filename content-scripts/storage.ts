@@ -246,3 +246,9 @@ export async function shouldAutoApply(){
     const autoApply: boolean = (await storage.get('auto-apply')) || false;
     return autoApply;
 }
+
+export async function getLastColor(): Promise<string | null | undefined>{
+    const storage = new Storage();
+    const lastColor: string | undefined | null = (await storage.get('lastColor'));
+    return lastColor;
+}

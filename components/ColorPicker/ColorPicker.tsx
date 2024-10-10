@@ -6,27 +6,36 @@ import "./ColorPicker.scss";
 const storage = new Storage();
 
 const ColorPicker: React.FC = () => {
-  const [color, setColor] = useState("#000000"); // Default color
+  const [color, setColor] = useState("#0a66c2"); // Default color
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // For debouncing
-
   useEffect(() => {
     const fetchColor = async () => {
       try {
+       const lastColor = await storage.get('lastColor')
+      console.log({lastColor})
+       setColor(lastColor);
+      } catch (error) {
+        // unable to get the last color so we fetch from the html
+        console.error("Failed to fetch color:", error);
+       
         const response = await sendToBackground({
           name: "get-theme-color",
         });
-
+  
         const { colors } = response;
-
+  
         if (colors) {
           setColor(colors.brandColor);
         }
-      } catch (error) {
-        console.error("Failed to fetch color:", error);
       }
     };
+  
     fetchColor();
-  }, []);
+  
+    // Cleanup function
+  
+  }, []);  // Empty dependency array means it runs only once on mount and cleanup on unmount
+  
 
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
@@ -38,10 +47,15 @@ const ColorPicker: React.FC = () => {
 
     debounceTimeout.current = setTimeout(async () => {
       try {
+    
+        await storage.set('lastColor', color);
+
         await sendToBackground({
           name: "update-theme-color",
           body: { color: newColor },
         });
+
+
       } catch (error) {
         console.error("Failed to update color:", error);
       }

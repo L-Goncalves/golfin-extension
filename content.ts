@@ -1,4 +1,6 @@
+
 import type { PlasmoCSConfig } from "plasmo"
+import { changeUIColor } from "~content-scripts/colors"
 import { filterFeedPostsByKeywords, removeFeed } from "~content-scripts/feed"
 import {
   // autoApply,
@@ -25,7 +27,8 @@ import {
   shouldRemovePromotedJobs,
   shouldRun,
   shouldSaveJobSearch,
-  shouldAutoApply
+  shouldAutoApply,
+  getLastColor
 } from "~content-scripts/storage"
 import { migrateJobData } from "~content-scripts/storage-data/migrate-jobs"
 
@@ -121,5 +124,18 @@ async function mainLoop() {
   }
 }
 
-setInterval(mainLoop, 2000)
-listen()
+
+
+
+async function onLoad(){
+  setInterval(mainLoop, 2000)
+  listen();
+  const lastColor = await getLastColor()
+  
+  if(lastColor){
+    changeUIColor(lastColor)
+  }
+
+}
+
+onLoad();
