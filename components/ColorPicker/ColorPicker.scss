@@ -1,0 +1,39 @@
+.color-picker {
+  margin: 10px 0px;
+  &.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Vertically aligns children (input and label) */
+    text-align: center;
+  }
+
+  label {
+    font-size: 12px;
+    // margin: 10px; /* Space between input and label */
+  }
+
+  & > input[type="color"] {
+    inline-size: 35px;
+    block-size: 35px;
+    width: 35px;
+    height: 35px;
+
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: #fff; /* White background */
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+    animation: glowAnimation 1.2s infinite alternate; /* Animation for glowing effect */
+  }
+
+  /* Keyframes for the glow animation */
+  @keyframes glowAnimation {
+    0% {
+      box-shadow: 0 0 20px rgba(255, 165, 0, 1); /* Strong glow */
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.2); /* Fade out glow */
+    }
+  }
+}

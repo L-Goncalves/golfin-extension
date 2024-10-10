@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 import { filterFeedPostsByKeywords, removeFeed } from "~content-scripts/feed"
 import {
-  autoApply,
+  // autoApply,
   fetchJobUrlsAndSave,
   filterJobsByCompanyNames,
   filterJobsByDomains,
@@ -11,6 +11,7 @@ import {
   showIcons
 } from "~content-scripts/jobs"
 import { autoConnect } from "~content-scripts/mynetwork"
+import { listen } from "~content-scripts/setup-listeners"
 import {
   deleteJobsNotSeenInTime,
   getCompaniesBlacklisted,
@@ -64,9 +65,9 @@ async function handleJobs() {
     filterJobsByCompanyNames(list)
   }
 
-  if(shouldAutoApplyJob){
-    autoApply()
-  }
+  // if(shouldAutoApplyJob){
+  //   // autoApply()
+  // }
 
   if (shouldSaveSearches) {
     saveJobSearch()
@@ -121,3 +122,4 @@ async function mainLoop() {
 }
 
 setInterval(mainLoop, 2000)
+listen()

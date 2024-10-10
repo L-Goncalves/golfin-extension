@@ -3,19 +3,27 @@ import { Checkbox } from "~components/Checkbox/Checkbox"
 import "./TabFeed.scss"
 
 import { useEffect, useState } from "react"
+
 import { Storage } from "@plasmohq/storage"
+
+import ColorPicker from "~components/ColorPicker/ColorPicker"
 import { KeywordEditor } from "~components/KeywordEditor/KeywordEditor"
-import { shouldRemoveAllFeedPosts, shouldRemoveFeedPosts } from "~content-scripts/storage"
-
-
+import {
+  shouldRemoveAllFeedPosts,
+  shouldRemoveFeedPosts
+} from "~content-scripts/storage"
 
 export const TabFeed = () => {
   const [removeAllPosts, setRemoveAllPosts] = useState(false)
   const [removePostsByWords, setRemovePostsByWords] = useState(false)
 
-  const handleFeedCheckbox = async (checked: boolean, key: string, stateFunc: any) => {
-    const storage = new Storage();
-    stateFunc(checked);
+  const handleFeedCheckbox = async (
+    checked: boolean,
+    key: string,
+    stateFunc: any
+  ) => {
+    const storage = new Storage()
+    stateFunc(checked)
 
     await storage.set(key, checked) // Save the checkbox state in storage
   }
@@ -33,15 +41,19 @@ export const TabFeed = () => {
 
   return (
     <div className="tabfeed">
-      <h2>Feed</h2>
+      <h2>Geral & Feed</h2>
 
       <p>
-        Olá!😁 Essa seção é dedicada a melhorar o seu Feed! Aqui você pode
+        Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e seu feed!<br/> Aqui você pode
         filtrar o que você quer ver, ou não ver absolutamente nada para momentos
         de foco!
       </p>
       <div>
         Opções:
+        <div>
+          <ColorPicker />
+        </div>
+    
         <Checkbox
           onChange={(checked) => handleFeedCheckbox(checked, "removeFeedPosts", setRemoveAllPosts)}
           id={"remove-all-postings"}
