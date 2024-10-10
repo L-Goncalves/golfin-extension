@@ -7,6 +7,7 @@ export async function changeUIColor(color:string){
         document.documentElement.style.setProperty('--voyager-color-background-badge-new', color);
         document.documentElement.style.setProperty('--color-background-new', hexToRGBA(color, 0.2));
         document.documentElement.style.setProperty('--color-signal-positive', color);
+        document.documentElement.style.setProperty('--color-action-on-dark', color);
         
         
 }
