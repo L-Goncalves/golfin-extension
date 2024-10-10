@@ -41,10 +41,10 @@ export const TabFeed = () => {
 
   return (
     <div className="tabfeed">
-      <h2>Geral & Feed</h2>
+      <h2>Geral</h2>
 
       <p>
-        Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e seu feed!<br/> Aqui você pode
+        Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e sua página de Início do LinkedIn!<br/> Aqui você pode
         filtrar o que você quer ver, ou não ver absolutamente nada para momentos
         de foco!
       </p>
