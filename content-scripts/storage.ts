@@ -234,11 +234,7 @@ export async function getAllJobStorage(): Promise<JobData[]> {
 }
 
 export async function shouldRun(){
-    const storage = new Storage();
-    const storedEnabledState = await storage.get("enabled");
-    const isEnabledValue = !!storedEnabledState
-    // console.log(isEnabledValue)
-    return isEnabledValue;
+    return true;
 }
 
 export async function shouldAutoApply(){
