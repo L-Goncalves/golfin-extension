@@ -19,8 +19,7 @@ export async function filterFeedPostsByKeywords(){
 
     const keywords = await getKeywordsSaved();
     [...document.querySelectorAll('.scaffold-finite-scroll__content > div')].forEach(parent => {
-      const postTextElement = parent.querySelector('div:not([class]) > .display-flex > #fie-impression-container .break-words'); // Selects <div> without a class
-      
+      const postTextElement = parent.querySelector('div:not([class]) > .display-flex > .fie-impression-container .break-words');
       if (postTextElement) {
           const postText = postTextElement.textContent.toLowerCase();
           
