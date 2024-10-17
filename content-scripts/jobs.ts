@@ -1,6 +1,6 @@
 // import { fetchOpenAIResponse } from "./ai"
 import { getDomainsSaved, getSavedJobUrl, saveJobUrl, saveSearchToStorage } from "./storage"
-import { curriculum } from './cv'
+import { QuestionType, TypeMap } from "./types"
 export function deleteJobPost(jobId: string) {
   const jobPost = document.querySelector(`[data-job-id="${jobId}"]`)
 
@@ -328,103 +328,41 @@ async function fetchJobUrl2(jobId: string) {
 
     return existingJob;
   }
-  
-export async function autoApply(){
-  
+
+
+
+
+function getQuestionType(element: Element) {
+  // Check for known error types
+  for (const [error, type] of Object.entries(TypeMap)) {
+    if (element.innerHTML.includes(error)) {
+      return type;
+    }
+  }
+  // Default fallback to TEXT or UNKNOWN
+  return element.querySelector('input') ? QuestionType.TEXT : QuestionType.UNKNOWN;
 }
+  // document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping').forEach((question) => console.log(question.innerHTML.includes('numeric-error')))
+  export function getFormQuestions() {
+    const overallQuestions = document.querySelectorAll(
+      '.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping'
+    );
   
-// let hasRequested = false;
-// export async function autoApply() { 
-//   const overallQuestions = document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping');
-//   const textAreaQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-multiline-text-form-component]')}).filter((el) => el != null);;
-//   const dropdownQuestions = [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-text-entity-list-form-component]')});
-//   const formQuestions =  [...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-line-text-form-component]')}).filter((el) => el != null);
-//   const typeAheadQuestions =[...overallQuestions].map((question: HTMLElement) => { return question.querySelector('div[data-test-single-typeahead-entity-form-component]')}); 
+    const allQuestions = [...overallQuestions].map((htmlElement) => {
+      const label = htmlElement.querySelector('label');
+      const legend = htmlElement.querySelector('legend > span');
+      const question = legend ? legend.textContent.trim() : label ? label.textContent.trim() : 'No Label';
+      const inputAnswerFields = htmlElement.querySelector('input');
+      
+      const type = getQuestionType(htmlElement); // Lookup type dynamically
 
-
-
-// console.log({formQuestions});
-//   const questions = [...formQuestions, ...textAreaQuestions].map((element: HTMLElement) => {
-//       const label = element.querySelector('label');
-//       const question = label.textContent.trim();
-//       const isMandatory = window.getComputedStyle(label, '::after').content !== 'none';
-//       let input: HTMLInputElement | HTMLTextAreaElement = element.querySelector('input');
-//       if(!input){
-//         input = element.querySelector('textarea');
-//       }
-//       return { question, isMandatory, input };
-//   });
-
-
-//   if (!hasRequested && questions.length > 0) {
-//     hasRequested = false; // Set the flag to true
-//     console.log(questions)
-//     // Iterate through each question
-//     for (let i = 0; i < questions.length; i++) {
-//         if(questions[i].input.value.length > 0 || !questions[i].isMandatory){
-//           continue;
-//         }
-
-//         if(questions[i].question?.includes('phone') || questions[i].question?.includes('celular')){
-//           continue;
-//         }
-//         // Fetch the answer for the current question
-//         const answer = await fetchOpenAIResponse(curriculum, questions[i].question);
-
-//         // Fill in the input field with the received answer, if applicable
-//         if (questions[i].input) {
-//             questions[i].input.value = answer;
-
-//              // Create a new event
-//             const event = new Event('input', {
-//               bubbles: true, // Ensure the event bubbles up to parent elements
-//               cancelable: true // Allows the event to be canceled
-//           });
-          
-//           // Dispatch the event to mimic user input
-//           questions[i].input.dispatchEvent(event);
-//         }
-//     }
-// }
-
-
-// }
-
-  // export async function autoApply(){
-  //   // const jobId = '3983185893'
-  //   // const li = document.querySelector(`[data-job-id]="${jobId}"`) as HTMLDListElement;   
-    
-  //   // console.log('applying')
-  //   // li.click()
-  //   const dropdownQuestions = document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping div[data-test-text-entity-list-form-component]');
-  //   const formQuestions = document.querySelectorAll('.jobs-easy-apply-content form .jobs-easy-apply-form-section__grouping div[data-test-single-line-text-form-component]');
+      if(type === QuestionType.MULTIPLE_CHOICE){
+        const options = htmlElement.querySelectorAll('[data-test-text-selectable-option]');
+        return { inputAnswerFields: options, question, label, type, htmlElement };
+      }
   
-  //   const questions = [...formQuestions].map((element: HTMLElement) => {
-  //     const label = element.querySelector('label');
-  //     const question = label.textContent;
-  //     const isMandatory = window.getComputedStyle(label, '::after').content !== 'none';
-  //     const input = element.querySelector('input');
-   
-  //     return {question, isMandatory, input};
-  //   })
-
-  //   console.log(questions)
-  // //   const apply = document.querySelector('.jobs-apply-button--top-card > button') as HTMLElement;
-
-  // //   const errors = document.querySelectorAll('.artdeco-inline-feedback__message')
-  // //   if(apply){
-  // //     apply.click();
-  // //   }
-
-  // // // #avançar
-    
-  // //   if(errors.length == 0){
-  // //     const nextBtn = document.querySelector('.jobs-easy-apply-content button.artdeco-button--primary') as HTMLElement;
-
-  // //     nextBtn?.click()
-  // //   }
-
+      return { inputAnswerFields, question, label, type, htmlElement };
+    });
   
-  // }
-
-  // autoApply();
+    return allQuestions;
+  };

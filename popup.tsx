@@ -17,11 +17,15 @@ import { MdOutlineLogout } from "react-icons/md"
 import { InputToggle } from "~components/InputToggle/InputToggle"
 import { TabConnections } from "~components/TabConnections/TabConnections"
 import { TabJobs } from "~components/TabJobs/TabJobs"
-import { autoApply } from "~content-scripts/jobs"
 import { isDev } from "~global"
+import { sendToBackground } from "@plasmohq/messaging"
 
 
-
+async function triggerQuestion(){
+  await sendToBackground({
+    name: "auto-apply-linkedin",
+  });
+}
 
 
 function IndexPopup() {
@@ -36,6 +40,8 @@ function IndexPopup() {
 
   ]
 
+  
+  
   return (
     <div className="container">
       <div>
@@ -79,6 +85,7 @@ function IndexPopup() {
       <button onClick={deleteAllStorage} > DELETAR TODA STORAGE</button>
       <button onClick={getAllStorageItems} > VER STORAGE</button>
       {/* <button onClick={autoApply} > Aplicar Automaticamente</button> */}
+      <button onClick={() => triggerQuestion()} > Gerar resposta</button>
       
       </>}
       {/*  */}
