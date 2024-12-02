@@ -58,19 +58,21 @@ export function filterJobsByCompanyNames(blacklist: string[]) {
 export function getJobListWithInfo() {
   const jobList = [
     ...document.querySelectorAll(
-      ".jobs-search-results-list > ul > li > div > div"
+      ".scaffold-layout__list > div > ul > li > div > div"
     )
   ].map((jobPost) => {
     const jobId = jobPost.getAttribute("data-job-id")
     const company = jobPost
-      .querySelector(".job-card-container__primary-description")
+      .querySelector(".artdeco-entity-lockup__subtitle.ember-view")
       .textContent.trim()
     const jobTitle = jobPost
-      .querySelector(".job-card-list__title")
+      .querySelector(".artdeco-entity-lockup__title.ember-view a")
       .getAttribute("aria-label")
     const isSimpleApply = !!jobPost.querySelector(
-      ".job-card-container__apply-method"
-    )
+      ".job-card-list__footer-wrapper li:last-of-type > span"
+    ) && !!jobPost.querySelector(
+      ".job-card-list__footer-wrapper li:last-of-type > svg"
+    );
     const footerElement = jobPost.querySelector(
       ".job-card-list__footer-wrapper"
     )
