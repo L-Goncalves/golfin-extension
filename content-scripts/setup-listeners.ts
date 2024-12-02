@@ -3,7 +3,7 @@ import { changeUIColor, getCurrentColors } from "./colors";
 import { generateManyAnswersNumeric, generateResponse } from "./ai";
 import { getFormQuestions } from "./jobs";
 import { QuestionType } from "./types";
-
+import { easyApply } from "~content-scripts/jobs"
 
 
 export function listen(){
@@ -23,17 +23,19 @@ export function listen(){
         }
 
         if (message.name === "auto-apply-linkedin") {
-            const questions = getFormQuestions();
-            
-            const numericQuestions = questions.filter((question) => question.type == QuestionType.NUMERIC).map((question) => question.question);
-            const response = await generateManyAnswersNumeric(numericQuestions);
-            const numericAnswers = response.data.questions_and_answers
-            const questions_with_answers_numeric = numericQuestions.map((question, index) => ({
-                question: question,
-                answer: numericAnswers[index] // Assuming numericAnswers has the same length as numericQuestions
-            }));
+            easyApply();
+            return;
 
-            console.log(questions_with_answers_numeric);
+            // const questions = getFormQuestions();
+            
+         
+            // const numericAnswers = response.data.questions_and_answers
+            // const questions_with_answers_numeric = numericQuestions.map((question, index) => ({
+            //     question: question,
+            //     answer: numericAnswers[index] // Assuming numericAnswers has the same length as numericQuestions
+            // }));
+
+            // console.log(questions_with_answers_numeric);
       
         }
     });

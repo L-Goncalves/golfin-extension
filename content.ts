@@ -3,7 +3,6 @@ import type { PlasmoCSConfig } from "plasmo"
 import { changeUIColor } from "~content-scripts/colors"
 import { filterFeedPostsByKeywords, removeFeed } from "~content-scripts/feed"
 import {
-  //  autoApply,
   fetchJobUrlsAndSave,
   filterJobsByCompanyNames,
   filterJobsByDomains,

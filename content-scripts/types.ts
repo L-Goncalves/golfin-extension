@@ -24,3 +24,11 @@ export const QuestionType = {
     type: string
   }
   
+  export interface LinkedInQuestionDrop {
+    inputAnswerField: NodeListOf<Element>
+    question: any
+    label: HTMLLabelElement
+    type: string
+  }
+  
+  

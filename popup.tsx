@@ -21,6 +21,7 @@ import { isDev } from "~global"
 import { sendToBackground } from "@plasmohq/messaging"
 
 
+
 async function triggerQuestion(){
   await sendToBackground({
     name: "auto-apply-linkedin",
@@ -86,6 +87,8 @@ function IndexPopup() {
       <button onClick={getAllStorageItems} > VER STORAGE</button>
       {/* <button onClick={autoApply} > Aplicar Automaticamente</button> */}
       <button onClick={() => triggerQuestion()} > Gerar resposta</button>
+      {/* <button onClick={() => clickEasyApply()} > Clicar Easy Apply</button> */}
+      
       
       </>}
       {/*  */}
