@@ -159,59 +159,62 @@ function getDomainFromUrl(url: string) {
 
 function createDomainLabel(element, jobDetails) {
   if (!element.querySelector(".domain")) {
-    
-
-
-    element.style.flexDirection = "column"
+    element.style.flexDirection = "column";
 
     if (jobDetails.jobUrl) {
-      const domain = getDomainFromUrl(jobDetails.jobUrl)
-      const favicon = getDefaultFavicon(domain)
+      const domain = getDomainFromUrl(jobDetails.jobUrl);
+      const favicon = getDefaultFavicon(domain);
 
-      const li = document.createElement("li")
-      const img = document.createElement("img")
-      img.src = favicon
-      img.style.width = "10px"
+      // Create list item for domain
+      const li = document.createElement("li");
+      li.classList.add("domain");
 
-      // Event handlers
+      // Create image for favicon
+      const img = document.createElement("img");
+      img.src = favicon;
+      img.style.width = "10px";
+
+      // Event handlers for favicon
       img.onerror = function () {
         showFallback(img);
-      }
+      };
 
       img.onload = function () {
         if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-          img.style.display = "none"
+          img.style.display = "none";
         }
-      }
+      };
 
-      li.innerHTML = `${domain}`
+      // Create custom tooltip
+      const tooltip = document.createElement("span");
+      tooltip.classList.add("tooltip");
+      tooltip.textContent = jobDetails.jobUrl;
 
-      li.classList.add("domain")
-      // Append the image to the list item
-      li.insertBefore(img, li.firstChild)
+      // Append elements to list item
+      li.appendChild(img);
+      li.appendChild(document.createTextNode(domain)); // Add domain text
+      li.appendChild(tooltip); // Add tooltip
 
-      element.appendChild(li)
+      // Append list item to the parent element
+      element.appendChild(li);
     }
   }
-  return
+  return;
 }
 
-function createFullUrlLink(element, jobDetails) {
-  if (!element.querySelector(".full-url")) {
 
-    let cleanUrl = jobDetails.jobUrl
+function createTooltipTip(element) {
 
-
+  
+  if (!element.querySelector(".tooltip-tip")) {
     element.style.flexDirection = "column"
-
-    if (cleanUrl) {
       const li = document.createElement("li")
 
-      li.innerHTML = `URL: <a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`
-      li.classList.add("full-url")
+      li.innerHTML = `Passe o mouse sobre o site para ver o Link completo`
+      li.classList.add("tooltip-tip")
 
       element.appendChild(li)
-    }
+    
   }
   return
 }
@@ -229,8 +232,8 @@ export async function showIcons() {
     const footerElement = jobPost.footerElement as HTMLElement
     const jobDetails = await getSavedJobUrl(jobPost.jobId);
     if(jobDetails){
-      createDomainLabel(footerElement, jobDetails)
-      createFullUrlLink(footerElement, jobDetails)
+      createDomainLabel(footerElement, jobDetails);
+      createTooltipTip(footerElement);
     }
   
   })
