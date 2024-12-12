@@ -1,7 +1,7 @@
 {
   "name": "golfin",
   "displayName": "GolfIn",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "GolfIn, uma extensão para o LinkedIn",
   "author": "Lucas Gonçalves. <ldgoncalvs@gmail.com>",
   "scripts": {
