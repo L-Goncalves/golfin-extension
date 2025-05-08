@@ -2,6 +2,10 @@
 
 GolfIn é uma extensão para aprimorar sua experiência no LinkedIn — seja para buscar empregos, navegar no site ou fazer conexões.
 
+# Comunidade
+
+**“Golfin não tem nenhum produto pago e não oferece nenhuma assinatura. Qualquer pessoa usando Golfin para promover qualquer coisa é um golpe.”**
+
 ### 🌟 Funcionalidades
 
 #### 👉 Feed
