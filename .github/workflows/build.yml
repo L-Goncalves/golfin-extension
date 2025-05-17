@@ -2,36 +2,36 @@ name: Build Plasmo Extension
 
 on:
   push:
-    branches: [ci/cd]
+    branches: [main]
   pull_request:
-    branches: [ci/cd]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Instalar Node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Instalar dependências
-        run: npm install
+      - run: npm install -g pnpm
 
-      - name: Buildar extensão
-        run: npx plasmo build
+      - run: pnpm install
 
-      - name: Zipar extensão
-        run: |
+      - run: npm rebuild --verbose sharp
+
+      - run: pnpm run build
+
+      - run: |
           mkdir dist-zip
-          zip -r dist-zip/extension.zip build/
+          cd build/chrome-mv3-prod
+          zip -r ../../dist-zip/golfin-extension.zip ./*
 
       - name: Upload artefato
         uses: actions/upload-artifact@v4
         with:
-          name: extension-zip
-          path: dist-zip/extension.zip
+            name: golfin-extension
+            path: dist-zip/golfin-extension.zip
