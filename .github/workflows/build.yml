@@ -1,0 +1,37 @@
+name: Build Plasmo Extension
+
+on:
+  push:
+    branches: [ci/cd]
+  pull_request:
+    branches: [ci/cd]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Buildar extensão
+        run: npx plasmo build
+
+      - name: Zipar extensão
+        run: |
+          mkdir dist-zip
+          zip -r dist-zip/extension.zip build/
+
+      - name: Upload artefato
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-zip
+          path: dist-zip/extension.zip
