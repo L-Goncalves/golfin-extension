@@ -10,8 +10,8 @@ export function removeFeed() {
   </div>
 `;
 
-  const selector = `main.scaffold-layout__main`
-  document.querySelector(selector).innerHTML =newContent;
+  const selector = `main[aria-label="Feed principal"]`;
+  document.querySelector(selector).innerHTML = newContent;
 }
 
 
