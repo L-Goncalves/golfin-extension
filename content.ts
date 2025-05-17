@@ -37,7 +37,6 @@ export const config: PlasmoCSConfig = {
   matches: [ "*://www.linkedin.com/*"],
   all_frames: true
 }
-// console.log("Hi!")
 
 async function handleFeed() {
   const shouldRemoveAllPosts = await shouldRemoveAllFeedPosts()
@@ -62,15 +61,11 @@ async function handleJobs() {
   const shouldFilterDomains = await shouldFilterByDomain()
   const removeApplied = await shouldRemoveAppliedJobs();
   const removePromoted = await shouldRemovePromotedJobs();
-  const shouldAutoApplyJob = await shouldAutoApply();
+
   if (shouldFilterByCompanies) {
     const list = await getCompaniesBlacklisted()
     filterJobsByCompanyNames(list)
   }
-
-  // if(shouldAutoApplyJob){
-  //   // autoApply()
-  // }
 
   if (shouldSaveSearches) {
     saveJobSearch()
@@ -124,11 +119,18 @@ async function mainLoop() {
   }
 }
 
+const observer = new MutationObserver(() => {
+  mainLoop() 
+})
 
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
+})
 
 
 async function onLoad(){
-  setInterval(mainLoop, 2000)
+
   listen();
   const lastColor = await getLastColor()
   
