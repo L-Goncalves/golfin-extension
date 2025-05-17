@@ -39,7 +39,7 @@ npm run dev
 ```
 
 2️⃣ No navegador, carregue o build de desenvolvimento.
-Exemplo: para Chrome usando manifest v3, use `build/chrome-mv3-dev`.
+Exemplo: para Chrome usando manifest v3, use `build\chrome-mv3-dev`. e carregue "sem compactação", selecione a pasta e fica pronto pra começar a desenvolver algo.
 
 3️⃣ Edite o arquivo `popup.tsx` para personalizar o popup — ele será recarregado automaticamente.
 
