@@ -1,0 +1,34 @@
+{
+    "english": {
+        "tab1": "Home",
+        "tab3": "Network",
+        "tab2": "Jobs",
+
+        "tabfeed": {
+            "h2": "General",
+            "paragraph": "Hello! 😁 This section is dedicated to improving your overall experience and your LinkedIn Homepage!<br/> Here, you can filter what you want to see or choose to see absolutely nothing for moments of focus!",
+            "options": {
+                "label": "Options: ",
+                 "colorpicker": "👈Select a main color for your LinkedIn!",
+                 "remove_postings": "Remove All Feed Posts",
+                 "remove_by_keywords": "Remove Feed Posts with those keywords: "
+            }
+        }
+    },
+    "portuguese": {
+        "tab1": "Início",
+        "tab3": "Minha Rede",
+        "tab2": "Vagas",
+        "tabfeed": {
+            "h2": "Geral",
+            "paragraph": "Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e sua página de Início do LinkedIn!<br/> Aqui você pode filtrar o que você quer ver, ou não ver absolutamente nada para momentos de foco!",
+            "options": {
+                "label": "Opções: ",
+                "colorpicker": "👈Selecione uma cor de tema para o seu LinkedIn!",
+                "remove_postings": "Remover todas as postagens",
+                "remove_by_keywords": "Remover Postagens com palavras-chave"
+            }
+        }
+    }
+}
+
