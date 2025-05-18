@@ -1,0 +1,27 @@
+# ci/Dockerfile.test-pipe
+
+FROM node:18-bullseye
+
+# Instala zip (necessário para zipar a extensão)
+RUN apt-get update && apt-get install -y zip && rm -rf /var/lib/apt/lists/*
+
+# Instala pnpm globalmente
+RUN npm install -g pnpm
+
+# Define diretório de trabalho
+WORKDIR /app
+
+# Copia arquivos que definem dependências para cache de build
+COPY package.json pnpm-lock.yaml ./
+
+# Instala dependências (incluindo devDependencies)
+RUN pnpm install
+
+# Copia o restante do código
+COPY . .
+
+# Rebuild do sharp para Linux x64 (corrige erro comum no CI)
+RUN pnpm rebuild sharp
+
+# Comando padrão que vai rodar o build da extensão
+CMD ["pnpm", "run", "build"]
