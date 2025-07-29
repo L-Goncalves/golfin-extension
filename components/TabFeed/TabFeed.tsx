@@ -10,13 +10,14 @@ import ColorPicker from "~components/ColorPicker/ColorPicker"
 import { KeywordEditor } from "~components/KeywordEditor/KeywordEditor"
 import {
   shouldRemoveAllFeedPosts,
-  shouldRemoveFeedPosts
+  shouldRemoveFeedPosts,
+  shouldSupressNotication
 } from "~content-scripts/storage"
 
 export const TabFeed = () => {
   const [removeAllPosts, setRemoveAllPosts] = useState(false)
   const [removePostsByWords, setRemovePostsByWords] = useState(false)
-
+  const [removeNotifications, setRemoveNotifications] = useState(false)
   const handleFeedCheckbox = async (
     checked: boolean,
     key: string,
@@ -32,8 +33,10 @@ export const TabFeed = () => {
     const fetchInitialState = async () => {
       const shouldRemove = await shouldRemoveAllFeedPosts() // Fetch initial state
       const shouldRemoveByWords = await shouldRemoveFeedPosts()
+      const shouldRemoveNotifications = await shouldSupressNotication()
       setRemoveAllPosts(shouldRemove)
       setRemovePostsByWords(shouldRemoveByWords);
+      setRemoveNotifications(shouldRemoveNotifications);
     }
 
     fetchInitialState()
@@ -70,6 +73,17 @@ export const TabFeed = () => {
           onChange={(checked: boolean) => handleFeedCheckbox(checked, "removeFeedPostsByWords", setRemovePostsByWords)}
           checked={removePostsByWords}
         />
+
+        <Checkbox
+          id={"supress-notifications"}
+          label={"Silenciar Notificações"}
+          tooltip={
+            "Vai silenciar as notificações e remove-las visualmente, para que você possa se concentrar em outras coisas "
+          }
+          onChange={(checked: boolean) => handleFeedCheckbox(checked, "supressNotification", setRemoveNotifications)}
+          checked={removeNotifications}
+        />
+
         <KeywordEditor />
       </div>
     </div>

@@ -12,6 +12,7 @@ import {
   saveJobSearch,
   showIcons
 } from "~content-scripts/jobs"
+import { handleSupressNotifications } from "~content-scripts/misc"
 import { autoConnect } from "~content-scripts/mynetwork"
 import { listen } from "~content-scripts/setup-listeners"
 import {
@@ -27,7 +28,7 @@ import {
   shouldRemovePromotedJobs,
   shouldRun,
   shouldSaveJobSearch,
-  shouldAutoApply,
+  shouldSupressNotication,
   getLastColor
 } from "~content-scripts/storage"
 import { migrateJobData } from "~content-scripts/storage-data/migrate-jobs"
@@ -50,6 +51,9 @@ async function handleFeed() {
     filterFeedPostsByKeywords()
   }
 }
+
+
+
 
 async function handleJobs() {
   // if blacklist companies
@@ -116,11 +120,15 @@ async function mainLoop() {
     if (url.includes("/mynetwork/grow/")) {
       handleConnections()
     }
+ 
+  
   }
+     handleSupressNotifications();
 }
 
 const observer = new MutationObserver(() => {
   mainLoop() 
+  handleSupressNotifications();
 })
 
 observer.observe(document.body, {
@@ -140,4 +148,6 @@ async function onLoad(){
 
 }
 
+
+handleSupressNotifications();
 onLoad();

@@ -56,6 +56,12 @@ export async function shouldFilterByDomain(): Promise<boolean> {
     return filterByDomain;
 }
 
+export async function shouldSupressNotication(): Promise<boolean> {
+    const storage = new Storage();
+    const supressNotification: boolean = (await storage.get('supressNotification')) || false;
+    return supressNotification;
+}
+
 export async function shouldRemoveAppliedJobs(): Promise<boolean>{
     const storage = new Storage();
     const removeApplied: boolean = (await storage.get('remove-applied-jobs')) || false;
