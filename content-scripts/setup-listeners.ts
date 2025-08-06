@@ -16,7 +16,11 @@ export function listen(){
 
         if(message.name === "update-theme-color"){
             changeUIColor(message.body.color)
-            
+        }
+
+        if(message.name === "get-current-url"){
+            console.log("get-current-url")
+            sendResponse({ url: document.URL });
         }
     });
 }

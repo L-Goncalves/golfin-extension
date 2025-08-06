@@ -20,6 +20,7 @@ import {
   shouldRemovePromotedJobs,
   shouldSaveJobSearch
 } from "~content-scripts/storage"
+import { sendToBackground } from "@plasmohq/messaging"
 
 const TabJobHeader = () => {
   return (
@@ -43,6 +44,7 @@ const TabJobHeader = () => {
 const AdjustmentTab = () => {
   const [domain, setDomainValue] = useState("")
   const [company, setCompanyValue] = useState("")
+  const [profileUrl, setProfileUrl] = useState("")
   const [domains, setDomains] = useState<string[]>([]) // Ensure it's typed as an array
   const [companies, setCompanies] = useState<string[]>([]) // State for companies
   const [shouldShowIcons, setShowIcons] = useState<boolean>(false)
@@ -113,9 +115,42 @@ const AdjustmentTab = () => {
     }
   }
 
+  const saveProfile = async () => {
+
+    console.log("saveProfile")
+    const response = await sendToBackground({
+          name: "get-current-url",
+    });
+
+    console.log("Response:", response)
+
+    // const { url } = response;
+
+    // console.log(url)
+    // const currentUrl = url;
+    // if (!currentUrl.includes("linkedin.com/in/")) {
+    //   return;
+    // }
+    // await storage.set("profileUrl", currentUrl)
+    // setProfileUrl(currentUrl)
+  }
+
   return (
     <div className="adjustments-tab">
       <h3>Opções para Vagas: </h3>
+
+      <Input 
+        disabled={true}
+        label="Perfil salvo:" 
+        placeholder="Perfil" 
+        value={profileUrl} 
+        onChange={setProfileUrl} />
+     
+      <Button onClick={saveProfile}>
+            Salvar Perfil
+        </Button>
+
+
       <div className="tips">
         1. Para usar essas opções, acesse:
         <a
