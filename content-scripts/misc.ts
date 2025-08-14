@@ -30,7 +30,6 @@ export function hookTitleChange() {
   
 }
 
-
 export async function handleSupressNotifications() {
   const shouldSupress = await shouldSupressNotication();
   if (shouldSupress) {
@@ -41,4 +40,9 @@ export async function handleSupressNotifications() {
     document.title = document.title.replace(/\s*\(\d+\)/, '');
   }
 
+}
+
+export async function getUrl(){
+  const url = document.URL || window.URL
+  return { url } ;
 }
