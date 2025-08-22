@@ -15,7 +15,7 @@ const Dropdown: React.FC<{
 }> = ({ label, options, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
-
+  const [timestampSeconds, setTimestampSeconds] = useState(0);
   const handleButtonClick = () => {
     setIsOpen(!isOpen);
   };
@@ -23,16 +23,34 @@ const Dropdown: React.FC<{
   const handleOptionChange = async (newOptionValue: string) => {
     setSelectedOption(options.find(option => option.value === newOptionValue));
     onChange(newOptionValue);
+    setIsOpen(false); // Close dropdown after selection
 
-    // try {
-    //   storage.set('selectedDropdownOption', newOptionValue);
-    //   await sendToBackground({
-    //     name: "update-dropdown-timestamp",
-    //     body: { timestamp: newOptionValue },
-    //   });
-    // } catch (error) {
-    //   console.error("Failed to update dropdown option:", error);
-    // }
+    try {
+      storage.set('selectedDropdownOption', newOptionValue);
+      
+      // Convert dropdown value to seconds for f_TPR parameter
+      const timeMap: { [key: string]: number } = {
+        "30m": 1800,
+        "1h": 3600,
+        "5h": 18000,
+        "12h": 43200,
+        "24h": 86400,
+        "36h": 129600,
+        "48h": 172800,
+        "4d": 345600,
+        "7d": 604800
+      };
+      
+      const seconds = timeMap[newOptionValue];
+      if (seconds) {
+        await sendToBackground({
+          name: "update-dropdown-timestamp",
+          body: { seconds },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to update dropdown option:", error);
+    }
   };
   
   useEffect(() => {
@@ -49,44 +67,58 @@ const Dropdown: React.FC<{
     };
 
     const fetchUrl = async () => {
-
       try {
-
         const { url } = await sendToBackground({
           name: "get-current-url",
         });
 
         console.log("FETCHED URL", url)
 
-        if(url.includes("/jobs") && !url.includes("f_TPR=")) {
-          console.log("MUST ADD PARAMS")
-        } 
-
-        
-        if(url.includes("/jobs") && url.includes("f_TPR=")) {
-          console.log("MUST REPLACE PARAMS")
-
-        const fTPRMatch = url.match(/f_TPR=([^&]+)/);
-        const fTPRValue = fTPRMatch ? fTPRMatch[1].replace(/r/g, '') : null;
-
+        if(url && (url.includes("/jobs/collections") || url.includes("/jobs/search"))) {
+          // Check if f_TPR parameter exists
+          if(url.includes("f_TPR=")) {
+            console.log("MUST REPLACE PARAMS")
+            const fTPRMatch = url.match(/f_TPR=r([^&]+)/);
+            const fTPRValue = fTPRMatch ? fTPRMatch[1] : null;
 
             if (fTPRValue) {
-                const seconds = parseInt(fTPRValue, 10);
-                const hours = seconds / 3600;
-                console.log("Seconds:", seconds);
-                console.log("Hours:", hours.toFixed(2));
+              const seconds = parseInt(fTPRValue, 10);
+              setTimestampSeconds(seconds)
+              
+              // Find matching option based on seconds
+              const timeMap: { [key: string]: number } = {
+                "30m": 1800,
+                "1h": 3600,
+                "5h": 18000,
+                "12h": 43200,
+                "24h": 86400,
+                "36h": 129600,
+                "48h": 172800,
+                "4d": 345600,
+                "7d": 604800
+              };
+              
+              const matchingOption = Object.entries(timeMap).find(([_, secs]) => secs === seconds);
+              if (matchingOption) {
+                const [value] = matchingOption;
+                const option = options.find(opt => opt.value === value);
+                if (option) {
+                  setSelectedOption(option);
+                }
+              }
             }
+          } else {
+            console.log("MUST ADD PARAMS")
+          }
         }
-
-
       } catch (error) {
-        console.error("Failed to fetch theme color:", error);
+        console.error("Failed to fetch URL:", error);
       }
     };
 
     fetchUrl();
     fetchSelectedOption();
-  }, [options, selectedOption]);
+  }, [options]);
 
 
 

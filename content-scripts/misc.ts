@@ -46,3 +46,13 @@ export async function getUrl(){
   const url = document.URL || window.URL
   return { url } ;
 }
+
+
+export async function changeUrlParams(params: Record<string, string>) {
+  const urlObj = new URL(document.URL)
+  Object.entries(params).forEach(([key, value]) => {
+    urlObj.searchParams.set(key, value)
+  })
+  window.history.pushState({}, "", urlObj.toString())
+  window.location.reload()
+}

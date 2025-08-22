@@ -1,9 +1,9 @@
 import { sendToContentScript } from "@plasmohq/messaging";
 
 const handler = async (req,res) => {
-  const { timestamp } = req.body
+  const { seconds } = req.body
   await sendToContentScript({
-    body: { timestamp },
+    body: { seconds },
     name: "update-dropdown-timestamp"
   })
 
