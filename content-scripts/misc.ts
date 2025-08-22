@@ -30,7 +30,6 @@ export function hookTitleChange() {
   
 }
 
-
 export async function handleSupressNotifications() {
   const shouldSupress = await shouldSupressNotication();
   if (shouldSupress) {
@@ -41,4 +40,19 @@ export async function handleSupressNotifications() {
     document.title = document.title.replace(/\s*\(\d+\)/, '');
   }
 
+}
+
+export async function getUrl(){
+  const url = document.URL || window.URL
+  return { url } ;
+}
+
+
+export async function changeUrlParams(params: Record<string, string>) {
+  const urlObj = new URL(document.URL)
+  Object.entries(params).forEach(([key, value]) => {
+    urlObj.searchParams.set(key, value)
+  })
+  window.history.pushState({}, "", urlObj.toString())
+  window.location.reload()
 }

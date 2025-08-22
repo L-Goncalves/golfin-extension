@@ -20,6 +20,7 @@ import {
   shouldRemovePromotedJobs,
   shouldSaveJobSearch
 } from "~content-scripts/storage"
+import Dropdown from "~components/Dropdown/Dropdown"
 
 const TabJobHeader = () => {
   return (
@@ -209,6 +210,21 @@ const AdjustmentTab = () => {
         label={"Remover vagas com selo 'promovida'"}
         tooltip={"Remove visualmente as vagas com o selo 'promovida'."}
       />
+
+      
+      <Dropdown
+        label="Limite de Tempo de Busca"
+        options={[
+          { value: "30m", label: "30 minutos" },
+          { value: "1h", label: "1 hora" },
+          { value: "5h", label: "5 horas" },
+          { value: "12h", label: "12 horas" },
+          { value: "24h", label: "24 horas" },
+          { value: "36h", label: "36 horas" },
+          { value: "48h", label: "48 horas" },
+          { value: "4d", label: "4 dias" },
+          { value: "7d", label: "7 dias" },
+      ]} onChange={(val) => console.log(val)} />
 
       {/* <Checkbox
         onChange={(checked) => handleFeedCheckbox(checked, "auto-apply", setShouldAutoApply)}
