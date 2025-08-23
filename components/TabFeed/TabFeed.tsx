@@ -13,8 +13,10 @@ import {
   shouldRemoveFeedPosts,
   shouldSupressNotication
 } from "~content-scripts/storage"
+import { useTranslation } from "~hooks/useTranslation"
 
 export const TabFeed = () => {
+  const { t } = useTranslation()
   const [removeAllPosts, setRemoveAllPosts] = useState(false)
   const [removePostsByWords, setRemovePostsByWords] = useState(false)
   const [removeNotifications, setRemoveNotifications] = useState(false)
@@ -44,15 +46,12 @@ export const TabFeed = () => {
 
   return (
     <div className="tabfeed">
-      <h2>Geral</h2>
+      <h2>{t("tabfeed.h2")}</h2>
 
-      <p>
-        Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e sua página de Início do LinkedIn!<br/> Aqui você pode
-        filtrar o que você quer ver, ou não ver absolutamente nada para momentos
-        de foco!
-      </p>
+      <p dangerouslySetInnerHTML={{ __html: t("tabfeed.paragraph") }} />
+      
       <div>
-        Opções:
+        {t("tabfeed.options.label")}
         <div>
           <ColorPicker />
         </div>
@@ -60,26 +59,22 @@ export const TabFeed = () => {
         <Checkbox
           onChange={(checked) => handleFeedCheckbox(checked, "removeFeedPosts", setRemoveAllPosts)}
           id={"remove-all-postings"}
-          label={"Remover todas as postagens "}
-          tooltip={"Otimo pra você que é viciado no LinkedIn🤣"}
+          label={t("tabfeed.options.remove_postings")}
+          tooltip={t("tabfeed.options.remove_postings_tooltip")}
           checked={removeAllPosts}
         />
         <Checkbox
           id={"remove-posting-by-words"}
-          label={"Remover Postagens com palavras-chaves "}
-          tooltip={
-            "Vai limpar o seu feed para que você não se distraia com postagens controversas 🧠"
-          }
+          label={t("tabfeed.options.remove_by_keywords")}
+          tooltip={t("tabfeed.options.remove_by_keywords_tooltip")}
           onChange={(checked: boolean) => handleFeedCheckbox(checked, "removeFeedPostsByWords", setRemovePostsByWords)}
           checked={removePostsByWords}
         />
 
         <Checkbox
           id={"supress-notifications"}
-          label={"Silenciar Notificações"}
-          tooltip={
-            "Vai silenciar as notificações e remove-las visualmente, para que você possa se concentrar em outras coisas "
-          }
+          label={t("tabfeed.options.suppress_notifications")}
+          tooltip={t("tabfeed.options.suppress_notifications_tooltip")}
           onChange={(checked: boolean) => handleFeedCheckbox(checked, "supressNotification", setRemoveNotifications)}
           checked={removeNotifications}
         />

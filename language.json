@@ -3,31 +3,176 @@
         "tab1": "Home",
         "tab3": "Network",
         "tab2": "Jobs",
-
+        "language": "Language",
         "tabfeed": {
             "h2": "General",
-            "paragraph": "Hello! 😁 This section is dedicated to improving your overall experience and your LinkedIn Homepage!<br/> Here, you can filter what you want to see or choose to see absolutely nothing for moments of focus!",
+            "paragraph": "Hello! 😁 This section is dedicated to improving your overall experience and your LinkedIn Homepage! Here, you can filter what you want to see or choose to see absolutely nothing for moments of focus!",
             "options": {
                 "label": "Options: ",
-                 "colorpicker": "👈Select a main color for your LinkedIn!",
-                 "remove_postings": "Remove All Feed Posts",
-                 "remove_by_keywords": "Remove Feed Posts with those keywords: "
+                "colorpicker": "👈Select a main color for your LinkedIn!",
+                "remove_postings": "Remove All Feed Posts",
+                "remove_by_keywords": "Remove Feed Posts with those keywords",
+                "remove_postings_tooltip": "Great for you who are addicted to LinkedIn🤣",
+                "remove_by_keywords_tooltip": "Will clean your feed so you don't get distracted with controversial posts 🧠",
+                "suppress_notifications": "Suppress Notifications",
+                "suppress_notifications_tooltip": "Will silence notifications and remove them visually, so you can focus on other things"
             }
+        },
+        "tabjobs": {
+            "h2": "Jobs",
+            "paragraph": "Hello!😁 This section is dedicated to helping you filter jobs in your Job search! Consider these as extra filters and not a replacement for LinkedIn!",
+            "reminder": "Remember that this only removes visually, while the extension is enabled!",
+            "adjustments": {
+                "title": "Options for Jobs: ",
+                "tips": "1. To use these options, access:",
+                "navigate_tip": ". Navigate and do your searches within that page.",
+                "show_icons": "Display site icons and full URL",
+                "show_icons_tooltip": "Displays a site icon and name next to the job.",
+                "save_searches": "Save searches in the list",
+                "save_searches_tooltip": "Saves your searches while you browse LinkedIn, avoiding the need to search in history.",
+                "filter_domains": "Exclude jobs from unwanted domains",
+                "filter_domains_tooltip": "Visually filters jobs based on your 'Domain List'.",
+                "filter_companies": "Remove jobs by company names",
+                "filter_companies_tooltip": "Visually filters jobs based on your 'Company List'.",
+                "remove_applied": "Remove jobs I've already applied to (displayed as 'Applied')",
+                "remove_applied_tooltip": "Visually removes jobs marked as 'Applied'.",
+                "remove_promoted": "Remove jobs with 'promoted' badge",
+                "remove_promoted_tooltip": "Visually removes jobs with the 'promoted' badge.",
+                "time_limit_label": "Search Time Limit",
+                "domain_placeholder": "Write here which site (domain) you don't want to see | Example: Site.com",
+                "add_domain": "Add Domain",
+                "company_placeholder": "Write here which company you don't want to see | Example: Company",
+                "add_company": "Add Company"
+            },
+            "tabs": {
+                "adjustments": "Settings",
+                "domains": "Domains",
+                "companies": "Companies",
+                "searches": "Searches"
+            }
+        },
+        "tabconnections": {
+            "h2": "Network",
+            "paragraph": "Hello!😁 This section is dedicated to helping you with your networking on LinkedIn!",
+            "reminder": "Remember that this only works while the extension is enabled!",
+            "auto_connect": "Automatically accept connections",
+            "auto_connect_tooltip": "Perfect for you who receives invites all the time 💖"
+        },
+        "filterlist": {
+            "no_items": "No items in this list.",
+            "searches_subtitle": "Your recent job searches:",
+            "domains_subtitle": "Blocked domains:",
+            "companies_subtitle": "Blocked companies:",
+            "delete_all": "Delete All",
+            "clear_list": "Clear List",
+            "general_tip": "Here you can remove from filtering, simply hover over the desired item and remove if needed.",
+            "searches_tip1": "Tip: Hover over the search item to see the complete search.",
+            "searches_tip2": "Tip: Click on the item to automatically copy it to the clipboard (CTRL + V).",
+            "search_label": "Search",
+            "search_placeholder": "Search here for the item you want",
+            "no_searches_tip": "You can enable the option to save your searches to start viewing here.",
+            "no_items_tip": "you can start by adding in the settings tab.",
+            "copied_message": "Search Copied",
+            "delete_button": "Delete"
+        },
+        "time_options": {
+            "30m": "30 minutes",
+            "1h": "1 hour",
+            "5h": "5 hours",
+            "12h": "12 hours",
+            "24h": "24 hours",
+            "36h": "36 hours",
+            "48h": "48 hours",
+            "4d": "4 days",
+            "7d": "7 days"
         }
     },
     "portuguese": {
         "tab1": "Início",
         "tab3": "Minha Rede",
         "tab2": "Vagas",
+        "language": "Idioma",
         "tabfeed": {
             "h2": "Geral",
-            "paragraph": "Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e sua página de Início do LinkedIn!<br/> Aqui você pode filtrar o que você quer ver, ou não ver absolutamente nada para momentos de foco!",
+            "paragraph": "Olá!😁 Essa seção é dedicada a melhorar o sua experiência geral e sua página de Início do LinkedIn! Aqui você pode filtrar o que você quer ver, ou não ver absolutamente nada para momentos de foco!",
             "options": {
                 "label": "Opções: ",
                 "colorpicker": "👈Selecione uma cor de tema para o seu LinkedIn!",
                 "remove_postings": "Remover todas as postagens",
-                "remove_by_keywords": "Remover Postagens com palavras-chave"
+                "remove_by_keywords": "Remover Postagens com palavras-chave",
+                "remove_postings_tooltip": "Ótimo pra você que é viciado no LinkedIn🤣",
+                "remove_by_keywords_tooltip": "Vai limpar o seu feed para que você não se distraia com postagens controversas 🧠",
+                "suppress_notifications": "Silenciar Notificações",
+                "suppress_notifications_tooltip": "Vai silenciar as notificações e removê-las visualmente, para que você possa se concentrar em outras coisas"
             }
+        },
+        "tabjobs": {
+            "h2": "Vagas",
+            "paragraph": "Olá!😁 Essa seção é dedicada a te ajudar a filtrar vagas na sua busca de Emprego! Considere esses como filtros extras e não um substituto para o LinkedIn!",
+            "reminder": "Lembrando que aqui só remove visualmente, enquanto a extensão estiver ligada!",
+            "adjustments": {
+                "title": "Opções para Vagas: ",
+                "tips": "1. Para usar essas opções, acesse:",
+                "navigate_tip": ". Navegue e faça suas pesquisas dentro dessa página.",
+                "show_icons": "Exibir ícones dos sites e URL completa",
+                "show_icons_tooltip": "Exibe um ícone do site e o nome ao lado da vaga.",
+                "save_searches": "Salvar pesquisas na lista",
+                "save_searches_tooltip": "Salva suas pesquisas enquanto você navega no LinkedIn, evitando a necessidade de buscar no histórico.",
+                "filter_domains": "Excluir vagas de domínios indesejados",
+                "filter_domains_tooltip": "Filtra visualmente as vagas com base na sua 'Lista de Domínios'.",
+                "filter_companies": "Remover vagas por nome de empresas",
+                "filter_companies_tooltip": "Filtra visualmente as vagas com base na sua 'Lista de Empresas'.",
+                "remove_applied": "Remover vagas nas quais já me apliquei (exibido como 'Candidatou-se')",
+                "remove_applied_tooltip": "Remove visualmente as vagas marcadas como 'Candidatou-se'.",
+                "remove_promoted": "Remover vagas com selo 'promovida'",
+                "remove_promoted_tooltip": "Remove visualmente as vagas com o selo 'promovida'.",
+                "time_limit_label": "Limite de Tempo de Busca",
+                "domain_placeholder": "Escreva aqui qual site (domínio) você não quer ver | Exemplo: Site.com",
+                "add_domain": "Adicionar Domínio",
+                "company_placeholder": "Escreva aqui qual empresa você não quer ver | Exemplo: Empresa",
+                "add_company": "Adicionar Empresa"
+            },
+            "tabs": {
+                "adjustments": "Ajustes",
+                "domains": "Domínios",
+                "companies": "Empresas",
+                "searches": "Pesquisas"
+            }
+        },
+        "tabconnections": {
+            "h2": "Minha Rede",
+            "paragraph": "Olá!😁 Essa seção é dedicada a te ajudar com seu networking no LinkedIn!",
+            "reminder": "Lembrando que isso só funciona enquanto a extensão estiver ligada!",
+            "auto_connect": "Aceitar conexões automaticamente",
+            "auto_connect_tooltip": "Perfeito pra você que recebe convites o tempo todo 💖"
+        },
+        "filterlist": {
+            "no_items": "Nenhum item nesta lista.",
+            "searches_subtitle": "Suas pesquisas recentes de vagas:",
+            "domains_subtitle": "Domínios bloqueados:",
+            "companies_subtitle": "Empresas bloqueadas:",
+            "delete_all": "Deletar Todos",
+            "clear_list": "Limpar Lista",
+            "general_tip": "Aqui você pode remover da filtragem, simplesmente passe o mouse sobre o item desejado e remova caso necessite.",
+            "searches_tip1": "Dica: Ao deixar o mouse sobre o item da pesquisa você poderá ver a pesquisa completa.",
+            "searches_tip2": "Dica: Clique no item para copiá-lo automaticamente para a área de transferência (CTRL + V).",
+            "search_label": "Pesquisa",
+            "search_placeholder": "Pesquise aqui o item que deseja",
+            "no_searches_tip": "Você pode habilitar a opção de salvar as suas pesquisas para começar a visualizar aqui.",
+            "no_items_tip": "você pode começar adicionando na aba de ajustes.",
+            "copied_message": "Pesquisa Copiada",
+            "delete_button": "Deletar"
+        },
+        "time_options": {
+            "30m": "30 minutos",
+            "1h": "1 hora",
+            "5h": "5 horas",
+            "12h": "12 horas",
+            "24h": "24 horas",
+            "36h": "36 horas",
+            "48h": "48 horas",
+            "4d": "4 dias",
+            "7d": "7 dias"
         }
     }
 }

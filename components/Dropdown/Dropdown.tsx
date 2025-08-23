@@ -120,6 +120,16 @@ const Dropdown: React.FC<{
     fetchSelectedOption();
   }, [options]);
 
+  // Update selected option when options change (language switch)
+  useEffect(() => {
+    if (selectedOption && options.length > 0) {
+      const updatedOption = options.find(option => option.value === selectedOption.value);
+      if (updatedOption) {
+        setSelectedOption(updatedOption);
+      }
+    }
+  }, [options]);
+
 
 
   return (

@@ -5,7 +5,7 @@ export async function migrateJobData() {
     const storage = new Storage();
     const migrationKey = 'migration_v1'; // Key to track migration version
     const hasMigrated = await storage.getItem(migrationKey); // Check migration status
-    isDEV && console.log({hasMigrated})
+   console.log({hasMigrated})
     // Get the current version from the manifest
     const manifest = chrome.runtime.getManifest();
     const currentVersion = manifest.version || '0.0.0'; // Default to '0.0.0' if not set
@@ -40,10 +40,10 @@ export async function migrateJobData() {
 
         // Mark this migration as complete
         storage.setItem(migrationKey, true);
-        isDEV && console.log("Migration completed successfully.");
+       console.log("Migration completed successfully.");
     } else if (hasMigrated) {
-        isDEV && console.log("Migration has already been run. No changes made.");
+       console.log("Migration has already been run. No changes made.");
     } else {
-        isDEV && console.log("Current version is not higher than 0.2.3. Migration skipped.");
+       console.log("Current version is not higher than 0.2.3. Migration skipped.");
     }
 }
