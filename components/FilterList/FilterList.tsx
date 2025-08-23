@@ -6,12 +6,14 @@ import { Storage } from "@plasmohq/storage"
 
 import { Input } from "~components/Input/Input"
 import Pagination from "~components/Pagination/Pagination"
+import { useTranslation } from "~hooks/useTranslation"
 
 export const FilterList = ({
   type
 }: {
   type: "domain" | "company" | "searches"
 }) => {
+  const { t } = useTranslation()
   const [filters, setFilters] = useState<string[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(10)
@@ -64,25 +66,22 @@ export const FilterList = ({
       <div className="filter-header">
         <h2>
           {type === "domain"
-            ? "Lista de Domínios"
+            ? t("tabjobs.tabs.domains")
             : type === "company"
-              ? "Lista de Empresas"
-              : "Lista de Pesquisas"}
+              ? t("tabjobs.tabs.companies")
+              : t("tabjobs.tabs.searches")}
         </h2>
         <p>
-          Aqui você pode remover da filtragem, simplesmente passe o mouse sobre
-          o item desejado e remova caso necessite.
+          {t("filterlist.general_tip")}
         </p>
         {type === "searches" && (
           <div>
             <p>
-              Dica: Ao deixar o mouse sobre o item da pesquisa você poderá ver a
-              pesquisa completa.{" "}
+              {t("filterlist.searches_tip1")}
             </p>
 
             <p>
-              Dica: Clique no item para copiá-lo automaticamente para a área de
-              transferência (CTRL + V).
+              {t("filterlist.searches_tip2")}
             </p>
           </div>
         )}
@@ -90,22 +89,21 @@ export const FilterList = ({
 
       <div className="filter-container">
         <Input
-          label="Pesquisa"
-          placeholder="Pesquise aqui o item que deseja"
+          label={t("filterlist.search_label")}
+          placeholder={t("filterlist.search_placeholder")}
           value={searchTerm}
           onChange={(value) => setSearchTerm(value)}
         />
         {currentItems.length === 0 ? (
           <>
             <p className="warning">
-              Não existe itens nessa lista,{" "}
+              {t("filterlist.no_items")}{" "}
               {type == "searches" ? (
                 <>
-                  Você pode habilitar a opção de salvar as suas pesquisas para
-                  começar a visualizar aqui.
+                  {t("filterlist.no_searches_tip")}
                 </>
               ) : (
-                <>você pode começar adicionando na aba de ajustes.</>
+                <>{t("filterlist.no_items_tip")}</>
               )}
             </p>
           </>
@@ -118,11 +116,12 @@ export const FilterList = ({
                 onClick={() => type === "searches" && handleCopy(filter, index)}
                 title={filter}>
                 {copiedIndex === index
-                  ? "Pesquisa Copiada"
+                  ? t("filterlist.copied_message")
                   : filter.slice(0, 60)}
                 <button
                   onClick={() => handleDeletion(filter)}
-                  className="delete-btn">
+                  className="delete-btn"
+                  title={t("filterlist.delete_button")}>
                   X
                 </button>
               </li>

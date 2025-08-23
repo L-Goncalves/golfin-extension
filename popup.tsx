@@ -19,21 +19,22 @@ import { TabConnections } from "~components/TabConnections/TabConnections"
 import { TabJobs } from "~components/TabJobs/TabJobs"
 import { autoApply } from "~content-scripts/jobs"
 import { isDev } from "~global"
+import { useTranslation } from "~hooks/useTranslation"
+import { LanguageSelector } from "~components/LanguageSelector/LanguageSelector"
 
 
 
 
 
 function IndexPopup() {
-
+  const { t } = useTranslation()
   const manifest = chrome.runtime.getManifest()
   const version = manifest.version
  
   const tabData = [
-    { id: "tab1", label: "Início", content: <TabFeed /> },
-    { id: "tab3", label: "Minha Rede", content: <TabConnections /> },
-    { id: "tab2", label: "Vagas", content: <TabJobs /> }
-
+    { id: "tab1", label: t("tab1"), content: <TabFeed /> },
+    { id: "tab3", label: t("tab3"), content: <TabConnections /> },
+    { id: "tab2", label: t("tab2"), content: <TabJobs /> }
   ]
 
   return (
@@ -60,7 +61,7 @@ function IndexPopup() {
         </p>
         
         </>} */}
-      
+        <LanguageSelector />
       </div>
 
       <>

@@ -45,7 +45,7 @@ async function handleFeed() {
 
   // is feed and Focus mode.
   if (shouldRemoveAllPosts) {
-    removeFeed()
+    await removeFeed()
   }
   if (shouldRemoveByWords) {
     filterFeedPostsByKeywords()
@@ -110,7 +110,7 @@ async function mainLoop() {
   if (shouldExecute) {
     const url = document.URL
 
-    if (url == "https://www.linkedin.com/feed/") {
+    if (url.includes("/feed") || url === "https://www.linkedin.com/" || url.includes("/feed/")) {
       handleFeed()
     }
     if (url.includes("/jobs/collections") || url.includes("/jobs/search")) {

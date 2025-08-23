@@ -30,9 +30,21 @@ export function removeAppliedJobs(){
 export function removePromotedJobs(){
   const jobList = getJobListWithInfo()
 
-  const jobPostingsToBeDeleted = jobList.filter((job) =>
-      job.footerElement.textContent.toLowerCase().trim().includes("promovida")
-  )
+  const jobPostingsToBeDeleted = jobList.filter((job) => {
+    if (!job.footerElement) return false;
+    
+    const footerText = job.footerElement.textContent.toLowerCase().trim();
+    console.log('[removePromotedJobs] Footer text:', footerText);
+    
+    const isPromoted = footerText.includes("promovida") || 
+                     footerText.includes("promoted")
+    
+    if (isPromoted) {
+      console.log('[removePromotedJobs] Found promoted job, removing:', job.jobTitle);
+    }
+    
+    return isPromoted;
+  })
 
 
   jobPostingsToBeDeleted.forEach((jobPost) => {

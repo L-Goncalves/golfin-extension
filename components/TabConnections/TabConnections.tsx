@@ -7,8 +7,10 @@ import { useEffect, useState } from "react"
 import { Storage } from "@plasmohq/storage"
 
 import { shouldAutoConnect } from "~content-scripts/storage"
+import { useTranslation } from "~hooks/useTranslation"
 
 export const TabConnections = () => {
+  const { t } = useTranslation()
   const [autoConnect, setAutoConnect] = useState(false)
 
   const handleFeedCheckbox = async (
@@ -33,18 +35,18 @@ export const TabConnections = () => {
 
   return (
     <div className="tab-connections">
-      <h2>Minha Rede</h2>
+      <h2>{t("tabconnections.h2")}</h2>
 
-      <p>Olá!😁 Essa seção é dedicada a te ajudar a se conectar com pessoas!</p>
+      <p>{t("tabconnections.paragraph")}</p>
       <div>
-      <h3>Opções: </h3>
+      <h3>{t("tabfeed.options.label")}</h3>
         <Checkbox
           onChange={(checked: boolean) =>
             handleFeedCheckbox(checked, "autoConnect", setAutoConnect)
           }
           id={"accept-auto-connections"}
-          label={"Aceitar automaticamente conexões"}
-          tooltip={"Perfeito pra você que recebe convites o tempo todo 💖"}
+          label={t("tabconnections.auto_connect")}
+          tooltip={t("tabconnections.auto_connect_tooltip")}
           checked={autoConnect}
         />
       </div>

@@ -2,7 +2,7 @@ import { Checkbox } from "~components/Checkbox/Checkbox"
 
 import "./TabJobs.scss"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { FaBuilding } from "react-icons/fa6"
 import { TbWorldX } from "react-icons/tb"
 
@@ -21,20 +21,19 @@ import {
   shouldSaveJobSearch
 } from "~content-scripts/storage"
 import Dropdown from "~components/Dropdown/Dropdown"
+import { useTranslation } from "~hooks/useTranslation"
 
 const TabJobHeader = () => {
+  const { t } = useTranslation()
   return (
     <>
-      <h2>Vagas</h2>
+      <h2>{t("tabjobs.h2")}</h2>
       <p>
-        Olá!😁 Essa seção é dedicada a te ajudar a filtrar vagas na sua busca de
-        Emprego! Considere esses como filtros extras e não um substituto para o
-        LinkedIn!
+        {t("tabjobs.paragraph")}
         <br />
         <br />
         <span>
-          Lembrando que aqui só remove visualmente, enquanto a extensão estiver
-          ligada!
+          {t("tabjobs.reminder")}
         </span>
       </p>
     </>
@@ -42,6 +41,7 @@ const TabJobHeader = () => {
 }
 
 const AdjustmentTab = () => {
+  const { t } = useTranslation()
   const [domain, setDomainValue] = useState("")
   const [company, setCompanyValue] = useState("")
   const [domains, setDomains] = useState<string[]>([]) // Ensure it's typed as an array
@@ -56,6 +56,18 @@ const AdjustmentTab = () => {
   const [shouldRemovePromoted, setShouldRemovePromoted] = useState<boolean>(false)
   const [shouldAutoApplyJob, setShouldAutoApply] = useState<boolean>(false)
   const storage = new Storage();
+
+  const timeOptions = useMemo(() => [
+    { value: "30m", label: t("time_options.30m") },
+    { value: "1h", label: t("time_options.1h") },
+    { value: "5h", label: t("time_options.5h") },
+    { value: "12h", label: t("time_options.12h") },
+    { value: "24h", label: t("time_options.24h") },
+    { value: "36h", label: t("time_options.36h") },
+    { value: "48h", label: t("time_options.48h") },
+    { value: "4d", label: t("time_options.4d") },
+    { value: "7d", label: t("time_options.7d") }
+  ], [t])
 
 
   const handleFeedCheckbox = async (
@@ -116,16 +128,16 @@ const AdjustmentTab = () => {
 
   return (
     <div className="adjustments-tab">
-      <h3>Opções para Vagas: </h3>
+      <h3>{t("tabjobs.adjustments.title")}</h3>
       <div className="tips">
-        1. Para usar essas opções, acesse:
+        {t("tabjobs.adjustments.tips")}
         <a
           href="https://www.linkedin.com/jobs/collections/"
           target="_blank"
           rel="noopener noreferrer">
           linkedin.com/jobs/collections
         </a>
-        . Navegue e faça suas pesquisas dentro dessa página.
+        {t("tabjobs.adjustments.navigate_tip")}
       </div>
       <Checkbox
         onChange={(checked) =>
@@ -133,8 +145,8 @@ const AdjustmentTab = () => {
         }
         checked={shouldShowIcons}
         id={"show-icons"}
-        label={"Exibir ícones dos sites e URL completa"}
-        tooltip={"Exibe um ícone do site e o nome ao lado da vaga."}
+        label={t("tabjobs.adjustments.show_icons")}
+        tooltip={t("tabjobs.adjustments.show_icons_tooltip")}
       />
 
       <Checkbox
@@ -143,10 +155,8 @@ const AdjustmentTab = () => {
         }
         checked={saveJobSearch}
         id={"save-job-search"}
-        label={"Salvar pesquisas na lista"}
-        tooltip={
-          "Salva suas pesquisas enquanto você navega no LinkedIn, evitando a necessidade de buscar no histórico."
-        }
+        label={t("tabjobs.adjustments.save_searches")}
+        tooltip={t("tabjobs.adjustments.save_searches_tooltip")}
       />
 
       <Checkbox
@@ -159,10 +169,8 @@ const AdjustmentTab = () => {
         }
         checked={shouldFilterDomains}
         id={"filter-by-domain"}
-        label={"Excluir vagas de domínios indesejados"}
-        tooltip={
-          "Filtra visualmente as vagas com base na sua 'Lista de Domínios'."
-        }
+        label={t("tabjobs.adjustments.filter_domains")}
+        tooltip={t("tabjobs.adjustments.filter_domains_tooltip")}
       />
 
       <Checkbox
@@ -175,10 +183,8 @@ const AdjustmentTab = () => {
         }
         checked={shouldFilterCompany}
         id={"filter-by-company"}
-        label={"Remover vagas por nome de empresas"}
-        tooltip={
-          "Filtra visualmente as vagas com base na sua 'Lista de Empresas'."
-        }
+        label={t("tabjobs.adjustments.filter_companies")}
+        tooltip={t("tabjobs.adjustments.filter_companies_tooltip")}
       />
 
       <Checkbox
@@ -191,10 +197,8 @@ const AdjustmentTab = () => {
         }
         checked={shouldRemoveApplied}
         id={"remove-applied-jobs"}
-        label={
-          "Remover vagas nas quais já me apliquei (exibido como 'Candidatou-se')"
-        }
-        tooltip={"Remove visualmente as vagas marcadas como 'Candidatou-se'."}
+        label={t("tabjobs.adjustments.remove_applied")}
+        tooltip={t("tabjobs.adjustments.remove_applied_tooltip")}
       />
 
       <Checkbox
@@ -207,24 +211,16 @@ const AdjustmentTab = () => {
         }
         checked={shouldRemovePromoted}
         id={"remove-promoted-jobs"}
-        label={"Remover vagas com selo 'promovida'"}
-        tooltip={"Remove visualmente as vagas com o selo 'promovida'."}
+        label={t("tabjobs.adjustments.remove_promoted")}
+        tooltip={t("tabjobs.adjustments.remove_promoted_tooltip")}
       />
 
-      
       <Dropdown
-        label="Limite de Tempo de Busca"
-        options={[
-          { value: "30m", label: "30 minutos" },
-          { value: "1h", label: "1 hora" },
-          { value: "5h", label: "5 horas" },
-          { value: "12h", label: "12 horas" },
-          { value: "24h", label: "24 horas" },
-          { value: "36h", label: "36 horas" },
-          { value: "48h", label: "48 horas" },
-          { value: "4d", label: "4 dias" },
-          { value: "7d", label: "7 dias" },
-      ]} onChange={(val) => console.log(val)} />
+        label={t("tabjobs.adjustments.time_limit_label")}
+        options={timeOptions}
+        onChange={(val) => console.log(val)}
+      />
+
 
       {/* <Checkbox
         onChange={(checked) => handleFeedCheckbox(checked, "auto-apply", setShouldAutoApply)}
@@ -236,13 +232,13 @@ const AdjustmentTab = () => {
         <Input
           onChange={(newValue) => setDomainValue(newValue)}
           label=" "
-          placeholder=" Escreva aqui qual site (domínio) você não quer ver | Exemplo: Site.com"
+          placeholder={t("tabjobs.adjustments.domain_placeholder")}
           value={domain}
         />
         <Button onClick={handleAddDomain}>
           <>
             <TbWorldX width={50} className="icon" />
-            Adicionar Domínio
+            {t("tabjobs.adjustments.add_domain")}
           </>
         </Button>
       </div>
@@ -251,13 +247,13 @@ const AdjustmentTab = () => {
         <Input
           onChange={(val) => setCompanyValue(val)}
           label=" "
-          placeholder="Escreva aqui qual empresa você não quer ver | Exemplo: Empresa"
+          placeholder={t("tabjobs.adjustments.company_placeholder")}
           value={company}
         />
         <Button onClick={handleAddCompany}>
           <>
             <FaBuilding width={50} className="icon" />
-            Adicionar Empresa
+            {t("tabjobs.adjustments.add_company")}
           </>
         </Button>
       </div>
@@ -266,21 +262,22 @@ const AdjustmentTab = () => {
 }
 
 export const TabJobs = () => {
+  const { t } = useTranslation()
   const tabData = [
-    { id: "tab1", label: "Ajustes", content: <AdjustmentTab /> },
+    { id: "tab1", label: t("tabjobs.tabs.adjustments"), content: <AdjustmentTab /> },
     {
       id: "tab2",
-      label: "Domínios",
+      label: t("tabjobs.tabs.domains"),
       content: <FilterList type={"domain"} />
     },
     {
       id: "tab3",
-      label: "Empresas",
+      label: t("tabjobs.tabs.companies"),
       content: <FilterList type={"company"} />
     },
     {
       id: "tab4",
-      label: "Pesquisas",
+      label: t("tabjobs.tabs.searches"),
       content: <FilterList type={"searches"} />
     }
   ]
