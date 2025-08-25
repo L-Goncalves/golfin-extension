@@ -2,6 +2,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 import { changeUIColor } from "~content-scripts/colors"
 import { filterFeedPostsByKeywords, removeFeed } from "~content-scripts/feed"
+import { themeSync, themeAwareStyles } from "~content-scripts/theme-sync"
 import {
   // autoApply,
   fetchJobUrlsAndSave,
@@ -138,14 +139,31 @@ observer.observe(document.body, {
 
 
 async function onLoad(){
-
   listen();
+  
+  // Initialize theme synchronization
+  injectThemeStyles();
+  
   const lastColor = await getLastColor()
   
   if(lastColor){
     changeUIColor(lastColor)
   }
+}
 
+function injectThemeStyles() {
+  // Add theme-aware styles to the page
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = themeAwareStyles;
+  styleSheet.id = 'golfin-theme-styles';
+  
+  // Remove existing styles if any
+  const existing = document.getElementById('golfin-theme-styles');
+  if (existing) {
+    existing.remove();
+  }
+  
+  document.head.appendChild(styleSheet);
 }
 
 

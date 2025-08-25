@@ -28,8 +28,16 @@ export async function shouldFilterByCompany(): Promise<boolean> {
 
 export async function getKeywordsSaved(): Promise<string[]> {
     const storage = new Storage();
-    const keywords = (await storage.get('keywords')) as string[] || [];
-    return keywords;
+    const storedKeywords = await storage.get('keywords');
+    
+    // Handle different data types for backward compatibility
+    if (Array.isArray(storedKeywords)) {
+        return storedKeywords.filter(k => typeof k === 'string' && k.trim() !== '');
+    } else if (typeof storedKeywords === 'string' && storedKeywords.trim() !== '') {
+        return storedKeywords.split(',').map(k => k.trim()).filter(k => k !== '');
+    }
+    
+    return [];
 }
 
 export async function shouldAutoConnect(): Promise<boolean> {

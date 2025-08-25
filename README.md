@@ -1,59 +1,78 @@
-# GolfIn - Extensão para melhorar sua experiência no LinkedIn
+# GolfIn - LinkedIn Experience Enhancement Extension
 
-GolfIn é uma extensão para aprimorar sua experiência no LinkedIn — seja para buscar empregos, navegar no site ou fazer conexões.
+GolfIn is an extension to enhance your LinkedIn experience — whether for job searching, browsing the site, or making connections.
 
-# Comunidade
+## Community
 
-**“Golfin não tem nenhum produto pago e não oferece nenhuma assinatura. Qualquer pessoa usando Golfin para promover qualquer coisa é um golpe.”**
+**"GolfIn has no paid product and does not offer any subscription. Anyone using GolfIn to promote anything is a scam."**
 
-### 🌟 Funcionalidades
+## Features
 
-#### 👉 Feed
+### Feed
 
-* ✅ Remover postagens com base em palavras-chave.
-* ✅ Remover o feed (ideal para quem quer mais foco e produtividade).
+* Remove posts based on keywords.
+* Remove the feed entirely (ideal for focus and productivity).
 
-#### 👉 Vagas
+### Jobs
 
-* ✅ Remover vagas de determinados **domínios** (configurável por lista).
-* ✅ Remover vagas de **empresas** específicas (configurável por lista).
-* ✅ Ocultar vagas em que você já se candidatou usando **Easy Apply**.
-* ✅ Exibir **URL completa** e **ícones** nas vagas.
-* ✅ Salvar pesquisas durante a busca por vagas.
-* ✅ Remover vagas com selo **“promovido”**.
+* Remove jobs from certain **domains** (configurable by list).
+* Remove jobs from specific **companies** (configurable by list).
+* Hide jobs you've already applied to using **Easy Apply**.
+* Display **full URL** and **icons** in job listings.
+* Save searches while searching for jobs.
+* Remove **"promoted"** job listings.
 
-#### 👉 Minha rede
+### My Network
 
-* ✅ Aceitar **conexões automaticamente**.
+* Accept **connections automatically**.
 
----
+## Getting Started
 
-## 🚀 Como começar
+### Development
 
-1️⃣ Instale as dependências e inicie o servidor de desenvolvimento:
+1. Install dependencies and start the development server:
 
 ```bash
 pnpm dev
-# ou
+# or
 npm run dev
 ```
 
-2️⃣ No navegador, carregue o build de desenvolvimento.
-Exemplo: para Chrome usando manifest v3, use `build\chrome-mv3-dev`. e carregue "sem compactação", selecione a pasta e fica pronto pra começar a desenvolver algo.
+2. Load the development build in your browser.
+   For example: for Chrome using manifest v3, use `build\chrome-mv3-dev`. Load it as "unpacked", select the folder and you're ready to start developing.
+3. Edit the `popup.tsx` file to customize the popup — it will reload automatically.
 
-3️⃣ Edite o arquivo `popup.tsx` para personalizar o popup — ele será recarregado automaticamente.
+* To add an options page → create `options.tsx` in the project root.
+* To add a content script → create `content.ts` in the root and add your logic.
 
-* Para adicionar uma página de opções → crie `options.tsx` no root do projeto.
-* Para adicionar um content script → crie `content.ts` no root e adicione sua lógica.
+Full Plasmo documentation: [Plasmo Docs](https://docs.plasmo.com/)
 
-📖 Documentação completa do Plasmo: [Plasmo Docs](https://docs.plasmo.com/)
-
----
-
-## 📦 Build de produção e empacotamento
+## Production Build
 
 ```bash
 pnpm build && pnpm package
-# ou
-npm run build && pnpm package
+# or
+npm run build && npm run package
 ```
+
+## Documentation
+
+Documentation is available in multiple languages:
+
+* [Portuguese (pt-BR)](./docs/pt-BR/README.md)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Support
+
+If you find this extension helpful, please consider:
+
+- Giving it a star on GitHub
+- Sharing it with your network
+- Reporting any issues or suggestions

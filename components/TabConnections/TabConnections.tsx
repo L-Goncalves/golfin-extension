@@ -1,6 +1,5 @@
 import { Checkbox } from "~components/Checkbox/Checkbox"
 
-import "./TabConnections.scss"
 
 import { useEffect, useState } from "react"
 
