@@ -1,8 +1,8 @@
 {
   "name": "golfin",
-  "displayName": "GolfIn - Busca por Empregos no LinkedIn Facilitada",
-  "version": "0.5.4",
-  "description": "GolfIn, uma extensão para o LinkedIn",
+  "displayName": "GolfIn - Busca por Empregos",
+  "version": "1.0.0",
+  "description": "GolfIn, uma extensão para o Busca de Empregos",
   "author": "Lucas Gonçalves. <ldgoncalvs@gmail.com>",
   "scripts": {
     "dev": "plasmo dev",
