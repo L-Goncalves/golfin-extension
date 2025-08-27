@@ -1,7 +1,5 @@
 import { Checkbox } from "~components/Checkbox/Checkbox"
 
-import "./TabFeed.scss"
-
 import { useEffect, useState } from "react"
 
 import { Storage } from "@plasmohq/storage"
@@ -45,7 +43,7 @@ export const TabFeed = () => {
   }, [])
 
   return (
-    <div className="tabfeed">
+    <div className="tabfeed my-4">
       <h2>{t("tabfeed.h2")}</h2>
 
       <p dangerouslySetInnerHTML={{ __html: t("tabfeed.paragraph") }} />
@@ -62,6 +60,7 @@ export const TabFeed = () => {
           label={t("tabfeed.options.remove_postings")}
           tooltip={t("tabfeed.options.remove_postings_tooltip")}
           checked={removeAllPosts}
+          tooltipPosition="bottom"
         />
         <Checkbox
           id={"remove-posting-by-words"}

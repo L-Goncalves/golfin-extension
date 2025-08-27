@@ -94,20 +94,31 @@ export function resetFeedReplacement() {
 }
 
 export async function filterFeedPostsByKeywords(){
-
-    const keywords = await getKeywordsSaved();
-    [...document.querySelectorAll('.scaffold-finite-scroll__content > div')].forEach(parent => {
-      const postTextElement = parent.querySelector('div:not([class]) > .display-flex > .fie-impression-container .break-words');
-      if (postTextElement) {
-          const postText = postTextElement.textContent.toLowerCase();
-          
-          // Check if the post text contains any of the stored keywords
-          const containsKeyword = keywords.some(keyword => postText.includes(keyword.toLowerCase().trim()));
-          
-          if (containsKeyword) {
-
-              parent.remove(); // Remove the post if it contains a keyword
+    try {
+        const keywords = await getKeywordsSaved();
+        
+        if (!Array.isArray(keywords) || keywords.length === 0) {
+            console.warn('[filterFeedPostsByKeywords] No valid keywords found');
+            return;
+        }
+        
+        [...document.querySelectorAll('.scaffold-finite-scroll__content > div')].forEach(parent => {
+          const postTextElement = parent.querySelector('div:not([class]) > .display-flex > .fie-impression-container .break-words');
+          if (postTextElement) {
+              const postText = postTextElement.textContent?.toLowerCase() || '';
+              
+              // Check if the post text contains any of the stored keywords
+              const containsKeyword = keywords.some(keyword => 
+                  typeof keyword === 'string' && keyword.trim() !== '' && 
+                  postText.includes(keyword.toLowerCase().trim())
+              );
+              
+              if (containsKeyword) {
+                  parent.remove(); // Remove the post if it contains a keyword
+              }
           }
-      }
-  });
-  }
+        });
+    } catch (error) {
+        console.error('[filterFeedPostsByKeywords] Error filtering posts:', error);
+    }
+}

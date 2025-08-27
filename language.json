@@ -85,6 +85,27 @@
             "48h": "48 hours",
             "4d": "4 days",
             "7d": "7 days"
+        },
+        "ui": {
+            "theme_color": "Theme Color",
+            "preview": "Preview",
+            "select_linkedin": "Select your LinkedIn theme color",
+            "presets": "Presets:",
+            "developer_tools": "Developer Tools",
+            "clear_storage": "Clear Storage",
+            "view_storage": "View Storage",
+            "edit_keywords": "Edit Keywords",
+            "separate_keywords": "Separate keywords with commas for better organization",
+            "click_edit_modify": "Click Edit to modify keywords",
+            "click_save_changes": "Click Save to store changes",
+            "keywords_preview": "Keywords Preview:",
+            "save_changes": "Save Changes",
+            "displays_storage_desc": "Displays all stored extension data in console",
+            "clears_storage_desc": "Clears all stored extension data",
+            "keywords": "keywords",
+            "editing": "editing",
+            "read_only": "read-only",
+            "saved": "Saved"
         }
     },
     "portuguese": {
@@ -173,6 +194,27 @@
             "48h": "48 horas",
             "4d": "4 dias",
             "7d": "7 dias"
+        },
+        "ui": {
+            "theme_color": "Cor do Tema",
+            "preview": "Visualizar",
+            "select_linkedin": "Selecione a cor do tema do seu LinkedIn",
+            "presets": "Predefinições:",
+            "developer_tools": "Ferramentas do Desenvolvedor",
+            "clear_storage": "Limpar Armazenamento",
+            "view_storage": "Ver Armazenamento",
+            "edit_keywords": "Editar Palavras-chave",
+            "separate_keywords": "Separe as palavras-chave com vírgulas para melhor organização",
+            "click_edit_modify": "Clique em Editar para modificar as palavras-chave",
+            "click_save_changes": "Clique em Salvar para armazenar as alterações",
+            "keywords_preview": "Visualização das Palavras-chave:",
+            "save_changes": "Salvar Alterações",
+            "displays_storage_desc": "Exibe todos os dados armazenados da extensão no console",
+            "clears_storage_desc": "Limpa todos os dados armazenados da extensão",
+            "keywords": "palavras-chave",
+            "editing": "editando",
+            "read_only": "somente leitura",
+            "saved": "Salvo"
         }
     }
 }

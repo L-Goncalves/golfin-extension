@@ -1,6 +1,5 @@
 import { Checkbox } from "~components/Checkbox/Checkbox"
 
-import "./TabJobs.scss"
 
 import { useEffect, useState, useMemo } from "react"
 import { FaBuilding } from "react-icons/fa6"
