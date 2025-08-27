@@ -60,6 +60,7 @@ export const TabFeed = () => {
           label={t("tabfeed.options.remove_postings")}
           tooltip={t("tabfeed.options.remove_postings_tooltip")}
           checked={removeAllPosts}
+          tooltipPosition="bottom"
         />
         <Checkbox
           id={"remove-posting-by-words"}

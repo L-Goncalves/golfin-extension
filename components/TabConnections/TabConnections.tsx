@@ -47,6 +47,7 @@ export const TabConnections = () => {
           label={t("tabconnections.auto_connect")}
           tooltip={t("tabconnections.auto_connect_tooltip")}
           checked={autoConnect}
+          tooltipPosition="bottom"
         />
       </div>
     </div>

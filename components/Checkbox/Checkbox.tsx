@@ -1,10 +1,12 @@
 import { Checkbox as ShadcnCheckbox } from "~components/ui/checkbox";
+import { Tooltip } from "~components/ui/tooltip";
 import { cn } from "~lib/utils";
 
 interface CheckboxProps {
   label: string;
   id: string;
   tooltip?: string;
+  tooltipPosition?: 'top' | 'bottom';
   onChange?: (checked: boolean) => void;
   checked: boolean;
   disabled?: boolean;
@@ -20,6 +22,7 @@ export const Checkbox = ({
   label, 
   id, 
   tooltip, 
+  tooltipPosition = 'top',
   onChange, 
   checked, 
   disabled = false,
@@ -138,11 +141,9 @@ export const Checkbox = ({
           {label}
         </label>
         
-        {/* Enhanced tooltip with modern styling */}
         {tooltip && (
           <div className="inline-block ml-1.5">
-            <div className="relative group/tooltip">
-              {/* Tooltip trigger icon */}
+            <Tooltip content={tooltip} position={tooltipPosition}>
               <svg 
                 className={cn(
                   'w-3.5 h-3.5 cursor-help transition-colors duration-200',
@@ -156,23 +157,7 @@ export const Checkbox = ({
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              
-              {/* Tooltip content with glassmorphism */}
-              <div className={cn(
-                'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-3 py-2',
-                'glass-effect rounded-lg text-xs text-white/90 font-medium',
-                'invisible opacity-0 group-hover/tooltip:visible group-hover/tooltip:opacity-100',
-                'transition-all duration-300 ease-out-back scale-90 group-hover/tooltip:scale-100',
-                'whitespace-nowrap z-50 pointer-events-none',
-                'shadow-lg backdrop-blur-xl border border-white/20'
-              )}>
-                {tooltip}
-                {/* Tooltip arrow */}
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-                  <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/20"></div>
-                </div>
-              </div>
-            </div>
+            </Tooltip>
           </div>
         )}
         

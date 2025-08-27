@@ -33,3 +33,40 @@ dist/
 
 # typescript
 .tsbuildinfo
+
+# Claude Flow generated files
+.claude/settings.local.json
+CLAUDE
+.mcp.json
+claude-flow.config.json
+.swarm/
+.hive-mind/
+memory/claude-flow-data.json
+memory/sessions/*
+!memory/sessions/README.md
+memory/agents/*
+!memory/agents/README.md
+coordination/memory_bank/*
+coordination/subtasks/*
+coordination/orchestration/*
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+claude-flow
+claude-flow.bat
+claude-flow.ps1
+hive-mind-prompt-*.txt
+.*
+.gitignore
+CLAUDE*
+tests
+memory
+docs
+*.html
+debug
+playwright*
+contexts
+scripts

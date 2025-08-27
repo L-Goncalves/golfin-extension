@@ -236,7 +236,7 @@ function IndexPopupContent() {
           ? 'bg-gradient-to-br from-dark-950 via-dark-900 to-dark-850' 
           : 'bg-gradient-to-br from-slate-50 via-white to-slate-100'
         }
-        relative overflow-hidden
+        relative
         transition-all duration-300 ease-out
         ${isLoaded ? 'opacity-100' : 'opacity-80'}
       `}
